@@ -35,7 +35,6 @@ public class Dynamic_Scroll_Search {
         scrollHeight = js.executeScript("let barra = document.getElementById('__xmlview4--mainTree-vsb');return(barra.scrollHeight)").hashCode();
         clientHeight = js.executeScript("let barra = document.getElementById('__xmlview4--mainTree-vsb');return(barra.clientHeight)").hashCode();
         numVeces =  scrollHeight/clientHeight; // Numero de veces para repetir el bucle
-        exist = false;
 
         //Pasamos los nombres de los Elementos
         for(int i = 0; i<=elementTable.size()-1;i=i+1){
@@ -44,9 +43,8 @@ public class Dynamic_Scroll_Search {
 
         iterator = 0;
         // Verificamos
-        while (iterator<=numVeces){
+        while (iterator<=numVeces+1){
             if(nameElement.indexOf(element) != -1){
-                exist = true;
                 positionFound = nameElement.indexOf(element);
                 break;
             }else{
@@ -61,4 +59,5 @@ public class Dynamic_Scroll_Search {
         }
         return positionFound;
     }
+
 }
