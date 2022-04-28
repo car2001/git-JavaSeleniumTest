@@ -256,6 +256,90 @@ public class OSM_Organizational_Unit {
         }
     }
 
+    @Test
+    public void crearOrgani_Unit_on_OrganiUnit() throws InterruptedException {
+        login = new Home_Page(driver);
+        login.loginPage("cpingo","1234");
+        Thread.sleep(4000);
+        //Ingresamos al OSM
+        WebElement aplication = driver.findElement(By.xpath("//span[@class='sapMTextMaxLine sapMTextLineClamp' and normalize-space()='Organizational Structure Manager']"));
+        aplication.click();
+        Thread.sleep(6000);
+        //Desplegamos Client
+        driver.findElement(By.id("__xmlview4--mainTree-rows-row0-treeicon")).click();
+        //Desplegamos Company
+        driver.findElement(By.id("__xmlview4--mainTree-rows-row1-treeicon")).click();
+        Thread.sleep(5000);
+        String company = "Company Selenium";
+        String unit = "Organizational Unit";
+        String parentUnit = "Organizational Unit Selenium Padre";
+        String childUnit = "Organizational Unit Selenium Hijo";
+        int exist;
+        String desple;
+        searchScrollElement = new Dynamic_Scroll_Search(driver);
+        exist = searchScrollElement.ElementSearch(company);
+        if(exist != -1){
+            desple = "__xmlview4--mainTree-rows-row"+exist+"-treeicon";
+            driver.findElement(By.id(desple)).click();
+            Thread.sleep(1000);
+            exist = searchScrollElement.ElementSearch(unit);
+            if(exist!=-1){
+                WebElement element = driver.findElement(By.xpath("//span[normalize-space()='Organizational Unit']"));
+                action.contextClick(element).perform();
+                driver.findElement(By.xpath("//div[normalize-space()='New "+unit+"']")).click();
+                Thread.sleep(2000);
+                //Llenando Formulario
+                List<WebElement> listForm = driver.findElements(By.className("sapMInputBaseInner"));
+                listForm.get(2).sendKeys(parentUnit);
+                listForm.get(3).sendKeys(parentUnit);
+                listForm.get(4).sendKeys(parentUnit);
+                //Decidimos si guardar(G) o cancelar(C)
+                char decision = 'G';
+                save_cancel = new Object_Save_Cancel(driver);
+                save_cancel.Save_Cancel(decision);
+                Thread.sleep(2000);
+                desple = "__xmlview4--mainTree-rows-row"+exist+"-treeicon";
+                driver.findElement(By.id(desple)).click();
+                exist = searchScrollElement.ElementSearch(parentUnit);
+                if(exist != -1){
+                    desple = "__xmlview4--mainTree-rows-row"+exist+"-treeicon";
+                    driver.findElement(By.id(desple)).click();
+                    exist = searchScrollElement.ElementSearch(unit);
+                    if (exist !=-1){
+                        WebElement scrollBar = driver.findElement(By.id("__xmlview4--mainTree-vsb"));
+                        int clientHeight = js.executeScript("let barra = document.getElementById('__xmlview4--mainTree-vsb');return(barra.clientHeight)").hashCode();
+                        int scrollHeight = js.executeScript("let barra = document.getElementById('__xmlview4--mainTree-vsb');return(barra.scrollHeight)").hashCode();
+                        js.executeScript("arguments[0].scroll(0,'"+clientHeight*(scrollHeight/clientHeight)+1+"')",scrollBar);
+                        List<WebElement> locationList = driver.findElements(By.xpath("//span[normalize-space()='"+unit+"']"));
+                        action.contextClick(locationList.get(1)).perform();
+                        driver.findElement(By.xpath("//div[normalize-space()='New "+unit+"']")).click();
+                        Thread.sleep(1000);
+                        //Llenando Formulario
+                        listForm = driver.findElements(By.className("sapMInputBaseInner"));
+                        listForm.get(2).sendKeys(childUnit);
+                        listForm.get(3).sendKeys(childUnit);
+                        listForm.get(4).sendKeys(childUnit);
+                        decision = 'G';
+                        save_cancel.Save_Cancel(decision);
+                        Thread.sleep(4000);
+                    }else{
+                        System.out.println("No hay Organizational Unit2");
+                    }
+                }else{
+                    System.out.println("No hay " + parentUnit);
+                }
+
+            }else{
+                System.out.println("No hay Organizational Unit");
+                Thread.sleep(2000);
+            }
+            Thread.sleep(2000);
+        }else{
+            js.executeScript("alert('"+" No se encontro la compañia "+company+"')");
+            Thread.sleep(3000);
+        }
+    }
+
     @AfterMethod
     public void tearDown() throws InterruptedException {
         driver.close();

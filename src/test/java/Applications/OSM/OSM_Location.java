@@ -9,6 +9,7 @@ import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
+import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
@@ -90,6 +91,57 @@ public class OSM_Location {
     }
 
 
+    @Test
+    public void doubleCheckLocation() throws InterruptedException {
+        login = new Home_Page(driver);
+        login.loginPage("cpingo","1234");
+        Thread.sleep(4000);
+        //Ingresamos al OSM
+        WebElement aplication = driver.findElement(By.xpath("//span[@class='sapMTextMaxLine sapMTextLineClamp' and normalize-space()='Organizational Structure Manager']"));
+        aplication.click();
+        Thread.sleep(6000);
+        //Desplegamos Client
+        driver.findElement(By.id("__xmlview4--mainTree-rows-row0-treeicon")).click();
+        //Desplegamos Company
+        driver.findElement(By.id("__xmlview4--mainTree-rows-row1-treeicon")).click();
+        Thread.sleep(5000);
+        String company = "Company Selenium";
+        String location = "Location";
+        int exist;
+        String desple;
+        searchScrollElement = new Dynamic_Scroll_Search(driver);
+        exist = searchScrollElement.ElementSearch(company);
+        if(exist != -1){
+            desple = "__xmlview4--mainTree-rows-row"+exist+"-treeicon";
+            driver.findElement(By.id(desple)).click();
+            exist = searchScrollElement.ElementSearch(location);
+            if(exist !=-1){
+                WebElement elementLocation = driver.findElement(By.xpath("//span[normalize-space()='"+location+"']"));
+                action.contextClick(elementLocation).perform();
+                driver.findElement(By.xpath("//div[normalize-space()='New "+location+"']")).click();
+                Thread.sleep(1000);
+                //Llenando Formulario
+                List<WebElement> listForm = driver.findElements(By.className("sapMInputBaseInner"));
+                listForm.get(2).sendKeys("Location Selenium");
+                listForm.get(3).sendKeys("Location Selenium");
+                listForm.get(4).sendKeys("Location Selenium");
+                char decision = 'G';
+                save_cancel = new Object_Save_Cancel(driver);
+                save_cancel.Save_Cancel(decision);
+                Thread.sleep(2000);
+                String message = driver.findElement(By.className("sapMMsgStripMessage")).getAttribute("textContent");
+                Assert.assertEquals(message,"Location Already Exist");
+                decision = 'C';
+                save_cancel.Save_Cancel(decision);
+            }else{
+                System.out.println("No hay Location");
+            }
+        }else{
+            System.out.println("No hay Company");
+        }
+    }
+
+
     @Test(enabled = false)
     public void viewLocationDependencies() throws InterruptedException {
         login = new Home_Page(driver);
@@ -133,6 +185,7 @@ public class OSM_Location {
             System.out.println("No hay Company");
         }
     }
+
 
     @Test(enabled = false)
     public void editarLocation() throws InterruptedException {
