@@ -4,6 +4,7 @@ import Helpers.Dynamic_Scroll_Search;
 import Helpers.Object_Save_Cancel;
 import Helpers.SelectBrowser;
 import HomepageFunctions.Home_Page;
+import HomepageFunctions.Login_Applications;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
@@ -24,7 +25,6 @@ import java.util.List;
 
 public class OSM_Location {
     private WebDriver driver;
-    private String url = "http://wedox.sytes.net/buplat_config/";
     private String chosen_browser = "Chrome";
 
     Home_Page login;
@@ -36,38 +36,28 @@ public class OSM_Location {
 
     @BeforeMethod
     public void setup() throws InterruptedException {
-        driver = browser.chooseBrowser(chosen_browser);
+        browser.chooseBrowser(chosen_browser);
+        driver = browser.getDriver();
         js = (JavascriptExecutor) driver;
         action = new Actions(driver);
-        driver.get(url);
-        driver.manage().window().maximize();
-        Thread.sleep(3000);
+        login = new Home_Page(driver);
+        login.homeSettings();
     }
 
-    @Test(enabled = false)
+    @Test(priority = 0)
     public void crearLocation() throws InterruptedException {
-        login = new Home_Page(driver);
         login.loginPage("cpingo","1234");
-        Thread.sleep(4000);
-        //Ingresamos al OSM
-        WebElement aplication = driver.findElement(By.xpath("//span[@class='sapMTextMaxLine sapMTextLineClamp' and normalize-space()='Organizational Structure Manager']"));
-        aplication.click();
-        Thread.sleep(6000);
-        //Desplegamos Client
-        driver.findElement(By.id("__xmlview4--mainTree-rows-row0-treeicon")).click();
-        //Desplegamos Company
-        driver.findElement(By.id("__xmlview4--mainTree-rows-row1-treeicon")).click();
-        Thread.sleep(5000);
+        Login_Applications.loginOSM(driver);
         String company = "Company Selenium";
         String location = "Location";
         int exist;
         String desple;
         searchScrollElement = new Dynamic_Scroll_Search(driver);
-        exist = searchScrollElement.ElementSearch(company);
+        exist = searchScrollElement.elementSearch(company);
         if(exist != -1){
             desple = "__xmlview4--mainTree-rows-row"+exist+"-treeicon";
             driver.findElement(By.id(desple)).click();
-            exist = searchScrollElement.ElementSearch(location);
+            exist = searchScrollElement.elementSearch(location);
             if(exist !=-1){
                 WebElement elementLocation = driver.findElement(By.xpath("//span[normalize-space()='"+location+"']"));
                 action.contextClick(elementLocation).perform();
@@ -80,8 +70,10 @@ public class OSM_Location {
                 listForm.get(4).sendKeys("Location Selenium");
                 char decision = 'G';
                 save_cancel = new Object_Save_Cancel(driver);
-                save_cancel.Save_Cancel(decision);
+                save_cancel.save_Cancel(decision);
                 Thread.sleep(2000);
+                String message = driver.findElement(By.className("sapMMsgStripMessage")).getAttribute("textContent");
+                Assert.assertEquals(message,"The Operation has been Completed Successfully."+ "\n");
             }else{
                 System.out.println("No hay Location");
             }
@@ -91,30 +83,20 @@ public class OSM_Location {
     }
 
 
-    @Test
+    @Test(enabled = false)
     public void doubleCheckLocation() throws InterruptedException {
-        login = new Home_Page(driver);
         login.loginPage("cpingo","1234");
-        Thread.sleep(4000);
-        //Ingresamos al OSM
-        WebElement aplication = driver.findElement(By.xpath("//span[@class='sapMTextMaxLine sapMTextLineClamp' and normalize-space()='Organizational Structure Manager']"));
-        aplication.click();
-        Thread.sleep(6000);
-        //Desplegamos Client
-        driver.findElement(By.id("__xmlview4--mainTree-rows-row0-treeicon")).click();
-        //Desplegamos Company
-        driver.findElement(By.id("__xmlview4--mainTree-rows-row1-treeicon")).click();
-        Thread.sleep(5000);
+        Login_Applications.loginOSM(driver);
         String company = "Company Selenium";
         String location = "Location";
         int exist;
         String desple;
         searchScrollElement = new Dynamic_Scroll_Search(driver);
-        exist = searchScrollElement.ElementSearch(company);
+        exist = searchScrollElement.elementSearch(company);
         if(exist != -1){
             desple = "__xmlview4--mainTree-rows-row"+exist+"-treeicon";
             driver.findElement(By.id(desple)).click();
-            exist = searchScrollElement.ElementSearch(location);
+            exist = searchScrollElement.elementSearch(location);
             if(exist !=-1){
                 WebElement elementLocation = driver.findElement(By.xpath("//span[normalize-space()='"+location+"']"));
                 action.contextClick(elementLocation).perform();
@@ -127,11 +109,9 @@ public class OSM_Location {
                 listForm.get(4).sendKeys("Location Selenium");
                 char decision = 'G';
                 save_cancel = new Object_Save_Cancel(driver);
-                save_cancel.Save_Cancel(decision);
+                save_cancel.save_Cancel(decision);
                 Thread.sleep(2000);
                 String message = driver.findElement(By.className("sapMMsgStripMessage")).getAttribute("textContent");
-                decision = 'C';
-                save_cancel.Save_Cancel(decision);
                 Assert.assertEquals(message,"Location Already Exist");
             }else{
                 System.out.println("No hay Location");
@@ -144,32 +124,23 @@ public class OSM_Location {
 
     @Test(enabled = false)
     public void viewLocationDependencies() throws InterruptedException {
-        login = new Home_Page(driver);
         login.loginPage("cpingo","1234");
-        //Ingresamos al OSM
-        WebElement aplication = driver.findElement(By.xpath("//span[@class='sapMTextMaxLine sapMTextLineClamp' and normalize-space()='Organizational Structure Manager']"));
-        aplication.click();
-        Thread.sleep(6000);
-        //Desplegamos Client
-        driver.findElement(By.id("__xmlview4--mainTree-rows-row0-treeicon")).click();
-        //Desplegamos Company
-        driver.findElement(By.id("__xmlview4--mainTree-rows-row1-treeicon")).click();
-        Thread.sleep(5000);
+        Login_Applications.loginOSM(driver);
         String company = "Company Selenium";
         String location = "Location";
         String newLocation = "Location Selenium";
         int exist;
         String desple;
         searchScrollElement = new Dynamic_Scroll_Search(driver);
-        exist = searchScrollElement.ElementSearch(company);
+        exist = searchScrollElement.elementSearch(company);
         if(exist != -1){
             desple = "__xmlview4--mainTree-rows-row"+exist+"-treeicon";
             driver.findElement(By.id(desple)).click();
-            exist = searchScrollElement.ElementSearch(location);
+            exist = searchScrollElement.elementSearch(location);
             if(exist !=-1){
                 desple = "__xmlview4--mainTree-rows-row"+exist+"-treeicon";
                 driver.findElement(By.id(desple)).click();
-                exist = searchScrollElement.ElementSearch(newLocation);
+                exist = searchScrollElement.elementSearch(newLocation);
                 if(exist !=-1){
                     driver.findElement(By.xpath("//span[normalize-space()='"+newLocation+"']")).click();
                     Thread.sleep(100);
@@ -189,33 +160,23 @@ public class OSM_Location {
 
     @Test(enabled = false)
     public void editarLocation() throws InterruptedException {
-        login = new Home_Page(driver);
         login.loginPage("cpingo","1234");
-        Thread.sleep(4000);
-        //Ingresamos al OSM
-        WebElement aplication = driver.findElement(By.xpath("//span[@class='sapMTextMaxLine sapMTextLineClamp' and normalize-space()='Organizational Structure Manager']"));
-        aplication.click();
-        Thread.sleep(6000);
-        //Desplegamos Client
-        driver.findElement(By.id("__xmlview4--mainTree-rows-row0-treeicon")).click();
-        //Desplegamos Company
-        driver.findElement(By.id("__xmlview4--mainTree-rows-row1-treeicon")).click();
-        Thread.sleep(5000);
+        Login_Applications.loginOSM(driver);
         String company = "Company Selenium";
         String location = "Location";
         String newLocation = "Location Selenium";
         int exist;
         String desple;
         searchScrollElement = new Dynamic_Scroll_Search(driver);
-        exist = searchScrollElement.ElementSearch(company);
+        exist = searchScrollElement.elementSearch(company);
         if(exist != -1){
             desple = "__xmlview4--mainTree-rows-row"+exist+"-treeicon";
             driver.findElement(By.id(desple)).click();
-            exist = searchScrollElement.ElementSearch(location);
+            exist = searchScrollElement.elementSearch(location);
             if(exist !=-1){
                 desple = "__xmlview4--mainTree-rows-row"+exist+"-treeicon";
                 driver.findElement(By.id(desple)).click();
-                exist = searchScrollElement.ElementSearch(newLocation);
+                exist = searchScrollElement.elementSearch(newLocation);
                 if(exist !=-1){
                     driver.findElement(By.xpath("//span[normalize-space()='"+newLocation+"']")).click();
                     Thread.sleep(100);
@@ -231,7 +192,7 @@ public class OSM_Location {
                     listForm.get(4).sendKeys("Location Selenium1");
                     char decision = 'G';
                     save_cancel = new Object_Save_Cancel(driver);
-                    save_cancel.Save_Cancel(decision);
+                    save_cancel.save_Cancel(decision);
                     Thread.sleep(2000);
                 }else{
                     System.out.println("No hay " +newLocation );
@@ -246,33 +207,23 @@ public class OSM_Location {
 
     @Test(enabled = false)
     public void eliminarLocation() throws InterruptedException {
-        login = new Home_Page(driver);
         login.loginPage("cpingo","1234");
-        Thread.sleep(4000);
-        //Ingresamos al OSM
-        WebElement aplication = driver.findElement(By.xpath("//span[@class='sapMTextMaxLine sapMTextLineClamp' and normalize-space()='Organizational Structure Manager']"));
-        aplication.click();
-        Thread.sleep(6000);
-        //Desplegamos Client
-        driver.findElement(By.id("__xmlview4--mainTree-rows-row0-treeicon")).click();
-        //Desplegamos Company
-        driver.findElement(By.id("__xmlview4--mainTree-rows-row1-treeicon")).click();
-        Thread.sleep(5000);
+        Login_Applications.loginOSM(driver);
         String company = "Company Selenium";
         String location = "Location";
         String newLocation = "Location Selenium";
         int exist;
         String desple;
         searchScrollElement = new Dynamic_Scroll_Search(driver);
-        exist = searchScrollElement.ElementSearch(company);
+        exist = searchScrollElement.elementSearch(company);
         if(exist != -1){
             desple = "__xmlview4--mainTree-rows-row"+exist+"-treeicon";
             driver.findElement(By.id(desple)).click();
-            exist = searchScrollElement.ElementSearch(location);
+            exist = searchScrollElement.elementSearch(location);
             if(exist !=-1){
                 desple = "__xmlview4--mainTree-rows-row"+exist+"-treeicon";
                 driver.findElement(By.id(desple)).click();
-                exist = searchScrollElement.ElementSearch(newLocation);
+                exist = searchScrollElement.elementSearch(newLocation);
                 if(exist !=-1){
                     WebElement elementLocation = driver.findElement(By.xpath("//span[normalize-space()='"+newLocation+"']"));
                     action.contextClick(elementLocation).perform();
@@ -300,31 +251,23 @@ public class OSM_Location {
         }
     }
 
-    @Test
+    @Test(enabled = false)
     public void create_Location_on_Location() throws InterruptedException {
-        login = new Home_Page(driver);
         login.loginPage("cpingo","1234");
-        //Ingresamos al OSM
-        WebElement aplication = driver.findElement(By.xpath("//span[@class='sapMTextMaxLine sapMTextLineClamp' and normalize-space()='Organizational Structure Manager']"));
-        aplication.click();
-        Thread.sleep(4000);
-        //Desplegamos Client
-        driver.findElement(By.id("__xmlview4--mainTree-rows-row0-treeicon")).click();
-        //Desplegamos Company
-        driver.findElement(By.id("__xmlview4--mainTree-rows-row1-treeicon")).click();
-        Thread.sleep(5000);
+        Login_Applications.loginOSM(driver);
         String company = "Company Selenium";
         String location = "Location";
         String newlocation = "Location Selenium Padre";
         String childLocation = "Location Selenium Hijo";
         int exist;
         String desple;
+        char decision;
         searchScrollElement = new Dynamic_Scroll_Search(driver);
-        exist = searchScrollElement.ElementSearch(company);
+        exist = searchScrollElement.elementSearch(company);
         if(exist != -1){
             desple = "__xmlview4--mainTree-rows-row"+exist+"-treeicon";
             driver.findElement(By.id(desple)).click();
-            exist = searchScrollElement.ElementSearch(location);
+            exist = searchScrollElement.elementSearch(location);
             if(exist !=-1){
                 WebElement elementLocation = driver.findElement(By.xpath("//span[normalize-space()='"+location+"']"));
                 action.contextClick(elementLocation).perform();
@@ -335,17 +278,17 @@ public class OSM_Location {
                 listForm.get(2).sendKeys(newlocation);
                 listForm.get(3).sendKeys(newlocation);
                 listForm.get(4).sendKeys(newlocation);
-                char decision = 'G';
+                decision = 'G';
                 save_cancel = new Object_Save_Cancel(driver);
-                save_cancel.Save_Cancel(decision);
+                save_cancel.save_Cancel(decision);
                 Thread.sleep(4000);
                 desple = "__xmlview4--mainTree-rows-row"+exist+"-treeicon";
                 driver.findElement(By.id(desple)).click();
-                exist = searchScrollElement.ElementSearch(newlocation);
+                exist = searchScrollElement.elementSearch(newlocation);
                 if(exist != -1){
                     desple = "__xmlview4--mainTree-rows-row"+exist+"-treeicon";
                     driver.findElement(By.id(desple)).click();
-                    exist = searchScrollElement.ElementSearch(location);
+                    exist = searchScrollElement.elementSearch(location);
                     if (exist !=-1){
                         WebElement scrollBar = driver.findElement(By.id("__xmlview4--mainTree-vsb"));
                         int clientHeight = js.executeScript("let barra = document.getElementById('__xmlview4--mainTree-vsb');return(barra.clientHeight)").hashCode();
@@ -361,7 +304,7 @@ public class OSM_Location {
                         listForm.get(3).sendKeys(childLocation);
                         listForm.get(4).sendKeys(childLocation);
                         decision = 'G';
-                        save_cancel.Save_Cancel(decision);
+                        save_cancel.save_Cancel(decision);
                         Thread.sleep(4000);
                     }else{
                         System.out.println("No hay Location2");
@@ -381,7 +324,7 @@ public class OSM_Location {
 
     @AfterMethod
     public void tearDown(){
-        //driver.close();
+        driver.quit();
     }
 
     @AfterClass

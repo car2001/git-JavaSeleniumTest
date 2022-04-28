@@ -9,11 +9,12 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 public class SelectBrowser {
     private WebDriver driver;
 
+
     public SelectBrowser(WebDriver driver){
         this.driver = driver;
     }
 
-    public WebDriver chooseBrowser(String browser){
+    public void chooseBrowser(String browser){
         if(browser.equals("Chrome")){
             WebDriverManager.chromedriver().setup();
             this.driver = new ChromeDriver();
@@ -24,6 +25,14 @@ public class SelectBrowser {
             WebDriverManager.firefoxdriver().setup();
             this.driver = new FirefoxDriver();
         }
-        return this.driver;
+
+    }
+
+    public WebDriver getDriver() {
+        return driver;
+    }
+
+    public void setDriver(WebDriver driver) {
+        this.driver = driver;
     }
 }
