@@ -24,7 +24,7 @@ import java.util.List;
 
 public class OSM_Location {
     private WebDriver driver;
-    private String url = "http://wedox.sytes.net/buplat_dev/";
+    private String url = "http://wedox.sytes.net/buplat_config/";
     private String chosen_browser = "Chrome";
 
     Home_Page login;
@@ -130,9 +130,9 @@ public class OSM_Location {
                 save_cancel.Save_Cancel(decision);
                 Thread.sleep(2000);
                 String message = driver.findElement(By.className("sapMMsgStripMessage")).getAttribute("textContent");
-                Assert.assertEquals(message,"Location Already Exist");
                 decision = 'C';
                 save_cancel.Save_Cancel(decision);
+                Assert.assertEquals(message,"Location Already Exist");
             }else{
                 System.out.println("No hay Location");
             }
@@ -176,7 +176,7 @@ public class OSM_Location {
                     driver.findElement(By.id("__xmlview4--viewDependencies-img")).click();
                     Thread.sleep(2000);
                 }else{
-                    System.out.println("No hay " +newLocation );
+                    System.out.println("No hay"+ newLocation );
                 }
             }else{
                 System.out.println("No hay Location");

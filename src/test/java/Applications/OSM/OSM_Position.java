@@ -8,6 +8,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
+import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
@@ -22,7 +23,7 @@ import java.util.List;
 
 public class OSM_Position {
     private WebDriver driver;
-    private String url = "http://wedox.sytes.net/buplat_dev/";
+    private String url = "http://wedox.sytes.net/buplat_config/";
     private String chosen_browser = "Chrome";
 
     Home_Page login;
@@ -40,7 +41,7 @@ public class OSM_Position {
         Thread.sleep(4000);
     }
 
-    @Test(priority = 0)
+    @Test(enabled = false)
     public void crearPosition() throws InterruptedException {
         login = new Home_Page(driver);
         login.loginPage("cpingo","1234");
@@ -104,7 +105,73 @@ public class OSM_Position {
         }
     }
 
-    @Test(priority = 1)
+    @Test(priority = 0)
+    public void doubleCheckPosition() throws InterruptedException {
+        login = new Home_Page(driver);
+        login.loginPage("cpingo","1234");
+        Thread.sleep(4000);
+        //Ingresamos al OSM
+        WebElement aplication = driver.findElement(By.xpath("//span[@class='sapMTextMaxLine sapMTextLineClamp' and normalize-space()='Organizational Structure Manager']"));
+        aplication.click();
+        Thread.sleep(6000);
+        //Desplegamos Client
+        driver.findElement(By.id("__xmlview4--mainTree-rows-row0-treeicon")).click();
+        //Desplegamos Company
+        driver.findElement(By.id("__xmlview4--mainTree-rows-row1-treeicon")).click();
+        Thread.sleep(3000);
+        String company = "Company Selenium";
+        String unit = "Organizational Unit";
+        String newO_Unit = "Organizational Unit Selenium";
+        String position = "Position";
+        int exist;
+        String desple;
+        searchScrollElement = new Dynamic_Scroll_Search(driver);
+        exist = searchScrollElement.ElementSearch(company);
+        if( exist != -1){
+            desple = "__xmlview4--mainTree-rows-row"+exist+"-treeicon";
+            driver.findElement(By.id(desple)).click();
+            Thread.sleep(1000);
+            exist = searchScrollElement.ElementSearch(unit);
+            if(exist != -1){
+                desple = "__xmlview4--mainTree-rows-row"+exist+"-treeicon";
+                driver.findElement(By.id(desple)).click();
+                Thread.sleep(1000);
+                exist = searchScrollElement.ElementSearch(newO_Unit);
+                if(exist != -1){
+                    desple = "__xmlview4--mainTree-rows-row"+exist+"-treeicon";
+                    driver.findElement(By.id(desple)).click();
+                    exist = searchScrollElement.ElementSearch(position);
+                    if(exist != -1){
+                        WebElement elementPosition = driver.findElement(By.xpath("//span[normalize-space()='Position']"));
+                        action.contextClick(elementPosition).perform();
+                        driver.findElement(By.xpath("//div[normalize-space()='New "+position+"']")).click();
+                        Thread.sleep(2000);
+                        //Llenando Formulario
+                        List<WebElement> listForm = driver.findElements(By.className("sapMInputBaseInner"));
+                        listForm.get(2).sendKeys("Gerente Calidad");
+                        listForm.get(3).sendKeys("Gerente Calidad");
+                        listForm.get(4).sendKeys("Gerente de Calidad encargado de la supervisión");
+                        char decision = 'G';
+                        save_cancel = new Object_Save_Cancel(driver);
+                        save_cancel.Save_Cancel(decision);
+                        Thread.sleep(2000);
+                        String message = driver.findElement(By.className("sapMMsgStripMessage")).getAttribute("textContent");
+                        Assert.assertEquals(message,"Position Already Exist");
+                    }else{
+                        System.out.println("No hay Position");
+                    }
+                }else{
+                    System.out.println("No hay" + newO_Unit);
+                }
+            }else{
+                System.out.println("No hay Organizational Unit");
+            }
+        }else{
+            System.out.println("No hay compañia");
+        }
+    }
+
+    @Test(enabled = false)
     public void viewPositionDependencies() throws InterruptedException{
         login = new Home_Page(driver);
         login.loginPage("cpingo","1234");
@@ -169,7 +236,7 @@ public class OSM_Position {
         }
     }
 
-    @Test(priority = 2)
+    @Test(enabled = false)
     public void editarPosition() throws InterruptedException {
         login = new Home_Page(driver);
         login.loginPage("cpingo","1234");
@@ -246,7 +313,7 @@ public class OSM_Position {
 
     }
 
-    @Test(priority = 3)
+    @Test(enabled = false)
     public void eliminarPosition() throws InterruptedException {
         login = new Home_Page(driver);
         login.loginPage("cpingo","1234");
@@ -324,7 +391,7 @@ public class OSM_Position {
 
     @AfterMethod
     public void tearDown(){
-        driver.close();
+        //driver.close();
     }
 
     @AfterClass

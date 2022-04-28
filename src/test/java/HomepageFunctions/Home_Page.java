@@ -9,10 +9,6 @@ public class Home_Page {
 
     private WebDriver driver;
 
-    public Home_Page(){
-        this.driver = new ChromeDriver();
-    }
-
     public Home_Page(WebDriver driver) {
         this.driver = driver;
     }

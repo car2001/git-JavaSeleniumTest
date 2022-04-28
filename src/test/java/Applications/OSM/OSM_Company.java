@@ -3,6 +3,7 @@ package Applications.OSM;
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.interactions.Actions;
+import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import java.util.ArrayList;
@@ -15,7 +16,7 @@ public class OSM_Company {
         System.setProperty("webdriver.chrome.driver","drivers/chromedriver.exe");
         WebDriver driver = new ChromeDriver();
         Actions action = new Actions(driver);
-        driver.get("http://wedox.sytes.net/buplat_dev/");
+        driver.get("http://wedox.sytes.net/buplat_config/");
         driver.manage().window().maximize();
         Thread.sleep(5000); // Tiempo de Espera
 
@@ -47,12 +48,51 @@ public class OSM_Company {
     }
 
     @Test
+    public void doubleCheckCompany() throws InterruptedException {
+        System.setProperty("webdriver.chrome.driver","drivers/chromedriver.exe");
+        WebDriver driver = new ChromeDriver();
+        Actions action = new Actions(driver);
+        driver.get("http://wedox.sytes.net/buplat_config/");
+        driver.manage().window().maximize();
+        Thread.sleep(5000); // Tiempo de Espera
+
+        driver.findElement(By.id("__xmlview0--inputUserName-inner")).sendKeys("cpingo");
+        driver.findElement(By.id("__xmlview0--inputPassword-inner")).sendKeys("1234");
+        driver.findElement(By.id("__xmlview0--btnSubmit")).click();
+        Thread.sleep(3000);
+
+        //driver.findElement(By.xpath("//div[@id='__tile0-__xmlview2--container-9']")).click();
+        driver.findElement(By.xpath("//span[normalize-space()='Organizational Structure Manager']")).click();
+        Thread.sleep(8000);
+
+        driver.findElement(By.id("__xmlview4--mainTree-rows-row0-treeicon")).click();
+        //Crear Compañia y hacer RigthClick
+        WebElement element = driver.findElement(By.xpath("//span[normalize-space()='Company']"));
+        action.contextClick(element).perform();
+        driver.findElement(By.xpath("//div[@id='__item1-unifiedmenu-txt']")).click();
+
+        Thread.sleep(3000);
+        //Llenar Formulario
+        List<WebElement> listForm = driver.findElements(By.className("sapMInputBaseInner"));
+        listForm.get(2).sendKeys("Company Selenium");
+        listForm.get(3).sendKeys("Company Selenium");
+        listForm.get(4).sendKeys("Compañia Creada en Selenium");
+        listForm.get(5).sendKeys("123456");
+
+        //Guardar Formulario
+        driver.findElement(By.id("__xmlview4--save-inner")).click();
+        Thread.sleep(2000);
+        String message = driver.findElement(By.className("sapMMsgStripMessage")).getAttribute("textContent");
+        Assert.assertEquals(message,"Company Already Exist");
+    }
+
+    @Test
     public void viewCompanyDependencies() throws InterruptedException {
         System.setProperty("webdriver.chrome.driver","drivers/chromedriver.exe");
         WebDriver driver = new ChromeDriver();
         Actions action = new Actions(driver);
         JavascriptExecutor js = (JavascriptExecutor) driver;
-        driver.get("http://wedox.sytes.net/buplat_dev/");
+        driver.get("http://wedox.sytes.net/buplat_config/");
         driver.manage().window().maximize();
         Thread.sleep(5000); // Tiempo de Espera
 
@@ -125,7 +165,7 @@ public class OSM_Company {
         WebDriver driver = new ChromeDriver();
         Actions action = new Actions(driver);
         JavascriptExecutor js = (JavascriptExecutor) driver;
-        driver.get("http://wedox.sytes.net/buplat_dev/");
+        driver.get("http://wedox.sytes.net/buplat_config/");
         driver.manage().window().maximize();
         Thread.sleep(5000); // Tiempo de Espera
 
@@ -212,7 +252,7 @@ public class OSM_Company {
         WebDriver driver = new ChromeDriver();
         Actions action = new Actions(driver);
         JavascriptExecutor js = (JavascriptExecutor) driver;
-        driver.get("http://wedox.sytes.net/buplat_dev/");
+        driver.get("http://wedox.sytes.net/buplat_config/");
         driver.manage().window().maximize();
         Thread.sleep(5000); // Tiempo de Espera
 

@@ -7,6 +7,7 @@ import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
+import org.testng.Assert;
 import org.testng.annotations.*;
 
 import java.util.List;
@@ -17,7 +18,7 @@ import java.util.List;
  */
 public class OSM_Organizational_Unit {
     private WebDriver driver;
-    private String url = "http://wedox.sytes.net/buplat_dev/";
+    private String url = "http://wedox.sytes.net/buplat_config/";
     private String chosen_browser = "Chrome";
 
     Home_Page login;
@@ -89,6 +90,60 @@ public class OSM_Organizational_Unit {
     }
 
     @Test(priority = 1)
+    public void doubleCheckOrgani_Unit() throws InterruptedException {
+        login = new Home_Page(driver);
+        login.loginPage("cpingo","1234");
+        Thread.sleep(4000);
+        //Ingresamos al OSM
+        WebElement aplication = driver.findElement(By.xpath("//span[@class='sapMTextMaxLine sapMTextLineClamp' and normalize-space()='Organizational Structure Manager']"));
+        aplication.click();
+        Thread.sleep(6000);
+        //Desplegamos Client
+        driver.findElement(By.id("__xmlview4--mainTree-rows-row0-treeicon")).click();
+        //Desplegamos Company
+        driver.findElement(By.id("__xmlview4--mainTree-rows-row1-treeicon")).click();
+        Thread.sleep(5000);
+        String company = "Company Selenium";
+        String unit = "Organizational Unit";
+        int exist;
+        String desple;
+        searchScrollElement = new Dynamic_Scroll_Search(driver);
+        exist = searchScrollElement.ElementSearch(company);
+        if(exist != -1){
+            desple = "__xmlview4--mainTree-rows-row"+exist+"-treeicon";
+            driver.findElement(By.id(desple)).click();
+            Thread.sleep(1000);
+            exist = searchScrollElement.ElementSearch(unit);
+            if(exist!=-1){
+                WebElement element = driver.findElement(By.xpath("//span[normalize-space()='Organizational Unit']"));
+                action.contextClick(element).perform();
+                driver.findElement(By.xpath("//div[normalize-space()='New "+unit+"']")).click();
+                Thread.sleep(2000);
+                //Llenando Formulario
+                List<WebElement> listForm = driver.findElements(By.className("sapMInputBaseInner"));
+                listForm.get(2).sendKeys("Organizational Unit Selenium");
+                listForm.get(3).sendKeys("Organizational Unit Selenium");
+                listForm.get(4).sendKeys("Organizational Unit Selenium");
+                //Decidimos si guardar(G) o cancelar(C)
+                char decision = 'G';
+                save_cancel = new Object_Save_Cancel(driver);
+                save_cancel.Save_Cancel(decision);
+                Thread.sleep(2000);
+                String message = driver.findElement(By.className("sapMMsgStripMessage")).getAttribute("textContent");
+                Assert.assertEquals(message,"Organizational Unit Already Exist");
+            }else{
+                System.out.println("No hay Organizational Unit");
+                Thread.sleep(2000);
+            }
+            Thread.sleep(2000);
+        }else{
+            js.executeScript("alert('"+" No se encontro la compañia "+company+"')");
+            Thread.sleep(3000);
+        }
+    }
+
+
+    @Test(priority = 2)
     public void viewOrgani_UnitDependencies() throws InterruptedException {
         login = new Home_Page(driver);
         login.loginPage("cpingo","1234");
@@ -136,7 +191,7 @@ public class OSM_Organizational_Unit {
         }
     }
 
-    @Test(priority = 2)
+    @Test(priority = 3)
     public void editarOrgani_Unit() throws InterruptedException {
         login = new Home_Page(driver);
         login.loginPage("cpingo","1234");
@@ -196,7 +251,7 @@ public class OSM_Organizational_Unit {
         }
     }
 
-    @Test(priority = 3)
+    @Test(priority = 4)
     public void eliminarOrgani_Unit() throws InterruptedException {
         login = new Home_Page(driver);
         login.loginPage("cpingo","1234");
@@ -256,7 +311,7 @@ public class OSM_Organizational_Unit {
         }
     }
 
-    @Test
+    @Test(priority = 5)
     public void crearOrgani_Unit_on_OrganiUnit() throws InterruptedException {
         login = new Home_Page(driver);
         login.loginPage("cpingo","1234");
@@ -342,7 +397,7 @@ public class OSM_Organizational_Unit {
 
     @AfterMethod
     public void tearDown() throws InterruptedException {
-        driver.close();
+        //driver.quit();
     }
 
     @AfterClass
