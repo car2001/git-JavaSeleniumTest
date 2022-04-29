@@ -11,7 +11,7 @@ import java.util.List;
 
 public class OSM_Company {
 
-    @Test
+    @Test(enabled = false)
     public void crearCompany() throws InterruptedException {
         System.setProperty("webdriver.chrome.driver","drivers/chromedriver.exe");
         WebDriver driver = new ChromeDriver();
@@ -157,7 +157,7 @@ public class OSM_Company {
     }
 
 
-    @Test
+    @Test(enabled = false)
     public void editarCompany() throws InterruptedException {
 
         //Inicio de Propiedades
@@ -245,7 +245,7 @@ public class OSM_Company {
 
     }
 
-    @Test
+    @Test(enabled = false)
     public void eliminarCompany() throws InterruptedException {
         //Inicio de Propiedades
         System.setProperty("webdriver.chrome.driver","drivers/chromedriver.exe");

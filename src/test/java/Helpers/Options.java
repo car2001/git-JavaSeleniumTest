@@ -11,8 +11,8 @@ public class Options {
     }
 
     public void save() throws InterruptedException {
-            driver.findElement(By.id("__xmlview4--save-img")).click();
-            Thread.sleep(500);
+        driver.findElement(By.id("__xmlview4--save-img")).click();
+        Thread.sleep(500);
     }
 
     public void cancel() throws InterruptedException {

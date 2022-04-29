@@ -16,12 +16,9 @@ import org.testng.annotations.*;
 
 import java.util.List;
 
-/**
- *
- * @author Carlos Alberto
- */
 
 public class OSM_Location {
+
     private WebDriver driver;
     private String chosen_browser = "Chrome";
 
@@ -38,7 +35,6 @@ public class OSM_Location {
     String editLocation = "Location Selenium Editado";      // Location Editado
     int exist = -1;                                         // Posición del componente Buscado
     String desple;                                          // Desplegar en los componentes
-
 
     @BeforeMethod
     public void setup() throws InterruptedException {
@@ -217,7 +213,7 @@ public class OSM_Location {
         login.loginPage("cpingo","1234");
         Login_Applications.loginOSM(driver);
         String parentLocation = "Location Selenium Padre";
-        String childLocation = "Location Selenium Hijo1.0";
+        String childLocation = "Location Selenium Hijo 1.1";
         exist = searchScrollElement.elementSearch(company);
         if(exist != -1){
             desple = "__xmlview4--mainTree-rows-row"+exist+"-treeicon";

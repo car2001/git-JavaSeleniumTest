@@ -19,7 +19,6 @@ import java.util.List;
  */
 public class OSM_Organizational_Unit {
     private WebDriver driver;
-    private String url = "http://wedox.sytes.net/buplat_config/";
     private String chosen_browser = "Chrome";
 
     Home_Page login;

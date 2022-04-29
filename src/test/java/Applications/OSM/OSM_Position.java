@@ -33,7 +33,6 @@ public class OSM_Position {
     SelectBrowser browser = new SelectBrowser(driver);
     Actions action;
 
-
     String company = "Company Selenium";
     String unit = "Organizational Unit";
     String new_Unit = "Organizational Unit Selenium";
