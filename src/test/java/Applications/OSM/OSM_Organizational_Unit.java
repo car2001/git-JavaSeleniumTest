@@ -24,7 +24,7 @@ public class OSM_Organizational_Unit {
 
     Home_Page login;
     Dynamic_Scroll_Search searchScrollElement;
-    Object_Save_Cancel save_cancel;
+    Options options;
     SelectBrowser browser = new SelectBrowser(driver);
     Actions action;
     JavascriptExecutor js;
@@ -35,6 +35,7 @@ public class OSM_Organizational_Unit {
         driver = browser.getDriver();
         action = new Actions(driver);
         js = (JavascriptExecutor) driver;
+        options = new Options(driver);
         login = new Home_Page(driver);
         login.homeSettings();
     }
@@ -64,10 +65,7 @@ public class OSM_Organizational_Unit {
                 listForm.get(2).sendKeys("Organizational Unit Selenium");
                 listForm.get(3).sendKeys("Organizational Unit Selenium");
                 listForm.get(4).sendKeys("Organizational Unit Selenium");
-                //Decidimos si guardar(G) o cancelar(C)
-                char decision = 'G';
-                save_cancel = new Object_Save_Cancel(driver);
-                save_cancel.save_Cancel(decision);
+                options.save();
                 Thread.sleep(500);
                 String message = driver.findElement(By.className("sapMMsgStripMessage")).getAttribute("textContent");
                 Assert.assertEquals(message, "The Operation has been Completed Successfully." + "\n");
@@ -105,10 +103,7 @@ public class OSM_Organizational_Unit {
                 listForm.get(2).sendKeys("Organizational Unit Selenium");
                 listForm.get(3).sendKeys("Organizational Unit Selenium");
                 listForm.get(4).sendKeys("Organizational Unit Selenium");
-                //Decidimos si guardar(G) o cancelar(C)
-                char decision = 'G';
-                save_cancel = new Object_Save_Cancel(driver);
-                save_cancel.save_Cancel(decision);
+                options.save();
                 Thread.sleep(500);
                 String message = driver.findElement(By.className("sapMMsgStripMessage")).getAttribute("textContent");
                 Assert.assertEquals(message,"Organizational Unit Already Exist");
@@ -145,7 +140,7 @@ public class OSM_Organizational_Unit {
                 if(exist !=1){
                     driver.findElement(By.xpath("//span[normalize-space()='"+elemen_org+"']")).click();
                     Thread.sleep(200);
-                    driver.findElement(By.id("__xmlview4--viewDependencies-img")).click();
+                    options.viewDependecies();
                     Thread.sleep(2000);
                 }else{
                     System.out.println("No hay Sub" +elemen_org );
@@ -194,9 +189,7 @@ public class OSM_Organizational_Unit {
                     listForm.get(4).clear();
                     listForm.get(4).sendKeys("Organizational Unit Selenium1");
                     //Decidimos si guardar(G) o cancelar(C)
-                    char decision = 'G';
-                    save_cancel = new Object_Save_Cancel(driver);
-                    save_cancel.save_Cancel(decision);
+                    options.save();
                     Thread.sleep(2000);
                 }else{
                     System.out.println("No hay Sub" +elemen_org );
@@ -286,10 +279,7 @@ public class OSM_Organizational_Unit {
                 listForm.get(2).sendKeys(parentUnit);
                 listForm.get(3).sendKeys(parentUnit);
                 listForm.get(4).sendKeys(parentUnit);
-                //Decidimos si guardar(G) o cancelar(C)
-                char decision = 'G';
-                save_cancel = new Object_Save_Cancel(driver);
-                save_cancel.save_Cancel(decision);
+                options.save();
                 Thread.sleep(2000);
                 desple = "__xmlview4--mainTree-rows-row"+exist+"-treeicon";
                 driver.findElement(By.id(desple)).click();
@@ -312,8 +302,7 @@ public class OSM_Organizational_Unit {
                         listForm.get(2).sendKeys(childUnit);
                         listForm.get(3).sendKeys(childUnit);
                         listForm.get(4).sendKeys(childUnit);
-                        decision = 'G';
-                        save_cancel.save_Cancel(decision);
+                        options.save();
                         Thread.sleep(4000);
                     }else{
                         System.out.println("No hay Organizational Unit2");
@@ -334,9 +323,7 @@ public class OSM_Organizational_Unit {
     }
 
     @AfterMethod
-    public void tearDown() throws InterruptedException {
-        //driver.quit();
-    }
+    public void tearDown()  { driver.quit();}
 
     @AfterClass
     public static void tearDownAfterClass(){

@@ -20,7 +20,7 @@ public class Home_Page {
     public void homeSettings() throws InterruptedException {
         driver.get(url);
         driver.manage().window().maximize();
-        Thread.sleep(4000);
+        Thread.sleep(3000);
     }
 
     public void loginPage(String user,String password) throws InterruptedException {
