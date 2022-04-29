@@ -1,6 +1,7 @@
 package Applications.OSM;
 
 import Helpers.Dynamic_Scroll_Search;
+import Helpers.FormsOSM;
 import Helpers.Object_Save_Cancel;
 import Helpers.SelectBrowser;
 import HomepageFunctions.Home_Page;
@@ -11,10 +12,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.testng.Assert;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
+import org.testng.annotations.*;
 
 import java.util.List;
 
@@ -34,12 +32,23 @@ public class OSM_Location {
     Actions action;
     JavascriptExecutor js;
 
+    String company = "Company Selenium";
+    String location = "Location";
+    String newLocation = "Location Selenium";
+    String editLocation = "Location Selenium Editado";
+    char decision;
+    int exist = -1;
+    String desple;
+
+
     @BeforeMethod
     public void setup() throws InterruptedException {
         browser.chooseBrowser(chosen_browser);
         driver = browser.getDriver();
         js = (JavascriptExecutor) driver;
         action = new Actions(driver);
+        searchScrollElement = new Dynamic_Scroll_Search(driver);
+        save_cancel = new Object_Save_Cancel(driver);
         login = new Home_Page(driver);
         login.homeSettings();
     }
@@ -48,11 +57,6 @@ public class OSM_Location {
     public void crearLocation() throws InterruptedException {
         login.loginPage("cpingo","1234");
         Login_Applications.loginOSM(driver);
-        String company = "Company Selenium";
-        String location = "Location";
-        int exist;
-        String desple;
-        searchScrollElement = new Dynamic_Scroll_Search(driver);
         exist = searchScrollElement.elementSearch(company);
         if(exist != -1){
             desple = "__xmlview4--mainTree-rows-row"+exist+"-treeicon";
@@ -63,13 +67,8 @@ public class OSM_Location {
                 action.contextClick(elementLocation).perform();
                 driver.findElement(By.xpath("//div[normalize-space()='New "+location+"']")).click();
                 Thread.sleep(1000);
-                //Llenando Formulario
-                List<WebElement> listForm = driver.findElements(By.className("sapMInputBaseInner"));
-                listForm.get(2).sendKeys("Location Selenium");
-                listForm.get(3).sendKeys("Location Selenium");
-                listForm.get(4).sendKeys("Location Selenium");
-                char decision = 'G';
-                save_cancel = new Object_Save_Cancel(driver);
+                FormsOSM.formCreateLocation(driver,"Location Selenium");
+                decision = 'G';
                 save_cancel.save_Cancel(decision);
                 Thread.sleep(2000);
                 String message = driver.findElement(By.className("sapMMsgStripMessage")).getAttribute("textContent");
@@ -83,15 +82,10 @@ public class OSM_Location {
     }
 
 
-    @Test(enabled = false)
+    @Test(priority = 1)
     public void doubleCheckLocation() throws InterruptedException {
         login.loginPage("cpingo","1234");
         Login_Applications.loginOSM(driver);
-        String company = "Company Selenium";
-        String location = "Location";
-        int exist;
-        String desple;
-        searchScrollElement = new Dynamic_Scroll_Search(driver);
         exist = searchScrollElement.elementSearch(company);
         if(exist != -1){
             desple = "__xmlview4--mainTree-rows-row"+exist+"-treeicon";
@@ -103,12 +97,8 @@ public class OSM_Location {
                 driver.findElement(By.xpath("//div[normalize-space()='New "+location+"']")).click();
                 Thread.sleep(1000);
                 //Llenando Formulario
-                List<WebElement> listForm = driver.findElements(By.className("sapMInputBaseInner"));
-                listForm.get(2).sendKeys("Location Selenium");
-                listForm.get(3).sendKeys("Location Selenium");
-                listForm.get(4).sendKeys("Location Selenium");
-                char decision = 'G';
-                save_cancel = new Object_Save_Cancel(driver);
+                FormsOSM.formCreateLocation(driver,"Location Selenium");
+                decision = 'G';
                 save_cancel.save_Cancel(decision);
                 Thread.sleep(2000);
                 String message = driver.findElement(By.className("sapMMsgStripMessage")).getAttribute("textContent");
@@ -122,23 +112,16 @@ public class OSM_Location {
     }
 
 
-    @Test(enabled = false)
+    @Test(priority = 2)
     public void viewLocationDependencies() throws InterruptedException {
         login.loginPage("cpingo","1234");
         Login_Applications.loginOSM(driver);
-        String company = "Company Selenium";
-        String location = "Location";
-        String newLocation = "Location Selenium";
-        int exist;
-        String desple;
-        searchScrollElement = new Dynamic_Scroll_Search(driver);
         exist = searchScrollElement.elementSearch(company);
         if(exist != -1){
             desple = "__xmlview4--mainTree-rows-row"+exist+"-treeicon";
             driver.findElement(By.id(desple)).click();
             exist = searchScrollElement.elementSearch(location);
             if(exist !=-1){
-                desple = "__xmlview4--mainTree-rows-row"+exist+"-treeicon";
                 driver.findElement(By.id(desple)).click();
                 exist = searchScrollElement.elementSearch(newLocation);
                 if(exist !=-1){
@@ -146,6 +129,9 @@ public class OSM_Location {
                     Thread.sleep(100);
                     driver.findElement(By.id("__xmlview4--viewDependencies-img")).click();
                     Thread.sleep(2000);
+                    String message = driver.findElement(By.id("__xmlview4--dependenciesTableTitle-inner")).getText();
+                    Assert.assertEquals(message,"Dependencies List");
+                    Thread.sleep(500);
                 }else{
                     System.out.println("No hay"+ newLocation );
                 }
@@ -158,23 +144,16 @@ public class OSM_Location {
     }
 
 
-    @Test(enabled = false)
+    @Test(priority = 3)
     public void editarLocation() throws InterruptedException {
         login.loginPage("cpingo","1234");
         Login_Applications.loginOSM(driver);
-        String company = "Company Selenium";
-        String location = "Location";
-        String newLocation = "Location Selenium";
-        int exist;
-        String desple;
-        searchScrollElement = new Dynamic_Scroll_Search(driver);
         exist = searchScrollElement.elementSearch(company);
         if(exist != -1){
             desple = "__xmlview4--mainTree-rows-row"+exist+"-treeicon";
             driver.findElement(By.id(desple)).click();
             exist = searchScrollElement.elementSearch(location);
             if(exist !=-1){
-                desple = "__xmlview4--mainTree-rows-row"+exist+"-treeicon";
                 driver.findElement(By.id(desple)).click();
                 exist = searchScrollElement.elementSearch(newLocation);
                 if(exist !=-1){
@@ -183,15 +162,8 @@ public class OSM_Location {
                     driver.findElement(By.id("__xmlview4--edit-img")).click(); // Editar Proyecto
                     Thread.sleep(500);
                     //Llenando Formulario
-                    List<WebElement> listForm = driver.findElements(By.className("sapMInputBaseInner"));
-                    listForm.get(2).clear();
-                    listForm.get(2).sendKeys("Location Selenium1");
-                    listForm.get(3).clear();
-                    listForm.get(3).sendKeys("Location Selenium1");
-                    listForm.get(4).clear();
-                    listForm.get(4).sendKeys("Location Selenium1");
-                    char decision = 'G';
-                    save_cancel = new Object_Save_Cancel(driver);
+                    FormsOSM.formEditLocation(driver,editLocation);
+                    decision = 'G';
                     save_cancel.save_Cancel(decision);
                     Thread.sleep(2000);
                 }else{
@@ -205,27 +177,20 @@ public class OSM_Location {
         }
     }
 
-    @Test(enabled = false)
+    @Test(priority = 4)
     public void eliminarLocation() throws InterruptedException {
         login.loginPage("cpingo","1234");
         Login_Applications.loginOSM(driver);
-        String company = "Company Selenium";
-        String location = "Location";
-        String newLocation = "Location Selenium";
-        int exist;
-        String desple;
-        searchScrollElement = new Dynamic_Scroll_Search(driver);
         exist = searchScrollElement.elementSearch(company);
         if(exist != -1){
             desple = "__xmlview4--mainTree-rows-row"+exist+"-treeicon";
             driver.findElement(By.id(desple)).click();
             exist = searchScrollElement.elementSearch(location);
             if(exist !=-1){
-                desple = "__xmlview4--mainTree-rows-row"+exist+"-treeicon";
                 driver.findElement(By.id(desple)).click();
-                exist = searchScrollElement.elementSearch(newLocation);
+                exist = searchScrollElement.elementSearch(editLocation);
                 if(exist !=-1){
-                    WebElement elementLocation = driver.findElement(By.xpath("//span[normalize-space()='"+newLocation+"']"));
+                    WebElement elementLocation = driver.findElement(By.xpath("//span[normalize-space()='"+editLocation+"']"));
                     action.contextClick(elementLocation).perform();
                     driver.findElement(By.xpath("//div[normalize-space()='Delete "+location+"']")).click();
                     Thread.sleep(2000);
@@ -241,7 +206,7 @@ public class OSM_Location {
                     }
                     Thread.sleep(100);
                 }else{
-                    System.out.println("No hay " +newLocation );
+                    System.out.println("No hay " +editLocation );
                 }
             }else{
                 System.out.println("No hay Location");
@@ -251,18 +216,12 @@ public class OSM_Location {
         }
     }
 
-    @Test(enabled = false)
+    @Test(priority = 5)
     public void create_Location_on_Location() throws InterruptedException {
         login.loginPage("cpingo","1234");
         Login_Applications.loginOSM(driver);
-        String company = "Company Selenium";
-        String location = "Location";
-        String newlocation = "Location Selenium Padre";
-        String childLocation = "Location Selenium Hijo";
-        int exist;
-        String desple;
-        char decision;
-        searchScrollElement = new Dynamic_Scroll_Search(driver);
+        String parentLocation = "Location Selenium Padre";
+        String childLocation = "Location Selenium Hijo1.0";
         exist = searchScrollElement.elementSearch(company);
         if(exist != -1){
             desple = "__xmlview4--mainTree-rows-row"+exist+"-treeicon";
@@ -273,20 +232,14 @@ public class OSM_Location {
                 action.contextClick(elementLocation).perform();
                 driver.findElement(By.xpath("//div[normalize-space()='New "+location+"']")).click();
                 Thread.sleep(1000);
-                //Llenando Formulario
-                List<WebElement> listForm = driver.findElements(By.className("sapMInputBaseInner"));
-                listForm.get(2).sendKeys(newlocation);
-                listForm.get(3).sendKeys(newlocation);
-                listForm.get(4).sendKeys(newlocation);
+                //Llenando Formulario Padre
+                FormsOSM.formCreateLocation(driver,parentLocation);
                 decision = 'G';
-                save_cancel = new Object_Save_Cancel(driver);
                 save_cancel.save_Cancel(decision);
-                Thread.sleep(4000);
-                desple = "__xmlview4--mainTree-rows-row"+exist+"-treeicon";
+                Thread.sleep(2000);
                 driver.findElement(By.id(desple)).click();
-                exist = searchScrollElement.elementSearch(newlocation);
+                exist = searchScrollElement.elementSearch(parentLocation);
                 if(exist != -1){
-                    desple = "__xmlview4--mainTree-rows-row"+exist+"-treeicon";
                     driver.findElement(By.id(desple)).click();
                     exist = searchScrollElement.elementSearch(location);
                     if (exist !=-1){
@@ -298,19 +251,16 @@ public class OSM_Location {
                         action.contextClick(locationList.get(1)).perform();
                         driver.findElement(By.xpath("//div[normalize-space()='New "+location+"']")).click();
                         Thread.sleep(1000);
-                        //Llenando Formulario
-                        listForm = driver.findElements(By.className("sapMInputBaseInner"));
-                        listForm.get(2).sendKeys(childLocation);
-                        listForm.get(3).sendKeys(childLocation);
-                        listForm.get(4).sendKeys(childLocation);
+                        //Llenando Formulario Hijo
+                        FormsOSM.formCreateLocation(driver,childLocation);
                         decision = 'G';
                         save_cancel.save_Cancel(decision);
-                        Thread.sleep(4000);
+                        Thread.sleep(2000);
                     }else{
                         System.out.println("No hay Location2");
                     }
                 }else{
-                    System.out.println("No hay " + newlocation);
+                    System.out.println("No hay " +parentLocation);
                 }
 
                 Thread.sleep(2000);
