@@ -11,7 +11,7 @@ import java.util.List;
 
 public class OSM_Company {
 
-    @Test(enabled = false)
+    @Test()
     public void crearCompany() throws InterruptedException {
         System.setProperty("webdriver.chrome.driver","drivers/chromedriver.exe");
         WebDriver driver = new ChromeDriver();

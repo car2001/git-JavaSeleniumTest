@@ -1,8 +1,7 @@
 package Applications.OSM;
 
 import Helpers.Dynamic_Scroll_Search;
-import Helpers.FormsOSM;
-import Helpers.Options;
+import Forms.FormsOSM;
 import Helpers.SelectBrowser;
 import HomepageFunctions.Home_Page;
 import HomepageFunctions.Login_Applications;
@@ -24,7 +23,6 @@ public class OSM_Location {
 
     Home_Page login;
     Dynamic_Scroll_Search searchScrollElement;
-    Options options;
     SelectBrowser browser = new SelectBrowser(driver);
     Actions action;
     JavascriptExecutor js;
@@ -43,7 +41,6 @@ public class OSM_Location {
         js = (JavascriptExecutor) driver;
         action = new Actions(driver);
         searchScrollElement = new Dynamic_Scroll_Search(driver);
-        options = new Options(driver);
         login = new Home_Page(driver);
     }
 
@@ -62,7 +59,6 @@ public class OSM_Location {
                 driver.findElement(By.xpath("//div[normalize-space()='New "+location+"']")).click();
                 Thread.sleep(1000);
                 FormsOSM.formCreateLocation(driver,"Location Selenium");
-                options.save();
                 String message = driver.findElement(By.className("sapMMsgStripMessage")).getAttribute("textContent");
                 Assert.assertEquals(message,"The Operation has been Completed Successfully."+ "\n");
             }else{
@@ -90,7 +86,6 @@ public class OSM_Location {
                 Thread.sleep(1000);
                 //Llenando Formulario
                 FormsOSM.formCreateLocation(driver,"Location Selenium");
-                options.save();
                 Thread.sleep(2000);
                 String message = driver.findElement(By.className("sapMMsgStripMessage")).getAttribute("textContent");
                 Assert.assertEquals(message,"Location Already Exist");
@@ -119,7 +114,8 @@ public class OSM_Location {
                 if(exist !=-1){
                     driver.findElement(By.xpath("//span[normalize-space()='"+newLocation+"']")).click();
                     Thread.sleep(100);
-                    options.viewDependecies();
+                    driver.findElement(By.id("__xmlview4--viewDependencies-img")).click();
+                    Thread.sleep(1200);
                     String message = driver.findElement(By.id("__xmlview4--dependenciesTableTitle-inner")).getText();
                     Assert.assertEquals(message,"Dependencies List");
                     Thread.sleep(500);
@@ -151,11 +147,9 @@ public class OSM_Location {
                 if(exist !=-1){
                     driver.findElement(By.xpath("//span[normalize-space()='"+newLocation+"']")).click();
                     Thread.sleep(100);
-                    options.edit();
                     //Llenando Formulario
                     FormsOSM.formEditLocation(driver,editLocation);
-                    options.save();
-                    Thread.sleep(2000);
+                    Thread.sleep(1000);
                 }else{
                     System.out.println("No hay " +newLocation );
                 }
@@ -189,7 +183,7 @@ public class OSM_Location {
                     Thread.sleep(2000);
 
                     String message = driver.findElement(By.xpath("//span[@class='sapMText sapUiSelectable sapMTextMaxWidth sapMMsgBoxText']")).getText();
-                    Thread.sleep(2000);
+                    Thread.sleep(1000);
                     if(message.equals("The Operation has been Completed Successfully.")){
                         driver.findElement(By.xpath("//bdi[normalize-space()='OK']")).click();
                     }else{
@@ -225,7 +219,6 @@ public class OSM_Location {
                 Thread.sleep(1000);
                 //Llenando Formulario Padre
                 FormsOSM.formCreateLocation(driver,parentLocation);
-                options.save();
                 desple = "__xmlview4--mainTree-rows-row"+exist+"-treeicon";
                 driver.findElement(By.id(desple)).click();
                 exist = searchScrollElement.elementSearch(parentLocation);
@@ -244,8 +237,6 @@ public class OSM_Location {
                         Thread.sleep(1000);
                         //Llenando Formulario Hijo
                         FormsOSM.formCreateLocation(driver,childLocation);
-                        options.save();
-                        Thread.sleep(500);
                     }else{
                         System.out.println("No hay Location2");
                     }

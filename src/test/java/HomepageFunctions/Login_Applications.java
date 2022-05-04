@@ -11,12 +11,12 @@ public class Login_Applications {
         //Ingresamos al OSM
         String routeOSM = "//span[@class='sapMTextMaxLine sapMTextLineClamp' and normalize-space()='Organizational Structure Manager']";
         driver.findElement(By.xpath(routeOSM)).click();
-        Thread.sleep(4100);
+        Thread.sleep(3800);
         //Desplegamos Client
         driver.findElement(By.id("__xmlview4--mainTree-rows-row0-treeicon")).click();
         //Desplegamos Company
         driver.findElement(By.id("__xmlview4--mainTree-rows-row1-treeicon")).click();
-        Thread.sleep(4500);
+        Thread.sleep(4000);
     }
 
     public static void loginCM(WebDriver driver) throws InterruptedException {
