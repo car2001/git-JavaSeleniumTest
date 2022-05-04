@@ -45,7 +45,6 @@ public class OSM_Location {
         searchScrollElement = new Dynamic_Scroll_Search(driver);
         options = new Options(driver);
         login = new Home_Page(driver);
-        login.homeSettings();
     }
 
     @Test(priority = 0)

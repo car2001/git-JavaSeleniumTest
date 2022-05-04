@@ -15,13 +15,10 @@ public class Home_Page {
         this.url = "http://wedox.sytes.net/buplat_config/";
     }
 
-    public void homeSettings() throws InterruptedException {
+    public void loginPage(String user,String password) throws InterruptedException {
         driver.get(url);
         driver.manage().window().maximize();
         Thread.sleep(2500);
-    }
-
-    public void loginPage(String user,String password) throws InterruptedException {
         driver.findElement(By.id("__xmlview0--inputUserName-inner")).sendKeys(user);
         driver.findElement(By.id("__xmlview0--inputPassword-inner")).sendKeys(password);
         driver.findElement(By.id("__xmlview0--btnSubmit")).click();

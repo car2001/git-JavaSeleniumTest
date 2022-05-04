@@ -50,7 +50,6 @@ public class OSM_Position {
         searchScrollElement = new Dynamic_Scroll_Search(driver);
         options = new Options(driver);
         login = new Home_Page(driver);
-        login.homeSettings();
     }
 
     @Test(priority = 0)
@@ -282,7 +281,9 @@ public class OSM_Position {
 
     @AfterMethod
     public void tearDown(){
-        driver.quit();
+        if (driver != null){
+            driver.quit();
+        }
     }
 
     @AfterClass

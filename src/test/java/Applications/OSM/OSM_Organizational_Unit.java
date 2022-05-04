@@ -36,7 +36,6 @@ public class OSM_Organizational_Unit {
         js = (JavascriptExecutor) driver;
         options = new Options(driver);
         login = new Home_Page(driver);
-        login.homeSettings();
     }
 
     @Test(priority = 0)
