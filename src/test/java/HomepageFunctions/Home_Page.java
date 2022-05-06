@@ -1,8 +1,12 @@
 package HomepageFunctions;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
+
+import org.openqa.selenium.Cookie;
 import org.openqa.selenium.WebDriver;
+
+import java.time.Duration;
+
 
 
 public class Home_Page {
@@ -15,14 +19,13 @@ public class Home_Page {
         this.url = "http://wedox.sytes.net/buplat_config/";
     }
 
-    public void loginPage(String user,String password) throws InterruptedException {
+    public void loginPage(String user,String password){
         driver.get(url);
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
         driver.manage().window().maximize();
-        Thread.sleep(2500);
         driver.findElement(By.id("__xmlview0--inputUserName-inner")).sendKeys(user);
         driver.findElement(By.id("__xmlview0--inputPassword-inner")).sendKeys(password);
         driver.findElement(By.id("__xmlview0--btnSubmit")).click();
-        Thread.sleep(2000);
     }
 
 }

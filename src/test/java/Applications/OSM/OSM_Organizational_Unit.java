@@ -146,9 +146,6 @@ public class OSM_Organizational_Unit {
                 exist = searchScrollElement.elementSearch(elemen_org);
                 if(exist !=1){
                     driver.findElement(By.xpath("//span[normalize-space()='"+elemen_org+"']")).click();
-                    Thread.sleep(500);
-                    driver.findElement(By.id("__xmlview4--edit-img")).click(); // Editar Proyecto
-                    Thread.sleep(500);
                     FormsOSM.formEditOrganization(driver,elemen_org_edit);
                 }else{
                     System.out.println("No hay Sub" +elemen_org );

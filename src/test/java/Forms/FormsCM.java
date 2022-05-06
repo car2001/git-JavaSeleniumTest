@@ -103,6 +103,21 @@ public class FormsCM {
         Thread.sleep(500);
     }
 
+    // Form UI
+
+    public static void formCreateFormUI(WebDriver driver, String UI) throws InterruptedException {
+        listForm = driver.findElements(By.className("sapMInputBaseInner"));
+        listForm.get(2).sendKeys(UI);
+        listForm.get(3).sendKeys(UI);
+        listForm.get(4).sendKeys("Es un "+ UI);
+        driver.findElement(By.id(save)).click();
+        driver.findElement(By.id("__xmlview5--comments-switch")).click();
+        driver.findElement(By.id("__xmlview5--attachments-switch")).click();
+        driver.findElement(By.id("__xmlview5--instructions-switch")).click();
+        driver.findElement(By.id(save)).click();
+        Thread.sleep(500);
+    }
+
 
 
 

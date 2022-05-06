@@ -17,10 +17,9 @@ public class Dynamic_Scroll_Search {
         js= (JavascriptExecutor) driver;
     }
 
-    public int elementSearch(String element){
+    public int elementSearch(String element) {
         int scrollHeight,clientHeight,numVeces,iterator;
         int positionFound = -1;
-        boolean exist;
         List<WebElement> elementTable;
         List<String> nameElement;
         WebElement scrollBar;
@@ -45,7 +44,7 @@ public class Dynamic_Scroll_Search {
 
             iterator = 0;
             // Verificamos
-            while (iterator<=numVeces){
+            while (iterator<=numVeces+1){
                 if(nameElement.indexOf(element) != -1){
                     positionFound = nameElement.indexOf(element);
                     break;
@@ -61,7 +60,7 @@ public class Dynamic_Scroll_Search {
             }
 
         }catch (ArithmeticException e){
-            e.printStackTrace();
+            System.out.println(e);
         }
 
         return positionFound;
