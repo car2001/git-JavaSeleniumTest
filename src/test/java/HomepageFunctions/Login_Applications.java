@@ -3,18 +3,19 @@ package HomepageFunctions;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
+import java.util.List;
 
 public class Login_Applications {
-
     public static WebDriverWait wait;
 
     public static void loginOSM(WebDriver driver){
-        wait = new WebDriverWait(driver, Duration.ofSeconds(5));
+        wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         //Ingresamos al OSM
         String routeOSM = "//span[@class='sapMTextMaxLine sapMTextLineClamp' and normalize-space()='Organizational Structure Manager']";
         driver.findElement(By.xpath(routeOSM)).click();
@@ -26,7 +27,7 @@ public class Login_Applications {
     }
 
 
-    public static void loginCM(WebDriver driver) throws InterruptedException {
+    public static void loginCM(WebDriver driver,String componente) throws InterruptedException {
         //Ingresamos al Configuration Manager
         wait = new WebDriverWait(driver, Duration.ofSeconds(5));
         String routeCM = "//span[@class='sapMTextMaxLine sapMTextLineClamp' and normalize-space()='Configuration Manager']";
@@ -34,6 +35,10 @@ public class Login_Applications {
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("navListItem-navList-0-a")));
         driver.findElement(By.xpath("//div[@title='Reusable Component']")).click();
         driver.findElement(By.xpath("//div[@title='Setting']")).click();
+        driver.findElement(By.xpath("//span[text()='"+componente+"']")).click();
+
     }
+
+
 
 }

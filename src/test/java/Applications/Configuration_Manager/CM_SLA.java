@@ -7,11 +7,14 @@ import HomepageFunctions.Login_Applications;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import java.time.Duration;
 import java.util.List;
 
 public class CM_SLA {
@@ -35,9 +38,8 @@ public class CM_SLA {
         driver = browser.getDriver();
         login = new Home_Page(driver);
         login.loginPage("cpingo","1234");
-        Login_Applications.loginCM(driver);
-        driver.findElement(By.xpath("//span[text()='"+componente+"']")).click();
-        driver.findElement(By.xpath("//span[text()='Más' and @class='sapMSLITitle']")).click();
+        Login_Applications.loginCM(driver,componente);
+
     }
 
     @Test()
@@ -58,6 +60,7 @@ public class CM_SLA {
 
     @Test(priority = 2)
     public void editar_SLA() throws InterruptedException {
+        driver.findElement(By.xpath("//span[text()='Más' and @class='sapMSLITitle']")).click();
         driver.findElement(By.xpath("//div[text()='"+newSLA+"']")).click();
         FormsCM.formEditSLA(driver,editSLA);
         String message = driver.findElement(By.className("sapMMsgStripMessage")).getAttribute("textContent");
@@ -105,7 +108,7 @@ public class CM_SLA {
     @AfterMethod
     public void tearDown(){
         if (driver != null){
-            driver.quit();
+            //driver.quit();
         }
     }
 
