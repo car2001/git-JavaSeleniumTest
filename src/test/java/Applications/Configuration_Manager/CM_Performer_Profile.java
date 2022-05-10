@@ -6,33 +6,28 @@ import HomepageFunctions.Home_Page;
 import HomepageFunctions.Login_Applications;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import java.time.Duration;
-import java.util.List;
+public class CM_Performer_Profile {
 
-public class CM_SLA {
     private WebDriver driver;
     private String chosen_browser = "Chrome";
 
     SelectBrowser browser = new SelectBrowser(driver);
     Home_Page login;
 
-    String componente = "SLA Definition";
-    String newSLA = "SLA Selenium";
-    String editSLA = "SLA Edit Selenium";
-    String versionMayor_Sla = "Sla Version Mayor Seleneium";
-    String versionMenor_Sla = "Sla Version Menor Seleneium";
-    String restoreVersion = "SLA Restaurado Selenium";
+    String componente = "Performer Profile";
+    String newPerformer = "Performer Selenium";
+    String editPerfomer = "Performer Edit Selenium";
+    String versionMayor_PP = "Performer Selenium Version Mayor";
+    String versionMenor_PP = "Performer Selenium Version Menor";
+    String restoreVersion_PP = "Performer Selenium Restaurado";
 
     @BeforeMethod
-    public void setUp(){
+    public void SetUp(){
         browser.chooseBrowser(chosen_browser);
         driver = browser.getDriver();
         login = new Home_Page(driver);
@@ -40,56 +35,56 @@ public class CM_SLA {
         Login_Applications.loginCM(driver,componente);
     }
 
-    @Test()
-    public void crear_SLA() {
-        FormsCM.formCreateSLA(driver,newSLA);
+    @Test
+    public void crearPerformerProfile(){
+        FormsCM.formCreatePerformer(driver,newPerformer);
         String message = driver.findElement(By.className("sapMMsgStripMessage")).getAttribute("textContent");
         Assert.assertEquals(message,"The Operation has been Completed Successfully."+ "\n");
     }
 
     @Test(priority = 1)
-    public void viewDependecies_SLA(){
-        driver.findElement(By.xpath("//div[text()='"+newSLA+"']")).click();
+    public void viewDependecies_PP(){
+        driver.findElement(By.xpath("//div[text()='"+newPerformer+"']")).click();
         driver.findElement(By.id("__xmlview5--viewDependencies-img")).click();
         String message = driver.findElement(By.id("__xmlview5--dependenciesTableTitle-inner")).getText();
         Assert.assertEquals(message,"Dependencies List");
     }
 
     @Test(priority = 2)
-    public void editar_SLA(){
-        driver.findElement(By.xpath("//div[text()='"+newSLA+"']")).click();
-        FormsCM.formEditSLA(driver,editSLA);
+    public void editarPerformerProfile(){
+        driver.findElement(By.xpath("//div[text()='"+newPerformer+"']")).click();
+        FormsCM.formEditPerformer(driver,editPerfomer);
         String message = driver.findElement(By.className("sapMMsgStripMessage")).getAttribute("textContent");
         Assert.assertEquals(message,"The Operation has been Completed Successfully."+ "\n");
     }
 
     @Test(priority = 3)
-    public void versionMayor_SLA(){
-        driver.findElement(By.xpath("//div[text()='"+editSLA+"']")).click();
-        FormsCM.MayorVersionSLA(driver,versionMayor_Sla);
+    public void versionMayor_PP(){
+        driver.findElement(By.xpath("//div[text()='"+editPerfomer+"']")).click();
+        FormsCM.MayorVersionPerformer(driver,versionMayor_PP);
         String message = driver.findElement(By.className("sapMMsgStripMessage")).getAttribute("textContent");
         Assert.assertEquals(message,"The Operation has been Completed Successfully."+ "\n");
     }
 
     @Test(priority = 4)
-    public void versionMenor_SLA(){
-        driver.findElement(By.xpath("//div[text()='"+versionMayor_Sla+"']")).click();
-        FormsCM.MenorVersionSLA(driver,versionMenor_Sla);
+    public void versionMenor_PP(){
+        driver.findElement(By.xpath("//div[text()='"+versionMayor_PP+"']")).click();
+        FormsCM.MenorVersionPerformer(driver,versionMenor_PP);
         String message = driver.findElement(By.className("sapMMsgStripMessage")).getAttribute("textContent");
         Assert.assertEquals(message,"The Operation has been Completed Successfully."+ "\n");
     }
 
     @Test(priority = 5)
-    public void restoreVersion_SLA(){
-        driver.findElement(By.xpath("//div[text()='"+versionMenor_Sla+"']")).click();
-        FormsCM.restoreVersion_SLA(driver,restoreVersion);
+    public void restoreVersion_PP(){
+        driver.findElement(By.xpath("//div[text()='"+versionMenor_PP+"']")).click();
+        FormsCM.restoreVersion_PP(driver,restoreVersion_PP);
         String message = driver.findElement(By.className("sapMMsgStripMessage")).getAttribute("textContent");
         Assert.assertEquals(message,"The Operation has been Completed Successfully."+ "\n");
     }
 
     @Test(priority = 6)
-    public void eliminar_SLA(){
-        driver.findElement(By.xpath("//div[text()='"+restoreVersion+"']/parent::div/parent::div/following-sibling::button")).click();
+    public void eliminarPerformerProfile(){
+        driver.findElement(By.xpath("//div[text()='"+restoreVersion_PP+"']/parent::div/parent::div/following-sibling::button")).click();
         driver.findElement(By.xpath("//bdi[normalize-space()='Si']")).click();
         String xpathMessage = "//span[@class='sapMText sapUiSelectable sapMTextMaxWidth sapMMsgBoxText']";
         driver.findElement(By.xpath("//bdi[normalize-space()='OK']")).click();
@@ -99,8 +94,9 @@ public class CM_SLA {
 
     @AfterMethod
     public void tearDown(){
-        if (driver != null){
+        if(driver != null){
             driver.quit();
         }
     }
+
 }

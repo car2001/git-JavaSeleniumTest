@@ -32,7 +32,7 @@ public class OSM_Location {
 
 
     @BeforeMethod
-    public void setup() throws InterruptedException {
+    public void setup(){
         browser.chooseBrowser(chosen_browser);
         driver = browser.getDriver();
         js = (JavascriptExecutor) driver;

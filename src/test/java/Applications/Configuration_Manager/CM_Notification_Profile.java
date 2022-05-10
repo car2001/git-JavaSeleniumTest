@@ -6,30 +6,24 @@ import HomepageFunctions.Home_Page;
 import HomepageFunctions.Login_Applications;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import java.time.Duration;
-import java.util.List;
-
-public class CM_SLA {
+public class CM_Notification_Profile {
     private WebDriver driver;
     private String chosen_browser = "Chrome";
 
     SelectBrowser browser = new SelectBrowser(driver);
     Home_Page login;
 
-    String componente = "SLA Definition";
-    String newSLA = "SLA Selenium";
-    String editSLA = "SLA Edit Selenium";
-    String versionMayor_Sla = "Sla Version Mayor Seleneium";
-    String versionMenor_Sla = "Sla Version Menor Seleneium";
-    String restoreVersion = "SLA Restaurado Selenium";
+    String componente = "Notification Profile";
+    String newNotification = "Notification Profile Selenium";
+    String editNotification = "Notification Profile Selenium Editado";
+    String versionMayor_NP = "Notification Profile Selenium version Mayor";
+    String versionMenor_NP = "Notification Profile Selenium version Menor";
+    String restoreVersion = "Notification Profile Selenium version Restaurado";
 
     @BeforeMethod
     public void setUp(){
@@ -40,55 +34,55 @@ public class CM_SLA {
         Login_Applications.loginCM(driver,componente);
     }
 
-    @Test()
-    public void crear_SLA() {
-        FormsCM.formCreateSLA(driver,newSLA);
+    @Test
+    public void crearNotification(){
+        FormsCM.formCreateNotification(driver,newNotification);
         String message = driver.findElement(By.className("sapMMsgStripMessage")).getAttribute("textContent");
         Assert.assertEquals(message,"The Operation has been Completed Successfully."+ "\n");
     }
 
     @Test(priority = 1)
-    public void viewDependecies_SLA(){
-        driver.findElement(By.xpath("//div[text()='"+newSLA+"']")).click();
+    public void viewDependecies_Notification(){
+        driver.findElement(By.xpath("//div[text()='"+newNotification+"']")).click();
         driver.findElement(By.id("__xmlview5--viewDependencies-img")).click();
         String message = driver.findElement(By.id("__xmlview5--dependenciesTableTitle-inner")).getText();
         Assert.assertEquals(message,"Dependencies List");
     }
 
     @Test(priority = 2)
-    public void editar_SLA(){
-        driver.findElement(By.xpath("//div[text()='"+newSLA+"']")).click();
-        FormsCM.formEditSLA(driver,editSLA);
+    public void editarNotification(){
+        driver.findElement(By.xpath("//div[text()='"+newNotification+"']")).click();
+        FormsCM.formEditNotification(driver,editNotification);
         String message = driver.findElement(By.className("sapMMsgStripMessage")).getAttribute("textContent");
         Assert.assertEquals(message,"The Operation has been Completed Successfully."+ "\n");
     }
 
     @Test(priority = 3)
     public void versionMayor_SLA(){
-        driver.findElement(By.xpath("//div[text()='"+editSLA+"']")).click();
-        FormsCM.MayorVersionSLA(driver,versionMayor_Sla);
+        driver.findElement(By.xpath("//div[text()='"+editNotification+"']")).click();
+        FormsCM.MayorVersionNotification(driver,versionMayor_NP);
         String message = driver.findElement(By.className("sapMMsgStripMessage")).getAttribute("textContent");
         Assert.assertEquals(message,"The Operation has been Completed Successfully."+ "\n");
     }
 
     @Test(priority = 4)
     public void versionMenor_SLA(){
-        driver.findElement(By.xpath("//div[text()='"+versionMayor_Sla+"']")).click();
-        FormsCM.MenorVersionSLA(driver,versionMenor_Sla);
+        driver.findElement(By.xpath("//div[text()='"+versionMayor_NP+"']")).click();
+        FormsCM.MenorVersionNotification(driver,versionMenor_NP);
         String message = driver.findElement(By.className("sapMMsgStripMessage")).getAttribute("textContent");
         Assert.assertEquals(message,"The Operation has been Completed Successfully."+ "\n");
     }
 
     @Test(priority = 5)
     public void restoreVersion_SLA(){
-        driver.findElement(By.xpath("//div[text()='"+versionMenor_Sla+"']")).click();
-        FormsCM.restoreVersion_SLA(driver,restoreVersion);
+        driver.findElement(By.xpath("//div[text()='"+versionMenor_NP+"']")).click();
+        FormsCM.restoreVersion_NP(driver,restoreVersion);
         String message = driver.findElement(By.className("sapMMsgStripMessage")).getAttribute("textContent");
         Assert.assertEquals(message,"The Operation has been Completed Successfully."+ "\n");
     }
 
     @Test(priority = 6)
-    public void eliminar_SLA(){
+    public void eliminarNotification(){
         driver.findElement(By.xpath("//div[text()='"+restoreVersion+"']/parent::div/parent::div/following-sibling::button")).click();
         driver.findElement(By.xpath("//bdi[normalize-space()='Si']")).click();
         String xpathMessage = "//span[@class='sapMText sapUiSelectable sapMTextMaxWidth sapMMsgBoxText']";
@@ -97,10 +91,12 @@ public class CM_SLA {
         Assert.assertEquals(message,"The Operation has been Completed Successfully.");
     }
 
+
     @AfterMethod
     public void tearDown(){
-        if (driver != null){
+        if(driver != null){
             driver.quit();
         }
     }
+
 }

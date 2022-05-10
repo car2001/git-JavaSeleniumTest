@@ -6,30 +6,24 @@ import HomepageFunctions.Home_Page;
 import HomepageFunctions.Login_Applications;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import java.time.Duration;
-import java.util.List;
-
-public class CM_SLA {
+public class CM_Risk_Profile {
     private WebDriver driver;
     private String chosen_browser = "Chrome";
 
     SelectBrowser browser = new SelectBrowser(driver);
     Home_Page login;
 
-    String componente = "SLA Definition";
-    String newSLA = "SLA Selenium";
-    String editSLA = "SLA Edit Selenium";
-    String versionMayor_Sla = "Sla Version Mayor Seleneium";
-    String versionMenor_Sla = "Sla Version Menor Seleneium";
-    String restoreVersion = "SLA Restaurado Selenium";
+    String componente = "Risk Profile";
+    String newRiskProfile = "Risk Profile Selenium";
+    String editRiskProfile = "Risk Profile Selenium Editado";
+    String versionMayor_PP = "Risk Profile Selenium version Mayor";
+    String versionMenor_PP = "Risk Profile Selenium version Menor";
+    String restoreVersion = "Risk Profile Selenium version Restaurada";
 
     @BeforeMethod
     public void setUp(){
@@ -40,55 +34,55 @@ public class CM_SLA {
         Login_Applications.loginCM(driver,componente);
     }
 
-    @Test()
-    public void crear_SLA() {
-        FormsCM.formCreateSLA(driver,newSLA);
+    @Test
+    public void crearRiskProfile(){
+        FormsCM.formCreateRisk(driver,newRiskProfile);
         String message = driver.findElement(By.className("sapMMsgStripMessage")).getAttribute("textContent");
         Assert.assertEquals(message,"The Operation has been Completed Successfully."+ "\n");
     }
 
     @Test(priority = 1)
-    public void viewDependecies_SLA(){
-        driver.findElement(By.xpath("//div[text()='"+newSLA+"']")).click();
+    public void viewDependecies_RP(){
+        driver.findElement(By.xpath("//div[text()='"+newRiskProfile+"']")).click();
         driver.findElement(By.id("__xmlview5--viewDependencies-img")).click();
         String message = driver.findElement(By.id("__xmlview5--dependenciesTableTitle-inner")).getText();
         Assert.assertEquals(message,"Dependencies List");
     }
 
     @Test(priority = 2)
-    public void editar_SLA(){
-        driver.findElement(By.xpath("//div[text()='"+newSLA+"']")).click();
-        FormsCM.formEditSLA(driver,editSLA);
+    public void editRiskProfile(){
+        driver.findElement(By.xpath("//div[text()='"+newRiskProfile+"']")).click();
+        FormsCM.formEditRisk(driver,editRiskProfile);
         String message = driver.findElement(By.className("sapMMsgStripMessage")).getAttribute("textContent");
         Assert.assertEquals(message,"The Operation has been Completed Successfully."+ "\n");
     }
 
     @Test(priority = 3)
-    public void versionMayor_SLA(){
-        driver.findElement(By.xpath("//div[text()='"+editSLA+"']")).click();
-        FormsCM.MayorVersionSLA(driver,versionMayor_Sla);
+    public void versionMayor_RP(){
+        driver.findElement(By.xpath("//div[text()='"+editRiskProfile+"']")).click();
+        FormsCM.MayorVersionRisk(driver,versionMayor_PP);
         String message = driver.findElement(By.className("sapMMsgStripMessage")).getAttribute("textContent");
         Assert.assertEquals(message,"The Operation has been Completed Successfully."+ "\n");
     }
 
     @Test(priority = 4)
-    public void versionMenor_SLA(){
-        driver.findElement(By.xpath("//div[text()='"+versionMayor_Sla+"']")).click();
-        FormsCM.MenorVersionSLA(driver,versionMenor_Sla);
+    public void versionMenor_RP(){
+        driver.findElement(By.xpath("//div[text()='"+versionMayor_PP+"']")).click();
+        FormsCM.MenorVersionRisk(driver,versionMenor_PP);
         String message = driver.findElement(By.className("sapMMsgStripMessage")).getAttribute("textContent");
         Assert.assertEquals(message,"The Operation has been Completed Successfully."+ "\n");
     }
 
     @Test(priority = 5)
-    public void restoreVersion_SLA(){
-        driver.findElement(By.xpath("//div[text()='"+versionMenor_Sla+"']")).click();
-        FormsCM.restoreVersion_SLA(driver,restoreVersion);
+    public void restoreVersion_RP(){
+        driver.findElement(By.xpath("//div[text()='"+versionMenor_PP+"']")).click();
+        FormsCM.restoreVersionRisk(driver,restoreVersion);
         String message = driver.findElement(By.className("sapMMsgStripMessage")).getAttribute("textContent");
         Assert.assertEquals(message,"The Operation has been Completed Successfully."+ "\n");
     }
 
     @Test(priority = 6)
-    public void eliminar_SLA(){
+    public void eliminar_RP(){
         driver.findElement(By.xpath("//div[text()='"+restoreVersion+"']/parent::div/parent::div/following-sibling::button")).click();
         driver.findElement(By.xpath("//bdi[normalize-space()='Si']")).click();
         String xpathMessage = "//span[@class='sapMText sapUiSelectable sapMTextMaxWidth sapMMsgBoxText']";

@@ -21,7 +21,7 @@ public class Home_Page {
 
     public void loginPage(String user,String password){
         driver.get(url);
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(8));
         driver.manage().window().maximize();
         driver.findElement(By.id("__xmlview0--inputUserName-inner")).sendKeys(user);
         driver.findElement(By.id("__xmlview0--inputPassword-inner")).sendKeys(password);
