@@ -9,6 +9,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -22,6 +23,7 @@ public class CM_Global_Settings {
 
     SelectBrowser browser = new SelectBrowser(driver);
     Home_Page login;
+    WebDriverWait wait;
 
     @BeforeMethod
     public void setUp(){
@@ -32,10 +34,14 @@ public class CM_Global_Settings {
     }
 
     @Test
-    public void ocultarAplicaciones(){
-        loginApplications();
+    public void checkHideAplicaciones(){
+        loginApplication();
         Login_Applications.loginCM(driver,"Global Settings");
-        ocultarApliaciones();
+        hideApps();
+        loginApplication();
+        findHiddenApps();
+        Login_Applications.loginCM(driver,"Global Settings");
+        restoreApps();
     }
 
 
@@ -47,18 +53,55 @@ public class CM_Global_Settings {
     }
 
 
-    public void loginApplications(){
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+    public void loginApplication(){
+        wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         wait.until(ExpectedConditions.elementToBeClickable(By.id("__image0")));
         driver.findElement(By.id("__image0")).click();
     }
 
-    public void ocultarApliaciones(){
+    public void hideApps(){
+        wait = new WebDriverWait(driver, Duration.ofSeconds(5));
         driver.findElement(By.id("__xmlview5--edit-img")).click();
-        List<WebElement> botones = driver.findElements(By.className("sapMSwtHandle"));
-        botones.get(1).click();
+        wait.until(ExpectedConditions.elementToBeClickable(By.id("__xmlview5--save-img")));
+        List<WebElement> botones = driver.findElements(By.className("sapMSwtCont"));
+        if(botones.get(7).getAttribute("aria-checked").equals("true")){
+            botones.get(7).click();
+        }
+        if(botones.get(9).getAttribute("aria-checked").equals("true")){
+            botones.get(9).click();
+        }
+        driver.findElement(By.id("__xmlview5--save-img")).click();
+        driver.findElement(By.id("__xmlview2--avatarUser")).click();
+        driver.findElement(By.xpath(" //bdi[text()='Disconnect']")).click();
+        login.loginPage("jjuarez","1234");
+    }
+
+    public void findHiddenApps(){
+        wait.until(ExpectedConditions.elementToBeClickable(By.id("__image1")));
+        List<WebElement> aplicaciones = driver.findElements(By.xpath("//span[@class='sapMTextMaxLine sapMTextLineClamp']"));
+        if(aplicaciones.contains("Integration Studio") && aplicaciones.contains("Technical Administrator")){
+            Assert.assertEquals("Error","No se Ocultaron");
+        }else{
+            Assert.assertEquals("Se oculto","Se oculto");
+        }
+    }
+
+    public void restoreApps(){
+        wait = new WebDriverWait(driver, Duration.ofSeconds(5));
+        driver.findElement(By.id("__xmlview5--edit-img")).click();
+        wait.until(ExpectedConditions.elementToBeClickable(By.id("__xmlview5--save-img")));
+        List<WebElement> botones = driver.findElements(By.className("sapMSwtCont"));
+        if(botones.get(7).getAttribute("aria-checked").equals("false")){
+            botones.get(7).click();
+        }
+        if(botones.get(9).getAttribute("aria-checked").equals("false")){
+            botones.get(9).click();
+        }
         driver.findElement(By.id("__xmlview5--save-img")).click();
     }
+
+
+
 
 
 
