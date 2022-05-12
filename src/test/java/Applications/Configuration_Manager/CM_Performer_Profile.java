@@ -1,6 +1,7 @@
 package Applications.Configuration_Manager;
 
 import Forms.FormsCM;
+import Helpers.Asserts;
 import Helpers.SelectBrowser;
 import HomepageFunctions.Home_Page;
 import HomepageFunctions.Login_Applications;
@@ -18,6 +19,7 @@ public class CM_Performer_Profile {
 
     SelectBrowser browser = new SelectBrowser(driver);
     Home_Page login;
+    Asserts asserts;
 
     String componente = "Performer Profile";
     String newPerformer = "Performer Selenium";
@@ -30,6 +32,7 @@ public class CM_Performer_Profile {
     public void SetUp(){
         browser.chooseBrowser(chosen_browser);
         driver = browser.getDriver();
+        asserts = new Asserts(driver);
         login = new Home_Page(driver);
         login.loginPage("cpingo","1234");
         Login_Applications.loginCM(driver,componente);
@@ -38,48 +41,42 @@ public class CM_Performer_Profile {
     @Test
     public void crearPerformerProfile(){
         FormsCM.formCreatePerformer(driver,newPerformer);
-        String message = driver.findElement(By.className("sapMMsgStripMessage")).getAttribute("textContent");
-        Assert.assertEquals(message,"The Operation has been Completed Successfully."+ "\n");
+        asserts.assertSave();
     }
 
     @Test(priority = 1)
     public void viewDependecies_PP(){
         driver.findElement(By.xpath("//div[text()='"+newPerformer+"']")).click();
         driver.findElement(By.id("__xmlview5--viewDependencies-img")).click();
-        String message = driver.findElement(By.id("__xmlview5--dependenciesTableTitle-inner")).getText();
-        Assert.assertEquals(message,"Dependencies List");
+        asserts.assertDependecies();
     }
 
     @Test(priority = 2)
     public void editarPerformerProfile(){
         driver.findElement(By.xpath("//div[text()='"+newPerformer+"']")).click();
         FormsCM.formEditPerformer(driver,editPerfomer);
-        String message = driver.findElement(By.className("sapMMsgStripMessage")).getAttribute("textContent");
-        Assert.assertEquals(message,"The Operation has been Completed Successfully."+ "\n");
+        asserts.assertSave();
     }
 
     @Test(priority = 3)
     public void versionMayor_PP(){
         driver.findElement(By.xpath("//div[text()='"+editPerfomer+"']")).click();
         FormsCM.MayorVersionPerformer(driver,versionMayor_PP);
-        String message = driver.findElement(By.className("sapMMsgStripMessage")).getAttribute("textContent");
-        Assert.assertEquals(message,"The Operation has been Completed Successfully."+ "\n");
+        asserts.assertSave();
     }
 
     @Test(priority = 4)
     public void versionMenor_PP(){
         driver.findElement(By.xpath("//div[text()='"+versionMayor_PP+"']")).click();
         FormsCM.MenorVersionPerformer(driver,versionMenor_PP);
-        String message = driver.findElement(By.className("sapMMsgStripMessage")).getAttribute("textContent");
-        Assert.assertEquals(message,"The Operation has been Completed Successfully."+ "\n");
+        asserts.assertSave();
     }
 
     @Test(priority = 5)
     public void restoreVersion_PP(){
         driver.findElement(By.xpath("//div[text()='"+versionMenor_PP+"']")).click();
         FormsCM.restoreVersion_PP(driver,restoreVersion_PP);
-        String message = driver.findElement(By.className("sapMMsgStripMessage")).getAttribute("textContent");
-        Assert.assertEquals(message,"The Operation has been Completed Successfully."+ "\n");
+        asserts.assertSave();
     }
 
     @Test(priority = 6)
@@ -88,8 +85,7 @@ public class CM_Performer_Profile {
         driver.findElement(By.xpath("//bdi[normalize-space()='Si']")).click();
         String xpathMessage = "//span[@class='sapMText sapUiSelectable sapMTextMaxWidth sapMMsgBoxText']";
         driver.findElement(By.xpath("//bdi[normalize-space()='OK']")).click();
-        String message = driver.findElement(By.xpath(xpathMessage)).getText();
-        Assert.assertEquals(message,"The Operation has been Completed Successfully.");
+        asserts.assertDelete(xpathMessage);
     }
 
     @AfterMethod
@@ -98,5 +94,4 @@ public class CM_Performer_Profile {
             driver.quit();
         }
     }
-
 }

@@ -1,6 +1,7 @@
 package Applications.Configuration_Manager;
 
 import Forms.FormsCM;
+import Helpers.Asserts;
 import Helpers.SelectBrowser;
 import HomepageFunctions.Home_Page;
 import HomepageFunctions.Login_Applications;
@@ -17,6 +18,7 @@ public class CM_Notification_Profile {
 
     SelectBrowser browser = new SelectBrowser(driver);
     Home_Page login;
+    Asserts asserts;
 
     String componente = "Notification Profile";
     String newNotification = "Notification Profile Selenium";
@@ -29,6 +31,7 @@ public class CM_Notification_Profile {
     public void setUp(){
         browser.chooseBrowser(chosen_browser);
         driver = browser.getDriver();
+        asserts = new Asserts(driver);
         login = new Home_Page(driver);
         login.loginPage("cpingo","1234");
         Login_Applications.loginCM(driver,componente);
@@ -37,48 +40,42 @@ public class CM_Notification_Profile {
     @Test
     public void crearNotification(){
         FormsCM.formCreateNotification(driver,newNotification);
-        String message = driver.findElement(By.className("sapMMsgStripMessage")).getAttribute("textContent");
-        Assert.assertEquals(message,"The Operation has been Completed Successfully."+ "\n");
+        asserts.assertSave();
     }
 
     @Test(priority = 1)
     public void viewDependecies_Notification(){
         driver.findElement(By.xpath("//div[text()='"+newNotification+"']")).click();
         driver.findElement(By.id("__xmlview5--viewDependencies-img")).click();
-        String message = driver.findElement(By.id("__xmlview5--dependenciesTableTitle-inner")).getText();
-        Assert.assertEquals(message,"Dependencies List");
+        asserts.assertDependecies();
     }
 
     @Test(priority = 2)
     public void editarNotification(){
         driver.findElement(By.xpath("//div[text()='"+newNotification+"']")).click();
         FormsCM.formEditNotification(driver,editNotification);
-        String message = driver.findElement(By.className("sapMMsgStripMessage")).getAttribute("textContent");
-        Assert.assertEquals(message,"The Operation has been Completed Successfully."+ "\n");
+        asserts.assertSave();
     }
 
     @Test(priority = 3)
     public void versionMayor_SLA(){
         driver.findElement(By.xpath("//div[text()='"+editNotification+"']")).click();
         FormsCM.MayorVersionNotification(driver,versionMayor_NP);
-        String message = driver.findElement(By.className("sapMMsgStripMessage")).getAttribute("textContent");
-        Assert.assertEquals(message,"The Operation has been Completed Successfully."+ "\n");
+        asserts.assertSave();
     }
 
     @Test(priority = 4)
     public void versionMenor_SLA(){
         driver.findElement(By.xpath("//div[text()='"+versionMayor_NP+"']")).click();
         FormsCM.MenorVersionNotification(driver,versionMenor_NP);
-        String message = driver.findElement(By.className("sapMMsgStripMessage")).getAttribute("textContent");
-        Assert.assertEquals(message,"The Operation has been Completed Successfully."+ "\n");
+        asserts.assertSave();
     }
 
     @Test(priority = 5)
     public void restoreVersion_SLA(){
         driver.findElement(By.xpath("//div[text()='"+versionMenor_NP+"']")).click();
         FormsCM.restoreVersion_NP(driver,restoreVersion);
-        String message = driver.findElement(By.className("sapMMsgStripMessage")).getAttribute("textContent");
-        Assert.assertEquals(message,"The Operation has been Completed Successfully."+ "\n");
+        asserts.assertSave();
     }
 
     @Test(priority = 6)
@@ -87,10 +84,8 @@ public class CM_Notification_Profile {
         driver.findElement(By.xpath("//bdi[normalize-space()='Si']")).click();
         String xpathMessage = "//span[@class='sapMText sapUiSelectable sapMTextMaxWidth sapMMsgBoxText']";
         driver.findElement(By.xpath("//bdi[normalize-space()='OK']")).click();
-        String message = driver.findElement(By.xpath(xpathMessage)).getText();
-        Assert.assertEquals(message,"The Operation has been Completed Successfully.");
+        asserts.assertDelete(xpathMessage);
     }
-
 
     @AfterMethod
     public void tearDown(){
@@ -98,5 +93,4 @@ public class CM_Notification_Profile {
             driver.quit();
         }
     }
-
 }

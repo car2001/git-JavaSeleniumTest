@@ -1,6 +1,7 @@
 package Applications.Configuration_Manager;
 
 import Forms.FormsCM;
+import Helpers.Asserts;
 import Helpers.SelectBrowser;
 import HomepageFunctions.Home_Page;
 import HomepageFunctions.Login_Applications;
@@ -17,6 +18,7 @@ public class CM_Risk_Profile {
 
     SelectBrowser browser = new SelectBrowser(driver);
     Home_Page login;
+    Asserts asserts;
 
     String componente = "Risk Profile";
     String newRiskProfile = "Risk Profile Selenium";
@@ -29,6 +31,7 @@ public class CM_Risk_Profile {
     public void setUp(){
         browser.chooseBrowser(chosen_browser);
         driver = browser.getDriver();
+        asserts = new Asserts(driver);
         login = new Home_Page(driver);
         login.loginPage("cpingo","1234");
         Login_Applications.loginCM(driver,componente);
@@ -37,48 +40,42 @@ public class CM_Risk_Profile {
     @Test
     public void crearRiskProfile(){
         FormsCM.formCreateRisk(driver,newRiskProfile);
-        String message = driver.findElement(By.className("sapMMsgStripMessage")).getAttribute("textContent");
-        Assert.assertEquals(message,"The Operation has been Completed Successfully."+ "\n");
+        asserts.assertSave();
     }
 
     @Test(priority = 1)
     public void viewDependecies_RP(){
         driver.findElement(By.xpath("//div[text()='"+newRiskProfile+"']")).click();
         driver.findElement(By.id("__xmlview5--viewDependencies-img")).click();
-        String message = driver.findElement(By.id("__xmlview5--dependenciesTableTitle-inner")).getText();
-        Assert.assertEquals(message,"Dependencies List");
+        asserts.assertDependecies();
     }
 
     @Test(priority = 2)
     public void editRiskProfile(){
         driver.findElement(By.xpath("//div[text()='"+newRiskProfile+"']")).click();
         FormsCM.formEditRisk(driver,editRiskProfile);
-        String message = driver.findElement(By.className("sapMMsgStripMessage")).getAttribute("textContent");
-        Assert.assertEquals(message,"The Operation has been Completed Successfully."+ "\n");
+        asserts.assertSave();
     }
 
     @Test(priority = 3)
     public void versionMayor_RP(){
         driver.findElement(By.xpath("//div[text()='"+editRiskProfile+"']")).click();
         FormsCM.MayorVersionRisk(driver,versionMayor_PP);
-        String message = driver.findElement(By.className("sapMMsgStripMessage")).getAttribute("textContent");
-        Assert.assertEquals(message,"The Operation has been Completed Successfully."+ "\n");
+        asserts.assertSave();
     }
 
     @Test(priority = 4)
     public void versionMenor_RP(){
         driver.findElement(By.xpath("//div[text()='"+versionMayor_PP+"']")).click();
         FormsCM.MenorVersionRisk(driver,versionMenor_PP);
-        String message = driver.findElement(By.className("sapMMsgStripMessage")).getAttribute("textContent");
-        Assert.assertEquals(message,"The Operation has been Completed Successfully."+ "\n");
+        asserts.assertSave();
     }
 
     @Test(priority = 5)
     public void restoreVersion_RP(){
         driver.findElement(By.xpath("//div[text()='"+versionMenor_PP+"']")).click();
         FormsCM.restoreVersionRisk(driver,restoreVersion);
-        String message = driver.findElement(By.className("sapMMsgStripMessage")).getAttribute("textContent");
-        Assert.assertEquals(message,"The Operation has been Completed Successfully."+ "\n");
+        asserts.assertSave();
     }
 
     @Test(priority = 6)
@@ -87,8 +84,7 @@ public class CM_Risk_Profile {
         driver.findElement(By.xpath("//bdi[normalize-space()='Si']")).click();
         String xpathMessage = "//span[@class='sapMText sapUiSelectable sapMTextMaxWidth sapMMsgBoxText']";
         driver.findElement(By.xpath("//bdi[normalize-space()='OK']")).click();
-        String message = driver.findElement(By.xpath(xpathMessage)).getText();
-        Assert.assertEquals(message,"The Operation has been Completed Successfully.");
+        asserts.assertDelete(xpathMessage);
     }
 
     @AfterMethod
