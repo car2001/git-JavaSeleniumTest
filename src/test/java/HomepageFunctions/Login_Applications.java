@@ -3,6 +3,7 @@ package HomepageFunctions;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -12,7 +13,7 @@ public class Login_Applications {
     public static WebDriverWait wait;
 
     public static void loginOSM(WebDriver driver){
-        wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        wait = new WebDriverWait(driver, Duration.ofSeconds(5));
         String routeOSM = "//span[@class='sapMTextMaxLine sapMTextLineClamp' and normalize-space()='Organizational Structure Manager']";
         driver.findElement(By.xpath(routeOSM)).click();
         driver.findElement(By.id("__xmlview4--mainTree-rows-row0-treeicon")).click();
@@ -20,7 +21,7 @@ public class Login_Applications {
         try{
             wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("__xmlview4--mainTree-vsb")));
         }catch (Exception e){
-            System.out.println("No hay más elementos");
+            System.out.println("Se espero el Scroll pero no se encontro");
         }
     }
 
@@ -53,4 +54,20 @@ public class Login_Applications {
             }
         }
     }
+
+    public static void loginRM(WebDriver driver, String componente){
+        String routeRM = "//span[@class='sapMTextMaxLine sapMTextLineClamp' and normalize-space()='Release Manager']";
+        driver.findElement(By.xpath(routeRM)).click();
+        if(componente.equals("Project")){
+            driver.findElement(By.id("__xmlview4--mainTree-rows-row0-treeicon")).click();
+        }else if(componente.equals("Change Container")){
+            driver.findElement(By.id("__xmlview4--mainTree-rows-row1-treeicon")).click();
+        }else if (componente.equals("Deployment Package")){
+            driver.findElement(By.id("__xmlview4--mainTree-rows-row2-treeicon")).click();
+        }else{
+            driver.findElement(By.id("__xmlview4--mainTree-rows-row3-treeicon")).click();
+        }
+    }
+
+
 }

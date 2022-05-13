@@ -1,4 +1,4 @@
-package Applications.Configuration_Manager;
+package Applications.ConfigurationManager;
 
 import Forms.FormsCM;
 import Helpers.Asserts;
@@ -11,9 +11,7 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-
-public class CM_FORM_UI {
-
+public class CM_Risk_Profile {
     private WebDriver driver;
     private String chosen_browser = "Chrome";
 
@@ -21,15 +19,15 @@ public class CM_FORM_UI {
     Home_Page login;
     Asserts asserts;
 
-    String componente = "Form UI Configuration";
-    String newFormUI = "Form UI Selenium";
-    String editFormI = "Form UI Selenium Editado";
-    String versionMayor_FormUI = "Form UI Selenium versionMayor";
-    String versionMenor_FormUI = "Form UI Selenium versionMenor";
-    String restoreVersion = "Form UI Restaurado Selenium";
+    String componente = "Risk Profile";
+    String newRiskProfile = "Risk Profile Selenium";
+    String editRiskProfile = "Risk Profile Selenium Editado";
+    String versionMayor_PP = "Risk Profile Selenium version Mayor";
+    String versionMenor_PP = "Risk Profile Selenium version Menor";
+    String restoreVersion = "Risk Profile Selenium version Restaurada";
 
     @BeforeMethod
-    public void setup() throws InterruptedException {
+    public void setUp(){
         browser.chooseBrowser(chosen_browser);
         driver = browser.getDriver();
         asserts = new Asserts(driver);
@@ -39,48 +37,48 @@ public class CM_FORM_UI {
     }
 
     @Test
-    public void crear_FormUI() throws InterruptedException {
-        FormsCM.formCreateFormUI(driver,newFormUI);
+    public void crearRiskProfile(){
+        FormsCM.formCreateRisk(driver,newRiskProfile);
         asserts.assertSave();
     }
 
     @Test(priority = 1)
-    public void viewDependecies_FormUI(){
-        driver.findElement(By.xpath("//div[text()='"+newFormUI+"']")).click();
+    public void viewDependecies_RP(){
+        driver.findElement(By.xpath("//div[text()='"+newRiskProfile+"']")).click();
         driver.findElement(By.id("__xmlview5--viewDependencies-img")).click();
         asserts.assertDependecies();
     }
 
     @Test(priority = 2)
-    public void editar_FormUI(){
-        driver.findElement(By.xpath("//div[text()='"+newFormUI+"']")).click();
-        FormsCM.formEditFormUI(driver,editFormI);
+    public void editRiskProfile(){
+        driver.findElement(By.xpath("//div[text()='"+newRiskProfile+"']")).click();
+        FormsCM.formEditRisk(driver,editRiskProfile);
         asserts.assertSave();
     }
 
     @Test(priority = 3)
-    public void versionMayor_FormUI(){
-        driver.findElement(By.xpath("//div[text()='"+editFormI+"']")).click();
-        FormsCM.MayorVersionFormUI(driver,versionMayor_FormUI);
+    public void versionMayor_RP(){
+        driver.findElement(By.xpath("//div[text()='"+editRiskProfile+"']")).click();
+        FormsCM.MayorVersionRisk(driver,versionMayor_PP);
         asserts.assertSave();
     }
 
     @Test(priority = 4)
-    public void versionMenor_FormUI(){
-        driver.findElement(By.xpath("//div[text()='"+versionMayor_FormUI+"']")).click();
-        FormsCM.MenorVersionFormUI(driver,versionMenor_FormUI);
+    public void versionMenor_RP(){
+        driver.findElement(By.xpath("//div[text()='"+versionMayor_PP+"']")).click();
+        FormsCM.MenorVersionRisk(driver,versionMenor_PP);
         asserts.assertSave();
     }
 
     @Test(priority = 5)
-    public void restoreVersion_FormUI()  throws InterruptedException{
-        driver.findElement(By.xpath("//div[text()='"+versionMenor_FormUI+"']")).click();
-        FormsCM.restoreVersion_FormUI(driver,restoreVersion);
+    public void restoreVersion_RP(){
+        driver.findElement(By.xpath("//div[text()='"+versionMenor_PP+"']")).click();
+        FormsCM.restoreVersionRisk(driver,restoreVersion);
         asserts.assertSave();
     }
 
     @Test(priority = 6)
-    public void eliminar_FormUI(){
+    public void eliminar_RP(){
         driver.findElement(By.xpath("//div[text()='"+restoreVersion+"']/parent::div/parent::div/following-sibling::button")).click();
         driver.findElement(By.xpath("//bdi[normalize-space()='Si']")).click();
         String xpathMessage = "//span[@class='sapMText sapUiSelectable sapMTextMaxWidth sapMMsgBoxText']";

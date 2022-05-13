@@ -1,4 +1,4 @@
-package Applications.Configuration_Manager;
+package Applications.ConfigurationManager;
 
 
 import Helpers.SelectBrowser;

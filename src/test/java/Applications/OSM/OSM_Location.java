@@ -9,6 +9,8 @@ import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
 import org.testng.Assert;
 import org.testng.annotations.*;
+
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -105,7 +107,6 @@ public class OSM_Location {
                     driver.findElement(By.id("__xmlview4--viewDependencies-img")).click();
                     String message = driver.findElement(By.id("__xmlview4--dependenciesTableTitle-inner")).getText();
                     Assert.assertEquals(message,"Dependencies List");
-                    System.out.println(chosen_browser);
                 }else{
                     Assert.assertEquals("No hay"+ newLocation,"The Operation has been Completed Successfully.");
                 }
@@ -134,7 +135,6 @@ public class OSM_Location {
                     FormsOSM.formEditLocation(driver,editLocation);
                     String message = driver.findElement(By.className("sapMMsgStripMessage")).getAttribute("textContent");
                     Assert.assertEquals(message,"The Operation has been Completed Successfully."+ "\n");
-                    System.out.println(chosen_browser);
                 }else{
                     Assert.assertEquals("No hay "+ newLocation,"The Operation has been Completed Successfully.");
                 }
@@ -206,11 +206,44 @@ public class OSM_Location {
                     driver.findElement(By.id(desple)).click();
                     exist = searchScrollElement.elementSearch(location);
                     if (exist !=-1){
-                        WebElement scrollBar = driver.findElement(By.id("__xmlview4--mainTree-vsb"));
-                        int clientHeight = js.executeScript("let barra = document.getElementById('__xmlview4--mainTree-vsb');return(barra.clientHeight)").hashCode();
-                        int scrollHeight = js.executeScript("let barra = document.getElementById('__xmlview4--mainTree-vsb');return(barra.scrollHeight)").hashCode();
-                        js.executeScript("arguments[0].scroll(0,'"+clientHeight*(scrollHeight/clientHeight)+1+"')",scrollBar);
-                        Thread.sleep(1000);
+                        Boolean existScroll = driver.findElement(By.id("__xmlview4--mainTree-vsb")).isDisplayed();
+                        if(existScroll){
+                            String xpathCompany = "//span[@class='sapMText sapUiSelectable sapMTextMaxWidth {Tree>class}' or @class='sapMText sapUiSelectable sapMTextBreakWord sapMTextMaxWidth {Tree>class}']";
+
+                            //Obtenemos la lista de Objetos
+                            List<WebElement>  elementTable = driver.findElements(By.xpath(xpathCompany));
+                            //Creamos nuevo arreglo
+                            List<String> nameElement = new ArrayList<>();
+
+                            //Pasamos los nombres de los Elementos al nuevo array
+                            for(int i = 0; i<=elementTable.size()-1;i=i+1){
+                                nameElement.add(i,elementTable.get(i).getText());
+                            }
+                            WebElement scrollBar = driver.findElement(By.id("__xmlview4--mainTree-vsb"));
+                            int clientHeight = js.executeScript("let barra = document.getElementById('__xmlview4--mainTree-vsb');return(barra.clientHeight)").hashCode();
+                            int scrollHeight = js.executeScript("let barra = document.getElementById('__xmlview4--mainTree-vsb');return(barra.scrollHeight)").hashCode();
+                            int numVeces,iterator;
+
+                            numVeces = scrollHeight/clientHeight; // Numero de veces para repetir el bucle
+                            iterator = 0;
+                            // Verificamos
+                            while (iterator<=numVeces+1){
+                                if(nameElement.lastIndexOf("Location") != -1){
+                                    break;
+                                }else{
+                                    iterator = iterator+1;
+                                    int multiplo = (clientHeight*iterator)+1 ;
+                                    js.executeScript("arguments[0].scroll(0,'"+multiplo+"')",scrollBar);
+                                    elementTable = driver.findElements(By.xpath(xpathCompany));
+                                    nameElement.clear();
+                                    for(int i = 0; i<=elementTable.size()-1;i=i+1){
+                                        nameElement.add(i,elementTable.get(i).getText());
+                                    }
+
+                                }
+                            }
+                            Thread.sleep(1000);
+                        }
                         List<WebElement> locationList = driver.findElements(By.xpath("//span[normalize-space()='"+location+"']"));
                         action.contextClick(locationList.get(1)).perform();
                         driver.findElement(By.xpath("//div[normalize-space()='New "+location+"']")).click();
@@ -235,11 +268,13 @@ public class OSM_Location {
 
     @AfterMethod
     public void tearDown(){
-        driver.quit();
+        //driver.quit();
     }
 
     @AfterClass
     public static void tearDownAfterClass(){
         System.out.println("Terminaron los test");
     }
+
+
 }

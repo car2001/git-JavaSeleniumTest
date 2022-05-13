@@ -16,7 +16,7 @@ public class FormsOSM {
 
     //Organizational Unit
     public static void formCreateOrganization(WebDriver driver, String organización) throws InterruptedException{
-        Thread.sleep(200);
+        Thread.sleep(1000);
         listForm = driver.findElements(By.className("sapMInputBaseInner"));
         listForm.get(2).sendKeys(organización);
         listForm.get(3).sendKeys(organización);
@@ -41,7 +41,7 @@ public class FormsOSM {
 
     // LOCATION
     public static void formCreateLocation(WebDriver driver, String location) throws InterruptedException {
-        Thread.sleep(500);
+        Thread.sleep(1000);
         listForm = driver.findElements(By.className("sapMInputBaseInner"));
         listForm.get(2).sendKeys(location);
         listForm.get(3).sendKeys(location);

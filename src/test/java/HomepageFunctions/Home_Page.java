@@ -15,7 +15,7 @@ public class Home_Page {
 
     public Home_Page(WebDriver driver) {
         this.driver = driver;
-        this.url = "http://wedox.sytes.net/buplat_config/";
+        this.url = "http://wedox.sytes.net/buplat_dev/";
     }
 
     public void loginPage(String user,String password){

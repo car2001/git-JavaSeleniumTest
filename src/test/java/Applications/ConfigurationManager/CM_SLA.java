@@ -1,4 +1,4 @@
-package Applications.Configuration_Manager;
+package Applications.ConfigurationManager;
 
 import Forms.FormsCM;
 import Helpers.Asserts;
@@ -7,25 +7,24 @@ import HomepageFunctions.Home_Page;
 import HomepageFunctions.Login_Applications;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-public class CM_Notification_Profile {
+public class CM_SLA {
+    String componente = "SLA Definition";
+    String newSLA = "SLA Selenium";
+    String editSLA = "SLA Edit Selenium";
+    String versionMayor_Sla = "Sla Version Mayor Seleneium";
+    String versionMenor_Sla = "Sla Version Menor Seleneium";
+    String restoreVersion = "SLA Restaurado Selenium";
+
     private WebDriver driver;
     private String chosen_browser = "Chrome";
 
     SelectBrowser browser = new SelectBrowser(driver);
     Home_Page login;
     Asserts asserts;
-
-    String componente = "Notification Profile";
-    String newNotification = "Notification Profile Selenium";
-    String editNotification = "Notification Profile Selenium Editado";
-    String versionMayor_NP = "Notification Profile Selenium version Mayor";
-    String versionMenor_NP = "Notification Profile Selenium version Menor";
-    String restoreVersion = "Notification Profile Selenium version Restaurado";
 
     @BeforeMethod
     public void setUp(){
@@ -37,49 +36,49 @@ public class CM_Notification_Profile {
         Login_Applications.loginCM(driver,componente);
     }
 
-    @Test
-    public void crearNotification(){
-        FormsCM.formCreateNotification(driver,newNotification);
+    @Test()
+    public void crear_SLA() {
+        FormsCM.formCreateSLA(driver,newSLA);
         asserts.assertSave();
     }
 
     @Test(priority = 1)
-    public void viewDependecies_Notification(){
-        driver.findElement(By.xpath("//div[text()='"+newNotification+"']")).click();
+    public void viewDependecies_SLA(){
+        driver.findElement(By.xpath("//div[text()='"+newSLA+"']")).click();
         driver.findElement(By.id("__xmlview5--viewDependencies-img")).click();
         asserts.assertDependecies();
     }
 
     @Test(priority = 2)
-    public void editarNotification(){
-        driver.findElement(By.xpath("//div[text()='"+newNotification+"']")).click();
-        FormsCM.formEditNotification(driver,editNotification);
+    public void editar_SLA(){
+        driver.findElement(By.xpath("//div[text()='"+newSLA+"']")).click();
+        FormsCM.formEditSLA(driver,editSLA);
         asserts.assertSave();
     }
 
     @Test(priority = 3)
     public void versionMayor_SLA(){
-        driver.findElement(By.xpath("//div[text()='"+editNotification+"']")).click();
-        FormsCM.MayorVersionNotification(driver,versionMayor_NP);
+        driver.findElement(By.xpath("//div[text()='"+editSLA+"']")).click();
+        FormsCM.MayorVersionSLA(driver,versionMayor_Sla);
         asserts.assertSave();
     }
 
     @Test(priority = 4)
     public void versionMenor_SLA(){
-        driver.findElement(By.xpath("//div[text()='"+versionMayor_NP+"']")).click();
-        FormsCM.MenorVersionNotification(driver,versionMenor_NP);
+        driver.findElement(By.xpath("//div[text()='"+versionMayor_Sla+"']")).click();
+        FormsCM.MenorVersionSLA(driver,versionMenor_Sla);
         asserts.assertSave();
     }
 
     @Test(priority = 5)
     public void restoreVersion_SLA(){
-        driver.findElement(By.xpath("//div[text()='"+versionMenor_NP+"']")).click();
-        FormsCM.restoreVersion_NP(driver,restoreVersion);
+        driver.findElement(By.xpath("//div[text()='"+versionMenor_Sla+"']")).click();
+        FormsCM.restoreVersion_SLA(driver,restoreVersion);
         asserts.assertSave();
     }
 
     @Test(priority = 6)
-    public void eliminarNotification(){
+    public void eliminar_SLA(){
         driver.findElement(By.xpath("//div[text()='"+restoreVersion+"']/parent::div/parent::div/following-sibling::button")).click();
         driver.findElement(By.xpath("//bdi[normalize-space()='Si']")).click();
         String xpathMessage = "//span[@class='sapMText sapUiSelectable sapMTextMaxWidth sapMMsgBoxText']";
@@ -89,7 +88,7 @@ public class CM_Notification_Profile {
 
     @AfterMethod
     public void tearDown(){
-        if(driver != null){
+        if (driver != null){
             driver.quit();
         }
     }

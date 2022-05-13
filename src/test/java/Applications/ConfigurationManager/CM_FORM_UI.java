@@ -1,4 +1,4 @@
-package Applications.Configuration_Manager;
+package Applications.ConfigurationManager;
 
 import Forms.FormsCM;
 import Helpers.Asserts;
@@ -7,34 +7,29 @@ import HomepageFunctions.Home_Page;
 import HomepageFunctions.Login_Applications;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
-import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import java.time.Duration;
-import java.util.List;
 
-public class CM_SLA {
-    String componente = "SLA Definition";
-    String newSLA = "SLA Selenium";
-    String editSLA = "SLA Edit Selenium";
-    String versionMayor_Sla = "Sla Version Mayor Seleneium";
-    String versionMenor_Sla = "Sla Version Menor Seleneium";
-    String restoreVersion = "SLA Restaurado Selenium";
+public class CM_FORM_UI {
 
     private WebDriver driver;
-    private String chosen_browser = "Chrome";
+    private final String chosen_browser = "Chrome";
 
     SelectBrowser browser = new SelectBrowser(driver);
     Home_Page login;
     Asserts asserts;
 
+    String componente = "Form UI Configuration";
+    String newFormUI = "Form UI Selenium";
+    String editFormI = "Form UI Selenium Editado";
+    String versionMayor_FormUI = "Form UI Selenium versionMayor";
+    String versionMenor_FormUI = "Form UI Selenium versionMenor";
+    String restoreVersion = "Form UI Restaurado Selenium";
+
     @BeforeMethod
-    public void setUp(){
+    public void setup() throws InterruptedException {
         browser.chooseBrowser(chosen_browser);
         driver = browser.getDriver();
         asserts = new Asserts(driver);
@@ -43,49 +38,49 @@ public class CM_SLA {
         Login_Applications.loginCM(driver,componente);
     }
 
-    @Test()
-    public void crear_SLA() {
-        FormsCM.formCreateSLA(driver,newSLA);
+    @Test
+    public void crear_FormUI() throws InterruptedException {
+        FormsCM.formCreateFormUI(driver,newFormUI);
         asserts.assertSave();
     }
 
     @Test(priority = 1)
-    public void viewDependecies_SLA(){
-        driver.findElement(By.xpath("//div[text()='"+newSLA+"']")).click();
+    public void viewDependecies_FormUI(){
+        driver.findElement(By.xpath("//div[text()='"+newFormUI+"']")).click();
         driver.findElement(By.id("__xmlview5--viewDependencies-img")).click();
         asserts.assertDependecies();
     }
 
     @Test(priority = 2)
-    public void editar_SLA(){
-        driver.findElement(By.xpath("//div[text()='"+newSLA+"']")).click();
-        FormsCM.formEditSLA(driver,editSLA);
+    public void editar_FormUI(){
+        driver.findElement(By.xpath("//div[text()='"+newFormUI+"']")).click();
+        FormsCM.formEditFormUI(driver,editFormI);
         asserts.assertSave();
     }
 
     @Test(priority = 3)
-    public void versionMayor_SLA(){
-        driver.findElement(By.xpath("//div[text()='"+editSLA+"']")).click();
-        FormsCM.MayorVersionSLA(driver,versionMayor_Sla);
+    public void versionMayor_FormUI(){
+        driver.findElement(By.xpath("//div[text()='"+editFormI+"']")).click();
+        FormsCM.MayorVersionFormUI(driver,versionMayor_FormUI);
         asserts.assertSave();
     }
 
     @Test(priority = 4)
-    public void versionMenor_SLA(){
-        driver.findElement(By.xpath("//div[text()='"+versionMayor_Sla+"']")).click();
-        FormsCM.MenorVersionSLA(driver,versionMenor_Sla);
+    public void versionMenor_FormUI(){
+        driver.findElement(By.xpath("//div[text()='"+versionMayor_FormUI+"']")).click();
+        FormsCM.MenorVersionFormUI(driver,versionMenor_FormUI);
         asserts.assertSave();
     }
 
     @Test(priority = 5)
-    public void restoreVersion_SLA(){
-        driver.findElement(By.xpath("//div[text()='"+versionMenor_Sla+"']")).click();
-        FormsCM.restoreVersion_SLA(driver,restoreVersion);
+    public void restoreVersion_FormUI()  throws InterruptedException{
+        driver.findElement(By.xpath("//div[text()='"+versionMenor_FormUI+"']")).click();
+        FormsCM.restoreVersion_FormUI(driver,restoreVersion);
         asserts.assertSave();
     }
 
     @Test(priority = 6)
-    public void eliminar_SLA(){
+    public void eliminar_FormUI(){
         driver.findElement(By.xpath("//div[text()='"+restoreVersion+"']/parent::div/parent::div/following-sibling::button")).click();
         driver.findElement(By.xpath("//bdi[normalize-space()='Si']")).click();
         String xpathMessage = "//span[@class='sapMText sapUiSelectable sapMTextMaxWidth sapMMsgBoxText']";
