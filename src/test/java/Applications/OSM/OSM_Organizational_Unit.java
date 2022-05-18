@@ -211,29 +211,36 @@ public class OSM_Organizational_Unit {
             driver.findElement(By.id(desple)).click();
             exist = searchScrollElement.elementSearch(elemen_unit);
             if(exist!=-1){
+                desple = "__xmlview4--mainTree-rows-row"+exist+"-treeicon";
+                driver.findElement(By.id(desple)).click();
                 WebElement element = driver.findElement(By.xpath("//span[normalize-space()='Organizational Unit']"));
                 action.contextClick(element).perform();
                 driver.findElement(By.xpath("//div[normalize-space()='New "+elemen_unit+"']")).click();
                 Thread.sleep(2000);
                 FormsOSM.formCreateOrganization(driver,parentUnit);
-                desple = "__xmlview4--mainTree-rows-row"+exist+"-treeicon";
-                driver.findElement(By.id(desple)).click();
+                String message = driver.findElement(By.className("sapMMsgStripMessage")).getAttribute("textContent");
+                Assert.assertEquals(message,"The Operation has been Completed Successfully."+ "\n");
+                Thread.sleep(300);
                 exist = searchScrollElement.elementSearch(parentUnit);
                 if(exist != -1){
                     desple = "__xmlview4--mainTree-rows-row"+exist+"-treeicon";
                     driver.findElement(By.id(desple)).click();
                     exist = searchScrollElement.elementSearch(elemen_unit);
                     if (exist !=-1){
-                        WebElement scrollBar = driver.findElement(By.id("__xmlview4--mainTree-vsb"));
-                        int clientHeight = js.executeScript("let barra = document.getElementById('__xmlview4--mainTree-vsb');return(barra.clientHeight)").hashCode();
-                        int scrollHeight = js.executeScript("let barra = document.getElementById('__xmlview4--mainTree-vsb');return(barra.scrollHeight)").hashCode();
-                        js.executeScript("arguments[0].scroll(0,'"+clientHeight*(scrollHeight/clientHeight)+1+"')",scrollBar);
+                        Boolean existScroll = driver.findElement(By.id("__xmlview4--mainTree-vsb")).isDisplayed();
+                        if(existScroll){
+                            WebElement scrollBar = driver.findElement(By.id("__xmlview4--mainTree-vsb"));
+                            int scrollTop = js.executeScript("let barra = document.getElementById('__xmlview4--mainTree-vsb');return(barra.scrollTop)").hashCode();
+                            js.executeScript("arguments[0].scroll(0,'"+(scrollTop+100)+"')",scrollBar);
+                        }
                         List<WebElement> locationList = driver.findElements(By.xpath("//span[normalize-space()='"+elemen_unit+"']"));
                         action.contextClick(locationList.get(1)).perform();
                         driver.findElement(By.xpath("//div[normalize-space()='New "+elemen_unit+"']")).click();
                         Thread.sleep(500);
                         //Llenando Formulario
                         FormsOSM.formCreateOrganization(driver,childUnit);
+                        message = driver.findElement(By.className("sapMMsgStripMessage")).getAttribute("textContent");
+                        Assert.assertEquals(message,"The Operation has been Completed Successfully."+ "\n");
                     }else{
                         System.out.println("No hay Organizational Unit2");
                     }
@@ -251,7 +258,11 @@ public class OSM_Organizational_Unit {
     }
 
     @AfterMethod
-    public void tearDown()  { driver.quit();}
+    public void tearDown()  {
+        if (driver != null){
+            driver.quit();
+        }
+    }
 
     @AfterClass
     public static void tearDownAfterClass(){

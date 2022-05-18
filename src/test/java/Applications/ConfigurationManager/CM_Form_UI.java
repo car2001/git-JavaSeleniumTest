@@ -12,7 +12,7 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 
-public class CM_FORM_UI {
+public class CM_Form_UI {
 
     private WebDriver driver;
     private final String chosen_browser = "Chrome";

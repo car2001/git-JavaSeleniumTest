@@ -31,6 +31,7 @@ public class FormsCM {
         driver.findElement(By.id(save)).click();
     }
 
+
     public static void formEditSLA(WebDriver driver, String SLA){
         WebDriverWait wait = new WebDriverWait(driver,Duration.ofSeconds(5));
         wait.until(ExpectedConditions.elementToBeClickable(By.id(edit)));

@@ -41,7 +41,7 @@ public class FormsOSM {
 
     // LOCATION
     public static void formCreateLocation(WebDriver driver, String location) throws InterruptedException {
-        Thread.sleep(1000);
+        Thread.sleep(2000);
         listForm = driver.findElements(By.className("sapMInputBaseInner"));
         listForm.get(2).sendKeys(location);
         listForm.get(3).sendKeys(location);
@@ -75,6 +75,7 @@ public class FormsOSM {
         listForm.get(4).sendKeys("Posicion es " + position);
         driver.findElement(By.id(save)).click();
     }
+
     public static void formEditPosition(WebDriver driver, String position) throws InterruptedException {
         Thread.sleep(500);
         driver.findElement(By.id(edit)).click();

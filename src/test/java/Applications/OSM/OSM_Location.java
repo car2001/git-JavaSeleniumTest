@@ -183,13 +183,15 @@ public class OSM_Location {
     @Test(priority = 5)
     public void create_Location_on_Location() throws InterruptedException {
         String parentLocation = "Location Selenium Padre";
-        String childLocation = "Location Selenium Hijo 1.2";
+        String childLocation = "Location Selenium Hijo 1.2.1";
         exist = searchScrollElement.elementSearch(company);
         if(exist != -1){
             desple = "__xmlview4--mainTree-rows-row"+exist+"-treeicon";
             driver.findElement(By.id(desple)).click();
             exist = searchScrollElement.elementSearch(location);
             if(exist !=-1){
+                desple = "__xmlview4--mainTree-rows-row"+exist+"-treeicon";
+                driver.findElement(By.id(desple)).click();
                 WebElement elementLocation = driver.findElement(By.xpath("//span[normalize-space()='"+location+"']"));
                 action.contextClick(elementLocation).perform();
                 driver.findElement(By.xpath("//div[normalize-space()='New "+location+"']")).click();
@@ -198,8 +200,6 @@ public class OSM_Location {
                 String message = driver.findElement(By.className("sapMMsgStripMessage")).getAttribute("textContent");
                 Assert.assertEquals(message,"The Operation has been Completed Successfully."+ "\n");
                 Thread.sleep(300);
-                desple = "__xmlview4--mainTree-rows-row"+exist+"-treeicon";
-                driver.findElement(By.id(desple)).click();
                 exist = searchScrollElement.elementSearch(parentLocation);
                 if(exist != -1){
                     desple = "__xmlview4--mainTree-rows-row"+exist+"-treeicon";
@@ -208,41 +208,9 @@ public class OSM_Location {
                     if (exist !=-1){
                         Boolean existScroll = driver.findElement(By.id("__xmlview4--mainTree-vsb")).isDisplayed();
                         if(existScroll){
-                            String xpathCompany = "//span[@class='sapMText sapUiSelectable sapMTextMaxWidth {Tree>class}' or @class='sapMText sapUiSelectable sapMTextBreakWord sapMTextMaxWidth {Tree>class}']";
-
-                            //Obtenemos la lista de Objetos
-                            List<WebElement>  elementTable = driver.findElements(By.xpath(xpathCompany));
-                            //Creamos nuevo arreglo
-                            List<String> nameElement = new ArrayList<>();
-
-                            //Pasamos los nombres de los Elementos al nuevo array
-                            for(int i = 0; i<=elementTable.size()-1;i=i+1){
-                                nameElement.add(i,elementTable.get(i).getText());
-                            }
                             WebElement scrollBar = driver.findElement(By.id("__xmlview4--mainTree-vsb"));
-                            int clientHeight = js.executeScript("let barra = document.getElementById('__xmlview4--mainTree-vsb');return(barra.clientHeight)").hashCode();
-                            int scrollHeight = js.executeScript("let barra = document.getElementById('__xmlview4--mainTree-vsb');return(barra.scrollHeight)").hashCode();
-                            int numVeces,iterator;
-
-                            numVeces = scrollHeight/clientHeight; // Numero de veces para repetir el bucle
-                            iterator = 0;
-                            // Verificamos
-                            while (iterator<=numVeces+1){
-                                if(nameElement.lastIndexOf("Location") != -1){
-                                    break;
-                                }else{
-                                    iterator = iterator+1;
-                                    int multiplo = (clientHeight*iterator)+1 ;
-                                    js.executeScript("arguments[0].scroll(0,'"+multiplo+"')",scrollBar);
-                                    elementTable = driver.findElements(By.xpath(xpathCompany));
-                                    nameElement.clear();
-                                    for(int i = 0; i<=elementTable.size()-1;i=i+1){
-                                        nameElement.add(i,elementTable.get(i).getText());
-                                    }
-
-                                }
-                            }
-                            Thread.sleep(1000);
+                            int scrollTop = js.executeScript("let barra = document.getElementById('__xmlview4--mainTree-vsb');return(barra.scrollTop)").hashCode();
+                            js.executeScript("arguments[0].scroll(0,'"+(scrollTop+100)+"')",scrollBar);
                         }
                         List<WebElement> locationList = driver.findElements(By.xpath("//span[normalize-space()='"+location+"']"));
                         action.contextClick(locationList.get(1)).perform();
@@ -268,7 +236,9 @@ public class OSM_Location {
 
     @AfterMethod
     public void tearDown(){
-        //driver.quit();
+        if (driver != null){
+            driver.quit();
+        }
     }
 
     @AfterClass
