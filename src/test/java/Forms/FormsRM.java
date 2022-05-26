@@ -18,6 +18,8 @@ public class FormsRM {
     private static String version = "__xmlview4--newVersion-inner";
     private static String versionHistory = "__xmlview4--versionHistory-img";
 
+    //Project
+
     public static void formCreateProject(WebDriver driver,String proyecto){
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
         wait.until(ExpectedConditions.elementToBeClickable(By.id(save)));
@@ -31,8 +33,8 @@ public class FormsRM {
         driver.findElement(By.id("__xmlview4--ProjectEndDate-icon")).click();
         driver.findElement(By.id("__xmlview4--ProjectEndDate-cal--Head-B2")).click();
         driver.findElement(By.xpath("//div[text()='"+(date.getYear()+5)+"']")).click();
-        List<WebElement> endDay = driver.findElements(By.xpath("//span[normalize-space()='"+date.getDayOfMonth()+"']"));
-        endDay.get(1).click();
+        List<WebElement> Day = driver.findElements(By.xpath("//span[normalize-space()='"+date.getDayOfMonth()+"']"));
+        Day.get(1).click();
         driver.findElement(By.id("__xmlview4--selectProjectState-label")).click();
         driver.findElement(By.xpath("//li[text()='Open']")).click();
         driver.findElement(By.id("__xmlview4--useInProcess-handle")).click();
@@ -44,7 +46,7 @@ public class FormsRM {
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
         wait.until(ExpectedConditions.elementToBeClickable(By.id(edit)));
         driver.findElement(By.id(edit)).click();
-        wait.until(ExpectedConditions.elementToBeClickable(By.id(save)));
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.id(save)));
         List<WebElement> listForm = driver.findElements(By.className("sapMInputBaseInner"));
         listForm.get(2).clear();
         listForm.get(2).sendKeys(proyecto);
@@ -66,5 +68,73 @@ public class FormsRM {
 
     }
 
+    public static void formCreateProjectWithoutRelease(WebDriver driver,String proyecto){
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
+        wait.until(ExpectedConditions.elementToBeClickable(By.id(save)));
+        List<WebElement> listForm = driver.findElements(By.className("sapMInputBaseInner"));
+        listForm.get(2).sendKeys(proyecto);
+        listForm.get(3).sendKeys(proyecto);
+        listForm.get(4).sendKeys(" Proyecto sin Release Creado en Selenium");
+        driver.findElement(By.id("__xmlview4--ProjectStartDate-icon")).click();
+        LocalDate date = LocalDate.now();
+        driver.findElement(By.xpath("//span[normalize-space()='"+date.getDayOfMonth()+"']")).click();
+        driver.findElement(By.id("__xmlview4--ProjectEndDate-icon")).click();
+        driver.findElement(By.id("__xmlview4--ProjectEndDate-cal--Head-B2")).click();
+        driver.findElement(By.xpath("//div[text()='"+(date.getYear()+5)+"']")).click();
+        List<WebElement> endDay = driver.findElements(By.xpath("//span[normalize-space()='"+date.getDayOfMonth()+"']"));
+        endDay.get(1).click();
+        driver.findElement(By.id("__xmlview4--selectProjectState-label")).click();
+        driver.findElement(By.xpath("//li[text()='Open']")).click();
+        driver.findElement(By.id(save)).click();
+    }
+
+    //Release
+
+    public static void formCreateRelease(WebDriver driver,String release){
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.id(save)));
+        List<WebElement> listForm = driver.findElements(By.className("sapMInputBaseInner"));
+        listForm.get(2).sendKeys(release);
+        listForm.get(3).sendKeys(release);
+        listForm.get(4).sendKeys("Release Creado en Selenium");
+        driver.findElement(By.id("__xmlview4--ReleaseStartDate-icon")).click();
+        LocalDate date = LocalDate.now();
+        List<WebElement> Day = driver.findElements(By.xpath("//span[normalize-space()='"+date.getDayOfMonth()+"']"));
+        Day.get(2).click();
+        driver.findElement(By.id("__xmlview4--ReleaseEndDate-icon")).click();
+        driver.findElement(By.id("__xmlview4--ReleaseEndDate-cal--Head-B2")).click();
+        driver.findElement(By.xpath("//div[text()='"+(date.getYear()+5)+"']")).click();
+        Day = driver.findElements(By.xpath("//span[normalize-space()='"+date.getDayOfMonth()+"']"));
+        Day.get(3).click();
+        listForm.get(8).sendKeys("Release Selenium");
+        driver.findElement(By.id("__xmlview4--selectReleaseState-label")).click();
+        List<WebElement> stateRelease =  driver.findElements(By.xpath("//li[text()='Open']"));
+        stateRelease.get(1).click();
+        driver.findElement(By.id(save)).click();
+    }
+
+    public static void formEditRelease(WebDriver driver,String release){
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
+        wait.until(ExpectedConditions.elementToBeClickable(By.id(edit)));
+        driver.findElement(By.id(edit)).click();
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.id(save)));
+        wait.until(ExpectedConditions.elementToBeClickable(By.id(save)));
+        List<WebElement> listForm = driver.findElements(By.className("sapMInputBaseInner"));
+        listForm.get(2).clear();
+        listForm.get(2).sendKeys(release);
+        listForm.get(3).clear();
+        listForm.get(3).sendKeys(release);
+        driver.findElement(By.id("__xmlview4--ReleaseStartDate-icon")).click();
+        LocalDate date = LocalDate.now();
+        List<WebElement> Day = driver.findElements(By.xpath("//span[normalize-space()='"+date.getDayOfMonth()+"']"));
+        Day.get(0).click();
+        driver.findElement(By.id("__xmlview4--ReleaseEndDate-icon")).click();
+        driver.findElement(By.id("__xmlview4--ReleaseEndDate-cal--Head-B2")).click();
+        driver.findElement(By.xpath("//div[text()='"+(date.getYear()+5)+"']")).click();
+        Day = driver.findElements(By.xpath("//span[normalize-space()='"+date.getDayOfMonth()+"']"));
+        Day.get(1).click();
+        listForm.get(8).sendKeys("Release Selenium");
+        driver.findElement(By.id(save)).click();
+    }
 
 }

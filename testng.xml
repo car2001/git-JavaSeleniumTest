@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="All Test Suite">
+    <test verbose="2" preserve-order="true" name="C:/Users/Usuario/IdeaProjects/Pruebas">
+        <classes>
+            <class name="Applications.ConfigurationManager.CM_Form_UI">
+                <methods>
+                    <include name="crear_FormUI"/>
+                    <include name="viewDependecies_FormUI"/>
+                    <include name="editar_FormUI"/>
+                    <include name="versionMayor_FormUI"/>
+                    <include name="versionMenor_FormUI"/>
+                    <include name="restoreVersion_FormUI"/>
+                    <include name="eliminar_FormUI"/>
+                </methods>
+            </class>
+            <class name="Applications.ConfigurationManager.CM_Global_Settings">
+                <methods>
+                    <include name="checkHideAplicaciones"/>
+                </methods>
+            </class>
+            <class name="Applications.ConfigurationManager.CM_Notification_Profile">
+                <methods>
+                    <include name="crearNotification"/>
+                    <include name="viewDependecies_Notification"/>
+                    <include name="editarNotification"/>
+                    <include name="versionMayor_SLA"/>
+                    <include name="versionMenor_SLA"/>
+                    <include name="restoreVersion_SLA"/>
+                    <include name="eliminarNotification"/>
+                </methods>
+            </class>
+            <class name="Applications.ConfigurationManager.CM_Performer_Profile">
+                <methods>
+                    <include name="crearPerformerProfile"/>
+                    <include name="viewDependecies_PP"/>
+                    <include name="editarPerformerProfile"/>
+                    <include name="versionMayor_PP"/>
+                    <include name="versionMenor_PP"/>
+                    <include name="restoreVersion_PP"/>
+                    <include name="eliminarPerformerProfile"/>
+                </methods>
+            </class>
+            <class name="Applications.ConfigurationManager.CM_Risk_Profile">
+                <methods>
+                    <include name="crearRiskProfile"/>
+                    <include name="viewDependecies_RP"/>
+                    <include name="editRiskProfile"/>
+                    <include name="versionMayor_RP"/>
+                    <include name="versionMenor_RP"/>
+                    <include name="restoreVersion_RP"/>
+                    <include name="eliminar_RP"/>
+                </methods>
+            </class>
+            <class name="Applications.ConfigurationManager.CM_SLA">
+                <methods>
+                    <include name="crear_SLA"/>
+                    <include name="viewDependecies_SLA"/>
+                    <include name="editar_SLA"/>
+                    <include name="versionMayor_SLA"/>
+                    <include name="versionMenor_SLA"/>
+                    <include name="restoreVersion_SLA"/>
+                    <include name="eliminar_SLA"/>
+                </methods>
+            </class>
+            <class name="Applications.OSM.OSM_Company">
+                <methods>
+                    <include name="crearCompany"/>
+                    <include name="doubleCheckCompany"/>
+                    <include name="viewCompanyDependencies"/>
+                    <include name="editarCompany"/>
+                    <include name="eliminarCompany"/>
+                </methods>
+            </class>
+            <class name="Applications.OSM.OSM_Location">
+                <methods>
+                    <include name="crearLocation"/>
+                    <include name="doubleCheckLocation"/>
+                    <include name="viewLocationDependencies"/>
+                    <include name="editarLocation"/>
+                    <include name="eliminarLocation"/>
+                    <include name="create_Location_on_Location"/>
+                </methods>
+            </class>
+            <class name="Applications.OSM.OSM_Organizational_Unit">
+                <methods>
+                    <include name="crearOrgani_Unit"/>
+                    <include name="doubleCheckOrgani_Unit"/>
+                    <include name="viewOrgani_UnitDependencies"/>
+                    <include name="editarOrgani_Unit"/>
+                    <include name="eliminarOrgani_Unit"/>
+                    <include name="crearOrgani_Unit_on_OrganiUnit"/>
+                </methods>
+            </class>
+            <class name="Applications.OSM.OSM_Position">
+                <methods>
+                    <include name="crearPosition"/>
+                    <include name="doubleCheckPosition"/>
+                    <include name="viewPositionDependencies"/>
+                    <include name="editarPosition"/>
+                    <include name="eliminarPosition"/>
+                </methods>
+            </class>
+            <class name="Applications.ReleaseManager.RM_Project">
+                <methods>
+                    <include name="crearProyecto"/>
+                    <include name="verifyRelease"/>
+                    <include name="editarProyecto"/>
+                    <include name="eliminarProyecto"/>
+                    <include name="crearProyectoSinRelease"/>
+                </methods>
+            </class>
+            <class name="Applications.ReleaseManager.RM_Release">
+                <methods>
+                    <include name="crearRelease"/>
+                    <include name="editarRelease"/>
+                    <include name="eliminarRelease"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+</suite>
