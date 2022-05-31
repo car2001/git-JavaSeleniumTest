@@ -51,7 +51,7 @@ public class RM_Release  {
     }
 
     @Test
-    public void crearRelease(){
+    public void crearRelease() throws InterruptedException {
         crearProyecto(project);
         exist = searchScrollElement.elementSearch(project);
         if(exist != -1){
@@ -139,7 +139,7 @@ public class RM_Release  {
     @AfterMethod
     public void tearDown(){
         if(driver != null){
-            driver.quit();
+            //driver.quit();
         }
     }
 

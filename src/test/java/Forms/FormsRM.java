@@ -54,14 +54,6 @@ public class FormsRM {
         listForm.get(3).sendKeys(proyecto);
         listForm.get(4).clear();
         listForm.get(4).sendKeys("Creado en Selenium");
-        driver.findElement(By.id("__xmlview4--ProjectStartDate-icon")).click();
-        LocalDate date = LocalDate.now();
-        driver.findElement(By.xpath("//span[normalize-space()='"+(date.getDayOfMonth()+1)+"']")).click();
-        driver.findElement(By.id("__xmlview4--ProjectEndDate-icon")).click();
-        driver.findElement(By.id("__xmlview4--ProjectEndDate-cal--Head-B2")).click();
-        driver.findElement(By.xpath("//div[text()='"+(date.getYear()+5)+"']")).click();
-        List<WebElement> endDay = driver.findElements(By.xpath("//span[normalize-space()='"+(date.getDayOfMonth()+1)+"']"));
-        endDay.get(1).click();
         driver.findElement(By.id("__xmlview4--selectProjectState-label")).click();
         driver.findElement(By.xpath("//li[text()='Closed']")).click();
         driver.findElement(By.id(save)).click();
@@ -90,13 +82,14 @@ public class FormsRM {
 
     //Release
 
-    public static void formCreateRelease(WebDriver driver,String release){
+    public static void formCreateRelease(WebDriver driver,String release) throws InterruptedException {
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.id(save)));
         List<WebElement> listForm = driver.findElements(By.className("sapMInputBaseInner"));
         listForm.get(2).sendKeys(release);
         listForm.get(3).sendKeys(release);
         listForm.get(4).sendKeys("Release Creado en Selenium");
+        Thread.sleep(500);
         driver.findElement(By.id("__xmlview4--ReleaseStartDate-icon")).click();
         LocalDate date = LocalDate.now();
         List<WebElement> Day = driver.findElements(By.xpath("//span[normalize-space()='"+date.getDayOfMonth()+"']"));
@@ -133,8 +126,24 @@ public class FormsRM {
         driver.findElement(By.xpath("//div[text()='"+(date.getYear()+5)+"']")).click();
         Day = driver.findElements(By.xpath("//span[normalize-space()='"+date.getDayOfMonth()+"']"));
         Day.get(1).click();
+        listForm.get(8).clear();
         listForm.get(8).sendKeys("Release Selenium");
         driver.findElement(By.id(save)).click();
+    }
+
+    // Change Container
+
+    public static void formCreateChangeContainer(WebDriver driver,String ChangeContainer){
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.id(save)));
+        List<WebElement> listForm = driver.findElements(By.className("sapMInputBaseInner"));
+        listForm.get(2).sendKeys(ChangeContainer);
+        listForm.get(3).sendKeys(ChangeContainer);
+        listForm.get(4).sendKeys( ChangeContainer);
+        driver.findElement(By.id("__xmlview4--selectCCProject-arrow")).click();
+        driver.findElement(By.xpath("//li[text()='Proyecto Release Selenium']")).click();
+        driver.findElement(By.id("__xmlview4--selectCCRelease-arrow")).click();
+        driver.findElement(By.xpath("//li[text()='Release Selenium Editado']")).click();
     }
 
 }

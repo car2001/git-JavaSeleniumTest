@@ -59,13 +59,13 @@ public class RM_Project {
         asserts.assertSave();
     }
 
-    @Test(enabled = false)
+    @Test(priority = 1)
     public void verifyRelease() {
         String stateRelease = estadoRelease(newProject);
         Assert.assertEquals(stateRelease, "Si hay Release");
     }
 
-    @Test(priority = 1)
+    @Test(priority = 2)
     public void editarProyecto(){
         exist= searchScrollElement.elementSearch(newProject);
         if(exist !=-1){
@@ -76,7 +76,7 @@ public class RM_Project {
     }
 
 
-    @Test(priority = 2)
+    @Test(priority = 3)
     public void eliminarProyecto(){
         metodoEliminarProyecto(editProject);
     }
