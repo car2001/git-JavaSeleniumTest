@@ -1,5 +1,6 @@
 package Applications.OSM;
 
+import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.interactions.Actions;
@@ -11,12 +12,12 @@ import java.util.List;
 
 public class OSM_Company {
 
-    @Test()
+    @Test(enabled = false)
     public void crearCompany() throws InterruptedException {
-        System.setProperty("webdriver.chrome.driver","drivers/chromedriver.exe");
+        WebDriverManager.chromedriver().setup();
         WebDriver driver = new ChromeDriver();
         Actions action = new Actions(driver);
-        driver.get("http://wedox.sytes.net/buplat_config/");
+        driver.get("https://cloud.buplat.com/IDO_SANDBOX/");
         driver.manage().window().maximize();
         Thread.sleep(5000); // Tiempo de Espera
 
@@ -49,10 +50,10 @@ public class OSM_Company {
 
     @Test
     public void doubleCheckCompany() throws InterruptedException {
-        System.setProperty("webdriver.chrome.driver","drivers/chromedriver.exe");
+        WebDriverManager.chromedriver().setup();
         WebDriver driver = new ChromeDriver();
         Actions action = new Actions(driver);
-        driver.get("http://wedox.sytes.net/buplat_config/");
+        driver.get("https://cloud.buplat.com/IDO_SANDBOX/");
         driver.manage().window().maximize();
         Thread.sleep(5000); // Tiempo de Espera
 
@@ -88,11 +89,11 @@ public class OSM_Company {
 
     @Test
     public void viewCompanyDependencies() throws InterruptedException {
-        System.setProperty("webdriver.chrome.driver","drivers/chromedriver.exe");
+        WebDriverManager.chromedriver().setup();
         WebDriver driver = new ChromeDriver();
         Actions action = new Actions(driver);
         JavascriptExecutor js = (JavascriptExecutor) driver;
-        driver.get("http://wedox.sytes.net/buplat_config/");
+        driver.get("https://cloud.buplat.com/IDO_SANDBOX/");
         driver.manage().window().maximize();
         Thread.sleep(5000); // Tiempo de Espera
 
@@ -103,7 +104,7 @@ public class OSM_Company {
 
         //Ingresamos al OSM
         driver.findElement(By.xpath("//span[normalize-space()='Organizational Structure Manager']")).click();
-        Thread.sleep(5000);
+        Thread.sleep(8000);
         //Desplegamos Client
         driver.findElement(By.id("__xmlview4--mainTree-rows-row0-treeicon")).click();
         //Desplegamos Company
@@ -161,11 +162,11 @@ public class OSM_Company {
     public void editarCompany() throws InterruptedException {
 
         //Inicio de Propiedades
-        System.setProperty("webdriver.chrome.driver","drivers/chromedriver.exe");
+        WebDriverManager.chromedriver().setup();
         WebDriver driver = new ChromeDriver();
         Actions action = new Actions(driver);
         JavascriptExecutor js = (JavascriptExecutor) driver;
-        driver.get("http://wedox.sytes.net/buplat_config/");
+        driver.get("https://cloud.buplat.com/IDO_SANDBOX/");
         driver.manage().window().maximize();
         Thread.sleep(5000); // Tiempo de Espera
 
@@ -248,11 +249,11 @@ public class OSM_Company {
     @Test(enabled = false)
     public void eliminarCompany() throws InterruptedException {
         //Inicio de Propiedades
-        System.setProperty("webdriver.chrome.driver","drivers/chromedriver.exe");
+        WebDriverManager.chromedriver().setup();
         WebDriver driver = new ChromeDriver();
         Actions action = new Actions(driver);
         JavascriptExecutor js = (JavascriptExecutor) driver;
-        driver.get("http://wedox.sytes.net/buplat_config/");
+        driver.get("https://cloud.buplat.com/IDO_SANDBOX/");
         driver.manage().window().maximize();
         Thread.sleep(5000); // Tiempo de Espera
 

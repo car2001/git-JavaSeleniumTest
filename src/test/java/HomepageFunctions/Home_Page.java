@@ -15,7 +15,8 @@ public class Home_Page {
 
     public Home_Page(WebDriver driver) {
         this.driver = driver;
-        this.url = "http://wedox.sytes.net/buplat_dev/";
+        this.url = "https://cloud.buplat.com/IDO_SANDBOX/";
+        //this.url = "http://wedox.sytes.net/buplat_config/";
     }
 
     public void loginPage(String user,String password){

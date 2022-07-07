@@ -25,6 +25,7 @@ public class OSM_Organizational_Unit {
     Home_Page login;
     Dynamic_Scroll_Search searchScrollElement;
     SelectBrowser browser = new SelectBrowser(driver);
+    AccessBranches accessBranch;
     Actions action;
     JavascriptExecutor js;
 
@@ -33,8 +34,6 @@ public class OSM_Organizational_Unit {
     String elemen_org = "Organizational Unit Selenium";
     String elemen_org_edit = "Organizational Unit Selenium 1.0.1";
     int exist ;
-    String desple;
-
 
     @BeforeMethod
     public void setUp() throws InterruptedException {
@@ -42,18 +41,18 @@ public class OSM_Organizational_Unit {
         driver = browser.getDriver();
         action = new Actions(driver);
         js = (JavascriptExecutor) driver;
+        accessBranch = new AccessBranches(driver);
         searchScrollElement = new Dynamic_Scroll_Search(driver);
         login = new Home_Page(driver);
+        login.loginPage("cpingo","1234");
+        Login_Applications.loginOSM(driver);
     }
 
     @Test
     public void crearOrgani_Unit() throws InterruptedException {
-        login.loginPage("cpingo","1234");
-        Login_Applications.loginOSM(driver);
         exist = searchScrollElement.elementSearch(company);
         if(exist != -1){
-            desple = "__xmlview4--mainTree-rows-row"+exist+"-treeicon";
-            driver.findElement(By.id(desple)).click();
+            accessBranch.clickBranches(exist);
             exist = searchScrollElement.elementSearch(elemen_unit);
             if(exist!=-1){
                 WebElement element = driver.findElement(By.xpath("//span[normalize-space()='"+elemen_unit+"']"));
@@ -74,12 +73,9 @@ public class OSM_Organizational_Unit {
 
     @Test(priority = 1)
     public void doubleCheckOrgani_Unit() throws InterruptedException {
-        login.loginPage("cpingo","1234");
-        Login_Applications.loginOSM(driver);
         exist = searchScrollElement.elementSearch(company);
         if(exist != -1){
-            desple = "__xmlview4--mainTree-rows-row"+exist+"-treeicon";
-            driver.findElement(By.id(desple)).click();
+            accessBranch.clickBranches(exist);
             exist = searchScrollElement.elementSearch(elemen_unit);
             if(exist!=-1){
                 WebElement element = driver.findElement(By.xpath("//span[normalize-space()='"+elemen_unit+"']"));
@@ -101,16 +97,12 @@ public class OSM_Organizational_Unit {
 
     @Test(priority = 2)
     public void viewOrgani_UnitDependencies() throws InterruptedException {
-        login.loginPage("cpingo","1234");
-        Login_Applications.loginOSM(driver);
         exist = searchScrollElement.elementSearch(company);
-        String desple = "__xmlview4--mainTree-rows-row"+exist+"-treeicon";
         if(exist != -1){
-            driver.findElement(By.id(desple)).click();
+            accessBranch.clickBranches(exist);
             exist = searchScrollElement.elementSearch(elemen_unit);
             if(exist!=-1){
-                desple = "__xmlview4--mainTree-rows-row"+exist+"-treeicon";
-                driver.findElement(By.id(desple)).click();
+                accessBranch.clickBranches(exist);
                 exist = searchScrollElement.elementSearch(elemen_org);
                 if(exist !=1){
                     driver.findElement(By.xpath("//span[normalize-space()='"+elemen_org+"']")).click();
@@ -133,19 +125,16 @@ public class OSM_Organizational_Unit {
 
     @Test(priority = 3)
     public void editarOrgani_Unit() throws InterruptedException {
-        login.loginPage("cpingo","1234");
-        Login_Applications.loginOSM(driver);
         exist = searchScrollElement.elementSearch(company);
-        desple = "__xmlview4--mainTree-rows-row"+exist+"-treeicon";
         if(exist != -1){
-            driver.findElement(By.id(desple)).click();
+            accessBranch.clickBranches(exist);
             exist = searchScrollElement.elementSearch(elemen_unit);
             if(exist!=-1){
-                desple = "__xmlview4--mainTree-rows-row"+exist+"-treeicon";
-                driver.findElement(By.id(desple)).click();
+                accessBranch.clickBranches(exist);
                 exist = searchScrollElement.elementSearch(elemen_org);
                 if(exist !=1){
                     driver.findElement(By.xpath("//span[normalize-space()='"+elemen_org+"']")).click();
+                    Thread.sleep(1000);
                     FormsOSM.formEditOrganization(driver,elemen_org_edit);
                 }else{
                     System.out.println("No hay Sub" +elemen_org );
@@ -161,16 +150,12 @@ public class OSM_Organizational_Unit {
 
     @Test(priority = 4)
     public void eliminarOrgani_Unit() throws InterruptedException {
-        login.loginPage("cpingo","1234");
-        Login_Applications.loginOSM(driver);
         exist = searchScrollElement.elementSearch(company);
         if(exist != -1){
-            desple = "__xmlview4--mainTree-rows-row"+exist+"-treeicon";
-            driver.findElement(By.id(desple)).click();
+            accessBranch.clickBranches(exist);
             exist = searchScrollElement.elementSearch(elemen_unit);
             if(exist!=-1){
-                desple = "__xmlview4--mainTree-rows-row"+exist+"-treeicon";
-                driver.findElement(By.id(desple)).click();
+                accessBranch.clickBranches(exist);
                 exist = searchScrollElement.elementSearch(elemen_org_edit);
                 if(exist != -1){
                     WebElement org_delete = driver.findElement(By.xpath("//span[normalize-space()='"+elemen_org_edit+"']"));
@@ -188,10 +173,10 @@ public class OSM_Organizational_Unit {
                         driver.findElement(By.xpath("//bdi[normalize-space()='Cerrar']")).click();
                     }
                 }else{
-                    System.out.println("No hay Sub" +elemen_org );
+                    System.out.println("No hay" +elemen_org_edit );
                 }
             }else{
-                System.out.println("No hay Organizational Unit");
+                System.out.println("No hay componente Organizational Unit");
             }
         }else{
             js.executeScript("alert('"+" No se encontro la compañia "+company+"')");
@@ -199,20 +184,16 @@ public class OSM_Organizational_Unit {
         }
     }
 
-    @Test(priority = 5)
+    @Test(enabled = false)
     public void crearOrgani_Unit_on_OrganiUnit() throws InterruptedException {
-        login.loginPage("cpingo","1234");
-        Login_Applications.loginOSM(driver);
         String parentUnit = "Organizational Unit Selenium Padre";
         String childUnit = "Organizational Unit Selenium Hijo";
         exist = searchScrollElement.elementSearch(company);
         if(exist != -1){
-            desple = "__xmlview4--mainTree-rows-row"+exist+"-treeicon";
-            driver.findElement(By.id(desple)).click();
+            accessBranch.clickBranches(exist);
             exist = searchScrollElement.elementSearch(elemen_unit);
             if(exist!=-1){
-                desple = "__xmlview4--mainTree-rows-row"+exist+"-treeicon";
-                driver.findElement(By.id(desple)).click();
+                accessBranch.clickBranches(exist);
                 WebElement element = driver.findElement(By.xpath("//span[normalize-space()='Organizational Unit']"));
                 action.contextClick(element).perform();
                 driver.findElement(By.xpath("//div[normalize-space()='New "+elemen_unit+"']")).click();
@@ -223,8 +204,7 @@ public class OSM_Organizational_Unit {
                 Thread.sleep(300);
                 exist = searchScrollElement.elementSearch(parentUnit);
                 if(exist != -1){
-                    desple = "__xmlview4--mainTree-rows-row"+exist+"-treeicon";
-                    driver.findElement(By.id(desple)).click();
+                    accessBranch.clickBranches(exist);
                     exist = searchScrollElement.elementSearch(elemen_unit);
                     if (exist !=-1){
                         Boolean existScroll = driver.findElement(By.id("__xmlview4--mainTree-vsb")).isDisplayed();
@@ -260,7 +240,7 @@ public class OSM_Organizational_Unit {
     @AfterMethod
     public void tearDown()  {
         if (driver != null){
-            driver.quit();
+            //driver.quit();
         }
     }
 

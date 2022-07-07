@@ -139,7 +139,7 @@ public class RM_Release  {
     @AfterMethod
     public void tearDown(){
         if(driver != null){
-            //driver.quit();
+            driver.quit();
         }
     }
 

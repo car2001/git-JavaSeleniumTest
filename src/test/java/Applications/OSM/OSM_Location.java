@@ -1,5 +1,6 @@
 package Applications.OSM;
 
+import Helpers.AccessBranches;
 import Helpers.Dynamic_Scroll_Search;
 import Forms.FormsOSM;
 import Helpers.SelectBrowser;
@@ -21,6 +22,7 @@ public class OSM_Location {
 
     Home_Page login;
     Dynamic_Scroll_Search searchScrollElement;
+    AccessBranches accessBranch;
     SelectBrowser browser = new SelectBrowser(driver);
     Actions action;
     JavascriptExecutor js;
@@ -30,7 +32,7 @@ public class OSM_Location {
     String newLocation = "Location Selenium";               // Location Creado
     String editLocation = "Location Selenium Editado";      // Location Editado
     int exist = -1;                                         // Posición del componente Buscado
-    String desple;                                          // Desplegar en los componentes
+
 
 
     @BeforeMethod
@@ -40,6 +42,7 @@ public class OSM_Location {
         js = (JavascriptExecutor) driver;
         action = new Actions(driver);
         searchScrollElement = new Dynamic_Scroll_Search(driver);
+        accessBranch = new AccessBranches(driver);
         login = new Home_Page(driver);
         login.loginPage("cpingo","1234");
         Login_Applications.loginOSM(driver);
@@ -49,8 +52,7 @@ public class OSM_Location {
     public void crearLocation() throws InterruptedException {
         exist = searchScrollElement.elementSearch(company);
         if(exist != -1){
-            desple = "__xmlview4--mainTree-rows-row"+exist+"-treeicon";
-            driver.findElement(By.id(desple)).click();
+            accessBranch.clickBranches(exist);
             exist = searchScrollElement.elementSearch(location);
             if(exist !=-1){
                 WebElement elementLocation = driver.findElement(By.xpath("//span[normalize-space()='"+location+"']"));
@@ -71,8 +73,7 @@ public class OSM_Location {
     public void doubleCheckLocation() throws InterruptedException {
         exist = searchScrollElement.elementSearch(company);
         if(exist != -1){
-            desple = "__xmlview4--mainTree-rows-row"+exist+"-treeicon";
-            driver.findElement(By.id(desple)).click();
+            accessBranch.clickBranches(exist);
             exist = searchScrollElement.elementSearch(location);
             if(exist !=-1){
                 WebElement elementLocation = driver.findElement(By.xpath("//span[normalize-space()='"+location+"']"));
@@ -95,12 +96,10 @@ public class OSM_Location {
     public void viewLocationDependencies(){
         exist = searchScrollElement.elementSearch(company);
         if(exist != -1){
-            desple = "__xmlview4--mainTree-rows-row"+exist+"-treeicon";
-            driver.findElement(By.id(desple)).click();
+            accessBranch.clickBranches(exist);
             exist = searchScrollElement.elementSearch(location);
             if(exist !=-1){
-                desple = "__xmlview4--mainTree-rows-row"+exist+"-treeicon";
-                driver.findElement(By.id(desple)).click();
+                accessBranch.clickBranches(exist);
                 exist = searchScrollElement.elementSearch(newLocation);
                 if(exist !=-1){
                     driver.findElement(By.xpath("//span[normalize-space()='"+newLocation+"']")).click();
@@ -122,12 +121,10 @@ public class OSM_Location {
     public void editarLocation() throws InterruptedException {
         exist = searchScrollElement.elementSearch(company);
         if(exist != -1){
-            desple = "__xmlview4--mainTree-rows-row"+exist+"-treeicon";
-            driver.findElement(By.id(desple)).click();
+            accessBranch.clickBranches(exist);
             exist = searchScrollElement.elementSearch(location);
             if(exist !=-1){
-                desple = "__xmlview4--mainTree-rows-row"+exist+"-treeicon";
-                driver.findElement(By.id(desple)).click();
+                accessBranch.clickBranches(exist);
                 exist = searchScrollElement.elementSearch(newLocation);
                 if(exist !=-1){
                     driver.findElement(By.xpath("//span[normalize-space()='"+newLocation+"']")).click();
@@ -150,12 +147,10 @@ public class OSM_Location {
     public void eliminarLocation() throws InterruptedException {
         exist = searchScrollElement.elementSearch(company);
         if(exist != -1){
-            desple = "__xmlview4--mainTree-rows-row"+exist+"-treeicon";
-            driver.findElement(By.id(desple)).click();
+            accessBranch.clickBranches(exist);
             exist = searchScrollElement.elementSearch(location);
             if(exist !=-1){
-                desple = "__xmlview4--mainTree-rows-row"+exist+"-treeicon";
-                driver.findElement(By.id(desple)).click();
+                accessBranch.clickBranches(exist);
                 exist = searchScrollElement.elementSearch(editLocation);
                 if(exist !=-1){
                     WebElement elementLocation = driver.findElement(By.xpath("//span[normalize-space()='"+editLocation+"']"));
@@ -186,12 +181,10 @@ public class OSM_Location {
         String childLocation = "Location Selenium Hijo 1.2.1";
         exist = searchScrollElement.elementSearch(company);
         if(exist != -1){
-            desple = "__xmlview4--mainTree-rows-row"+exist+"-treeicon";
-            driver.findElement(By.id(desple)).click();
+            accessBranch.clickBranches(exist);
             exist = searchScrollElement.elementSearch(location);
             if(exist !=-1){
-                desple = "__xmlview4--mainTree-rows-row"+exist+"-treeicon";
-                driver.findElement(By.id(desple)).click();
+                accessBranch.clickBranches(exist);
                 WebElement elementLocation = driver.findElement(By.xpath("//span[normalize-space()='"+location+"']"));
                 action.contextClick(elementLocation).perform();
                 driver.findElement(By.xpath("//div[normalize-space()='New "+location+"']")).click();
@@ -202,8 +195,7 @@ public class OSM_Location {
                 Thread.sleep(300);
                 exist = searchScrollElement.elementSearch(parentLocation);
                 if(exist != -1){
-                    desple = "__xmlview4--mainTree-rows-row"+exist+"-treeicon";
-                    driver.findElement(By.id(desple)).click();
+                    accessBranch.clickBranches(exist);
                     exist = searchScrollElement.elementSearch(location);
                     if (exist !=-1){
                         Boolean existScroll = driver.findElement(By.id("__xmlview4--mainTree-vsb")).isDisplayed();
@@ -215,7 +207,7 @@ public class OSM_Location {
                         List<WebElement> locationList = driver.findElements(By.xpath("//span[normalize-space()='"+location+"']"));
                         action.contextClick(locationList.get(1)).perform();
                         driver.findElement(By.xpath("//div[normalize-space()='New "+location+"']")).click();
-                        Thread.sleep(500);
+                        Thread.sleep(800);
                         //Llenando Formulario Hijo
                         FormsOSM.formCreateLocation(driver,childLocation);
                         message = driver.findElement(By.className("sapMMsgStripMessage")).getAttribute("textContent");

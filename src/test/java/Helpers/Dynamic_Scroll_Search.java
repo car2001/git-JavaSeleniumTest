@@ -15,6 +15,7 @@ public class Dynamic_Scroll_Search {
     private WebDriver driver;
     private JavascriptExecutor js ;
 
+
     public Dynamic_Scroll_Search(WebDriver driver){
         this.driver = driver;
         js= (JavascriptExecutor) driver;
@@ -24,18 +25,19 @@ public class Dynamic_Scroll_Search {
         int positionFound = -1;
         Boolean existScroll;
         String xpathCompany = "//span[@class='sapMText sapUiSelectable sapMTextMaxWidth {Tree>class}' or @class='sapMText sapUiSelectable sapMTextBreakWord sapMTextMaxWidth {Tree>class}']";
-        int posNameElement = 0;
+
         //Obtenemos la lista de Objetos
         List<WebElement>  elementTable = driver.findElements(By.xpath(xpathCompany));
+        while(elementTable.contains("Loading...") ){
+            elementTable = driver.findElements(By.xpath(xpathCompany));
+        }
+
         //Creamos nuevo arreglo
         List<String> nameElement = new ArrayList<>();
         //Pasamos los nombres de los Elementos al nuevo array
         for(int i = 0; i<=elementTable.size()-1;i=i+1){
-            if(elementTable.get(i).getText().equals("Loading...")){
-                posNameElement +=0;
-            }else{
-                nameElement.add(posNameElement,elementTable.get(i).getText());
-                posNameElement +=1;
+            if(elementTable.get(i).getText().equals("Loading...") == false){
+                nameElement.add(elementTable.get(i).getText());
             }
         }
 
@@ -63,13 +65,9 @@ public class Dynamic_Scroll_Search {
                         js.executeScript("arguments[0].scroll(0,'"+multiplo+"')",scrollBar);
                         elementTable = driver.findElements(By.xpath(xpathCompany));
                         nameElement.clear();
-                        posNameElement=0;
                         for(int i = 0; i<=elementTable.size()-1;i=i+1){
-                            if(elementTable.get(i).getText().equals("Loading...")){
-                                posNameElement +=0;
-                            }else{
-                                nameElement.add(posNameElement,elementTable.get(i).getText());
-                                posNameElement +=1;
+                            if(elementTable.get(i).getText().equals("Loading...") == false){
+                                nameElement.add(elementTable.get(i).getText());
                             }
                         }
                     }

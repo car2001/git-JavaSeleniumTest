@@ -43,11 +43,12 @@ public class RM_ChangeContainer {
         Login_Applications.loginRM(driver, componente);
     }
 
-    @Test
-    public void crearChangeContainerArbol(){
+    @Test()
+    public void crearChangeContainerArbol() throws InterruptedException {
         WebElement btnOpen = driver.findElement(By.xpath("//span[text()='Open']"));
         action.contextClick(btnOpen).perform();
         driver.findElement(By.xpath("//div[normalize-space()='New " + componente + "']")).click();
+        Thread.sleep(1000);
         FormsRM.formCreateChangeContainer(driver,newChangeContainer);
     }
 

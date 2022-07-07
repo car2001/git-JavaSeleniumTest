@@ -1,6 +1,7 @@
 package HomepageFunctions;
 
 
+import Helpers.AccessBranches;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -12,18 +13,20 @@ import java.time.Duration;
 
 public class Login_Applications {
     public static WebDriverWait wait;
+    public static AccessBranches accessBranch;
 
     public static void loginOSM(WebDriver driver){
         wait = new WebDriverWait(driver, Duration.ofSeconds(5));
+        accessBranch = new AccessBranches(driver);
         String routeOSM = "//span[@class='sapMTextMaxLine sapMTextLineClamp' and normalize-space()='Organizational Structure Manager']";
         driver.findElement(By.xpath(routeOSM)).click();
-        driver.findElement(By.id("__xmlview4--mainTree-rows-row0-treeicon")).click();
-        driver.findElement(By.id("__xmlview4--mainTree-rows-row1-treeicon")).click();
-        try{
-            wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("__xmlview4--mainTree-vsb")));
-        }catch (Exception e){
-            System.out.println("Se espero el Scroll pero no se encontro");
-        }
+        accessBranch.clickBranches(0);
+        accessBranch.clickBranches(1);
+//        try{
+//            wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("__xmlview4--mainTree-vsb")));
+//        }catch (Exception e){
+//            System.out.println("Se espero el Scroll pero no se encontro");
+//        }<
     }
 
     public static void loginCM(WebDriver driver,String componente){
@@ -50,23 +53,28 @@ public class Login_Applications {
     }
 
     public static void loginRM(WebDriver driver, String componente){
-        wait = new WebDriverWait(driver,Duration.ofSeconds(12));
+        wait = new WebDriverWait(driver,Duration.ofSeconds(50));
+        accessBranch = new AccessBranches(driver);
         String routeRM = "//span[@class='sapMTextMaxLine sapMTextLineClamp' and normalize-space()='Release Manager']";
         driver.findElement(By.xpath(routeRM)).click();
         wait.until(ExpectedConditions.elementToBeClickable(By.id("__xmlview4--mainTree-rows-row0-treeicon")));
         if(componente.equals("Project")){
-            driver.findElement(By.id("__xmlview4--mainTree-rows-row0-treeicon")).click();
-            WebElement popupCarga = driver.findElement(By.xpath("//div[@id='__xmlview4--mainTree-busyIndicator']"));
-            wait.until(ExpectedConditions.visibilityOf(popupCarga));
-            wait.until(ExpectedConditions.invisibilityOf(popupCarga));
+            accessBranch.clickBranches(0);
+            //WebElement popupCarga = driver.findElement(By.xpath("//div[@id='__xmlview4--mainTree-busyIndicator']"));
+            //wait.until(ExpectedConditions.visibilityOf(popupCarga));
+            //wait.until(ExpectedConditions.invisibilityOf(popupCarga));
         }else if(componente.equals("Change Container")){
-            driver.findElement(By.id("__xmlview4--mainTree-rows-row1-treeicon")).click();
+            accessBranch.clickBranches(1);
         }else if (componente.equals("Deployment Package")){
-            driver.findElement(By.id("__xmlview4--mainTree-rows-row2-treeicon")).click();
+            accessBranch.clickBranches(2);
         }else{
-            driver.findElement(By.id("__xmlview4--mainTree-rows-row3-treeicon")).click();
+            accessBranch.clickBranches(4);
         }
     }
 
-
+    public static void main(String[] args) {
+        String division = "20";
+        int entero = Integer.parseInt(division);
+        System.out.println(entero);
+    }
 }

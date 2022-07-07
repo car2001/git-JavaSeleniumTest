@@ -1,5 +1,6 @@
 package Applications.OSM;
 
+import Helpers.AccessBranches;
 import Helpers.Dynamic_Scroll_Search;
 import Forms.FormsOSM;
 import Helpers.SelectBrowser;
@@ -30,6 +31,7 @@ public class OSM_Position {
     Dynamic_Scroll_Search searchScrollElement;
     SelectBrowser browser = new SelectBrowser(driver);
     Actions action;
+    AccessBranches accessBranch;
 
     String company = "Company Selenium";
     String unit = "Organizational Unit";
@@ -38,7 +40,6 @@ public class OSM_Position {
     String newPosition = "Gerente de Calidad";
     String editPosition = "Gerente de Calidad Selenium";
     int exist = -1;
-    String desple;
 
     @BeforeMethod
     public void setup() throws InterruptedException {
@@ -46,26 +47,23 @@ public class OSM_Position {
         driver = browser.getDriver();
         action = new Actions(driver);
         searchScrollElement = new Dynamic_Scroll_Search(driver);
+        accessBranch = new AccessBranches(driver);
         login = new Home_Page(driver);
+        login.loginPage("cpingo","1234");
+        Login_Applications.loginOSM(driver);
     }
 
     @Test(priority = 0)
     public void crearPosition() throws InterruptedException {
-
-        login.loginPage("cpingo","1234");
-        Login_Applications.loginOSM(driver);
         exist = searchScrollElement.elementSearch(company);
         if( exist != -1){
-            desple = "__xmlview4--mainTree-rows-row"+exist+"-treeicon";
-            driver.findElement(By.id(desple)).click();
+            accessBranch.clickBranches(exist);
             exist = searchScrollElement.elementSearch(unit);
             if(exist != -1){
-                desple = "__xmlview4--mainTree-rows-row"+exist+"-treeicon";
-                driver.findElement(By.id(desple)).click();
+                accessBranch.clickBranches(exist);
                 exist = searchScrollElement.elementSearch(new_Unit);
                 if(exist != -1){
-                    desple = "__xmlview4--mainTree-rows-row"+exist+"-treeicon";
-                    driver.findElement(By.id(desple)).click();
+                    accessBranch.clickBranches(exist);
                     exist = searchScrollElement.elementSearch(position);
                     if(exist != -1){
                         WebElement elementPosition = driver.findElement(By.xpath("//span[normalize-space()='"+position+"']"));
@@ -92,20 +90,15 @@ public class OSM_Position {
 
     @Test(priority = 1)
     public void doubleCheckPosition() throws InterruptedException {
-        login.loginPage("cpingo","1234");
-        Login_Applications.loginOSM(driver);
         exist = searchScrollElement.elementSearch(company);
         if( exist != -1){
-            desple = "__xmlview4--mainTree-rows-row"+exist+"-treeicon";
-            driver.findElement(By.id(desple)).click();
+            accessBranch.clickBranches(exist);
             exist = searchScrollElement.elementSearch(unit);
             if(exist != -1){
-                desple = "__xmlview4--mainTree-rows-row"+exist+"-treeicon";
-                driver.findElement(By.id(desple)).click();
+                accessBranch.clickBranches(exist);
                 exist = searchScrollElement.elementSearch(new_Unit);
                 if(exist != -1){
-                    desple = "__xmlview4--mainTree-rows-row"+exist+"-treeicon";
-                    driver.findElement(By.id(desple)).click();
+                    accessBranch.clickBranches(exist);
                     exist = searchScrollElement.elementSearch(position);
                     if(exist != -1){
                         WebElement elementPosition = driver.findElement(By.xpath("//span[normalize-space()='"+position+"']"));
@@ -132,24 +125,18 @@ public class OSM_Position {
 
     @Test(priority = 2)
     public void viewPositionDependencies() throws InterruptedException{
-        login.loginPage("cpingo","1234");
-        Login_Applications.loginOSM(driver);
         exist = searchScrollElement.elementSearch(company);
         if(exist !=-1){
-            desple = "__xmlview4--mainTree-rows-row"+exist+"-treeicon";
-            driver.findElement(By.id(desple)).click();
+            accessBranch.clickBranches(exist);
             exist = searchScrollElement.elementSearch(unit);
             if(exist != -1){
-                desple = "__xmlview4--mainTree-rows-row"+exist+"-treeicon";
-                driver.findElement(By.id(desple)).click();
+                accessBranch.clickBranches(exist);
                 exist = searchScrollElement.elementSearch(new_Unit);
                 if(exist != -1){
-                    desple = "__xmlview4--mainTree-rows-row"+exist+"-treeicon";
-                    driver.findElement(By.id(desple)).click();
+                    accessBranch.clickBranches(exist);
                     exist = searchScrollElement.elementSearch(position);
                     if(exist !=-1){
-                        desple = "__xmlview4--mainTree-rows-row"+exist+"-treeicon";
-                        driver.findElement(By.id(desple)).click();
+                        accessBranch.clickBranches(exist);
                         exist = searchScrollElement.elementSearch(newPosition);
                         if(exist !=-1){
                             driver.findElement(By.xpath("//span[normalize-space()='"+newPosition+"']")).click();
@@ -178,24 +165,18 @@ public class OSM_Position {
 
     @Test(priority = 3)
     public void editarPosition() throws InterruptedException {
-        login.loginPage("cpingo","1234");
-        Login_Applications.loginOSM(driver);
         exist = searchScrollElement.elementSearch(company);
         if(exist !=-1){
-            desple = "__xmlview4--mainTree-rows-row"+exist+"-treeicon";
-            driver.findElement(By.id(desple)).click();
+            accessBranch.clickBranches(exist);
             exist = searchScrollElement.elementSearch(unit);
             if(exist != -1){
-                desple = "__xmlview4--mainTree-rows-row"+exist+"-treeicon";
-                driver.findElement(By.id(desple)).click();
+                accessBranch.clickBranches(exist);
                 exist = searchScrollElement.elementSearch(new_Unit);
                 if(exist != -1){
-                    desple = "__xmlview4--mainTree-rows-row"+exist+"-treeicon";
-                    driver.findElement(By.id(desple)).click();
+                    accessBranch.clickBranches(exist);
                     exist = searchScrollElement.elementSearch(position);
                     if(exist != -1){
-                        desple = "__xmlview4--mainTree-rows-row"+exist+"-treeicon";
-                        driver.findElement(By.id(desple)).click();
+                        accessBranch.clickBranches(exist);
                         exist = searchScrollElement.elementSearch(newPosition);
                         if(exist !=-1){
                             driver.findElement(By.xpath("//span[normalize-space()='"+newPosition+"']")).click();
@@ -222,24 +203,18 @@ public class OSM_Position {
 
     @Test(priority = 4)
     public void eliminarPosition() throws InterruptedException {
-        login.loginPage("cpingo","1234");
-        Login_Applications.loginOSM(driver);
         exist = searchScrollElement.elementSearch(company);
         if(exist !=-1){
-            desple = "__xmlview4--mainTree-rows-row"+exist+"-treeicon";
-            driver.findElement(By.id(desple)).click();
+            accessBranch.clickBranches(exist);
             exist = searchScrollElement.elementSearch(unit);
             if(exist != -1){
-                desple = "__xmlview4--mainTree-rows-row"+exist+"-treeicon";
-                driver.findElement(By.id(desple)).click();
+                accessBranch.clickBranches(exist);
                 exist = searchScrollElement.elementSearch(new_Unit);
                 if(exist != -1){
-                    desple = "__xmlview4--mainTree-rows-row"+exist+"-treeicon";
-                    driver.findElement(By.id(desple)).click();
+                    accessBranch.clickBranches(exist);
                     exist = searchScrollElement.elementSearch(position);
                     if(exist !=-1){
-                        desple = "__xmlview4--mainTree-rows-row"+exist+"-treeicon";
-                        driver.findElement(By.id(desple)).click();
+                        accessBranch.clickBranches(exist);
                         exist = searchScrollElement.elementSearch(editPosition);
                         if(exist !=-1){
                             WebElement elementNewPosition =driver.findElement(By.xpath("//span[normalize-space()='"+editPosition+"']"));

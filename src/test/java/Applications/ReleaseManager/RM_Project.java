@@ -81,7 +81,7 @@ public class RM_Project {
         metodoEliminarProyecto(editProject);
     }
 
-    @Test(enabled = false)
+    @Test(priority = 4)
     public void crearProyectoSinRelease(){
         String projectWithoutRelease = "Proyecto Sin Release Selenium";
         WebElement proyecto = driver.findElement(By.id("__xmlview4--mainTree-rows-row0-treeicon"));
