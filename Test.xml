@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="OSM">
+    <test verbose="10" preserve-order="true" name="C:/Users/Usuario/IdeaProjects/Pruebas/src/test/java/Applications/OSM">
+        <classes>
+            <class name="Applications.OSM.OSM_Company">
+                <methods>
+                    <include name="crearCompany"/>
+
+                </methods>
+            </class>
+        </classes>
+    </test>
+</suite>

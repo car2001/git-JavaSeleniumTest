@@ -1,6 +1,7 @@
 package Applications.OSM;
 
 import Helpers.AccessBranches;
+import Helpers.Asserts;
 import Helpers.Dynamic_Scroll_Search;
 import Forms.FormsOSM;
 import Helpers.SelectBrowser;
@@ -26,6 +27,7 @@ public class OSM_Location {
     SelectBrowser browser = new SelectBrowser(driver);
     Actions action;
     JavascriptExecutor js;
+    Asserts asserts;
 
     String company = "Company Selenium";                    //Compañia
     String location = "Location";                           // Componente a Buscar
@@ -42,6 +44,7 @@ public class OSM_Location {
         js = (JavascriptExecutor) driver;
         action = new Actions(driver);
         searchScrollElement = new Dynamic_Scroll_Search(driver);
+        asserts = new Asserts(driver);
         accessBranch = new AccessBranches(driver);
         login = new Home_Page(driver);
         login.loginPage("cpingo","1234");
@@ -81,8 +84,7 @@ public class OSM_Location {
                 driver.findElement(By.xpath("//div[normalize-space()='New "+location+"']")).click();
                 //Llenando Formulario
                 FormsOSM.formCreateLocation(driver,"Location Selenium");
-                String message = driver.findElement(By.className("sapMMsgStripMessage")).getAttribute("textContent");
-                Assert.assertEquals(message,"Location Already Exist");
+                asserts.assertDoubleCheck("Location  Already Exist");
                 driver.findElement(By.id("__xmlview4--cancel-img")).click();
             }else{
                 Assert.assertEquals("No hay Location","The Operation has been Completed Successfully.");
@@ -104,8 +106,7 @@ public class OSM_Location {
                 if(exist !=-1){
                     driver.findElement(By.xpath("//span[normalize-space()='"+newLocation+"']")).click();
                     driver.findElement(By.id("__xmlview4--viewDependencies-img")).click();
-                    String message = driver.findElement(By.id("__xmlview4--dependenciesTableTitle-inner")).getText();
-                    Assert.assertEquals(message,"Dependencies List");
+                    asserts.assertDependecies(4);
                 }else{
                     Assert.assertEquals("No hay"+ newLocation,"The Operation has been Completed Successfully.");
                 }

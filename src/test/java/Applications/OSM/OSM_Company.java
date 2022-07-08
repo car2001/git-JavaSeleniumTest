@@ -1,333 +1,105 @@
 package Applications.OSM;
 
+import Forms.FormsOSM;
+import Helpers.AccessBranches;
+import Helpers.Asserts;
+import Helpers.Dynamic_Scroll_Search;
+import Helpers.SelectBrowser;
+import HomepageFunctions.Home_Page;
+import HomepageFunctions.Login_Applications;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.interactions.Actions;
 import org.testng.Assert;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import java.sql.Driver;
 import java.util.ArrayList;
 import java.util.List;
 
 public class OSM_Company {
 
-    @Test(enabled = false)
+    private WebDriver driver;
+    private String chosen_browser = "Chrome";
+
+    Home_Page login;
+    Dynamic_Scroll_Search searchScrollElement;
+    AccessBranches accessBranch;
+    SelectBrowser browser = new SelectBrowser(driver);
+    Actions action;
+    JavascriptExecutor js;
+    Asserts asserts;
+
+    String component = "Company";
+    String newCompany = "Company Selenium";
+    String editCompany = "Company Selenium Editado";
+
+    int exist = -1;
+
+
+    @BeforeMethod
+    public void setup(){
+        browser.chooseBrowser(chosen_browser);
+        driver = browser.getDriver();
+        js = (JavascriptExecutor) driver;
+        action = new Actions(driver);
+        searchScrollElement = new Dynamic_Scroll_Search(driver);
+        asserts = new Asserts(driver);
+        accessBranch = new AccessBranches(driver);
+        login = new Home_Page(driver);
+        login.loginPage("cpingo","1234");
+        Login_Applications.loginOSM(driver);
+    }
+
+    @Test()
     public void crearCompany() throws InterruptedException {
-        WebDriverManager.chromedriver().setup();
-        WebDriver driver = new ChromeDriver();
-        Actions action = new Actions(driver);
-        driver.get("https://cloud.buplat.com/IDO_SANDBOX/");
-        driver.manage().window().maximize();
-        Thread.sleep(5000); // Tiempo de Espera
-
-        driver.findElement(By.id("__xmlview0--inputUserName-inner")).sendKeys("cpingo");
-        driver.findElement(By.id("__xmlview0--inputPassword-inner")).sendKeys("1234");
-        driver.findElement(By.id("__xmlview0--btnSubmit")).click();
-        Thread.sleep(3000);
-
-        //driver.findElement(By.xpath("//div[@id='__tile0-__xmlview2--container-9']")).click();
-        driver.findElement(By.xpath("//span[normalize-space()='Organizational Structure Manager']")).click();
-        Thread.sleep(8000);
-
-        driver.findElement(By.id("__xmlview4--mainTree-rows-row0-treeicon")).click();
-        //Crear Compañia y hacer RigthClick
         WebElement element = driver.findElement(By.xpath("//span[normalize-space()='Company']"));
         action.contextClick(element).perform();
-        driver.findElement(By.xpath("//div[@id='__item1-unifiedmenu-txt']")).click();
-
-        Thread.sleep(3000);
-        //Llenar Formulario
-        List<WebElement> listForm = driver.findElements(By.className("sapMInputBaseInner"));
-        listForm.get(2).sendKeys("Company Selenium");
-        listForm.get(3).sendKeys("Company Selenium");
-        listForm.get(4).sendKeys("Compañia Creada en Selenium");
-        listForm.get(5).sendKeys("123456");
-
-        //Guardar Formulario
-        driver.findElement(By.id("__xmlview4--save-inner")).click();
+        driver.findElement(By.xpath("//div[normalize-space()='New " + component + "']")).click();
+        FormsOSM.formCreateCompany(driver,newCompany);
+        asserts.assertSave();
     }
 
     @Test
     public void doubleCheckCompany() throws InterruptedException {
-        WebDriverManager.chromedriver().setup();
-        WebDriver driver = new ChromeDriver();
-        Actions action = new Actions(driver);
-        driver.get("https://cloud.buplat.com/IDO_SANDBOX/");
-        driver.manage().window().maximize();
-        Thread.sleep(5000); // Tiempo de Espera
-
-        driver.findElement(By.id("__xmlview0--inputUserName-inner")).sendKeys("cpingo");
-        driver.findElement(By.id("__xmlview0--inputPassword-inner")).sendKeys("1234");
-        driver.findElement(By.id("__xmlview0--btnSubmit")).click();
-        Thread.sleep(3000);
-
-        //driver.findElement(By.xpath("//div[@id='__tile0-__xmlview2--container-9']")).click();
-        driver.findElement(By.xpath("//span[normalize-space()='Organizational Structure Manager']")).click();
-        Thread.sleep(8000);
-
-        driver.findElement(By.id("__xmlview4--mainTree-rows-row0-treeicon")).click();
-        //Crear Compañia y hacer RigthClick
         WebElement element = driver.findElement(By.xpath("//span[normalize-space()='Company']"));
         action.contextClick(element).perform();
-        driver.findElement(By.xpath("//div[@id='__item1-unifiedmenu-txt']")).click();
-
-        Thread.sleep(3000);
-        //Llenar Formulario
-        List<WebElement> listForm = driver.findElements(By.className("sapMInputBaseInner"));
-        listForm.get(2).sendKeys("Company Selenium");
-        listForm.get(3).sendKeys("Company Selenium");
-        listForm.get(4).sendKeys("Compañia Creada en Selenium");
-        listForm.get(5).sendKeys("123456");
-
-        //Guardar Formulario
-        driver.findElement(By.id("__xmlview4--save-inner")).click();
-        Thread.sleep(2000);
-        String message = driver.findElement(By.className("sapMMsgStripMessage")).getAttribute("textContent");
-        Assert.assertEquals(message,"Company Already Exist");
+        driver.findElement(By.xpath("//div[normalize-space()='New " + component + "']")).click();
+        FormsOSM.formCreateCompany(driver,newCompany);
+        asserts.assertDoubleCheck("Company Already Exist");
+        driver.findElement(By.id("__xmlview4--cancel-img")).click();
     }
 
     @Test
     public void viewCompanyDependencies() throws InterruptedException {
-        WebDriverManager.chromedriver().setup();
-        WebDriver driver = new ChromeDriver();
-        Actions action = new Actions(driver);
-        JavascriptExecutor js = (JavascriptExecutor) driver;
-        driver.get("https://cloud.buplat.com/IDO_SANDBOX/");
-        driver.manage().window().maximize();
-        Thread.sleep(5000); // Tiempo de Espera
-
-        driver.findElement(By.id("__xmlview0--inputUserName-inner")).sendKeys("cpingo");
-        driver.findElement(By.id("__xmlview0--inputPassword-inner")).sendKeys("1234");
-        driver.findElement(By.id("__xmlview0--btnSubmit")).click();
-        Thread.sleep(3000);
-
-        //Ingresamos al OSM
-        driver.findElement(By.xpath("//span[normalize-space()='Organizational Structure Manager']")).click();
-        Thread.sleep(8000);
-        //Desplegamos Client
-        driver.findElement(By.id("__xmlview4--mainTree-rows-row0-treeicon")).click();
-        //Desplegamos Company
-        driver.findElement(By.id("__xmlview4--mainTree-rows-row1-treeicon")).click();
-        Thread.sleep(5000);
-
-        String company = "Company Selenium";
-        //Obtenemos la lista de Objetos
-        List<WebElement> elementTable = driver.findElements(By.xpath("//span[@class='sapMText sapUiSelectable sapMTextMaxWidth {Tree>class}' or @class='sapMText sapUiSelectable sapMTextBreakWord sapMTextMaxWidth {Tree>class}']"));
-        //Creamos nuevo arreglo
-        List<String> nameElement = new ArrayList<>();
-
-        WebElement scrollBar = driver.findElement(By.id("__xmlview4--mainTree-vsb")); // Definimos el Scroll
-
-        int scrollHeight = js.executeScript("let barra = document.getElementById('__xmlview4--mainTree-vsb');return(barra.scrollHeight)").hashCode();
-        int clientHeight = js.executeScript("let barra = document.getElementById('__xmlview4--mainTree-vsb');return(barra.clientHeight)").hashCode();
-        int numVeces =  scrollHeight/clientHeight; // Numero de veces para repetir el bucle
-        boolean exist = false;
-
-        //Pasamos los nombres de las CompaÃ±ias
-        for(int i = 0; i<=elementTable.size()-1;i=i+1){
-            nameElement.add(i,elementTable.get(i).getText());
-        }
-
-        int iterador = 0;
-        // Verificamos
-        while (iterador<=numVeces){
-            if(nameElement.contains(company)){
-                exist = true;
-                break;
-            }else{
-                iterador = iterador+1;
-                js.executeScript("arguments[0].scroll(0,'"+clientHeight*iterador+"')",scrollBar);
-                elementTable = driver.findElements(By.xpath("//span[@class='sapMText sapUiSelectable sapMTextMaxWidth {Tree>class}' or @class='sapMText sapUiSelectable sapMTextBreakWord sapMTextMaxWidth {Tree>class}']"));
-                for(int i = 0; i<=elementTable.size()-1;i=i+1){
-                    nameElement.add(i,elementTable.get(i).getText());
-                }
-
-            }
-        }
-
-        if (exist = true){
-            driver.findElement(By.xpath("//span[normalize-space()='"+company+"']")).click();
-            Thread.sleep(1000);
+        exist = searchScrollElement.elementSearch(newCompany);
+        if (exist != -1){
+            driver.findElement(By.xpath("//span[normalize-space()='"+newCompany+"']")).click();
             driver.findElement(By.id("__xmlview4--viewDependencies-img")).click();
-            Thread.sleep(2000);
+            asserts.assertDependecies(4);
         }else{
-            System.out.println("No hay la compañia" + company);
+            Assert.assertEquals("No hay Company","The Operation has been Completed Successfully.");
         }
-
     }
 
 
-    @Test(enabled = false)
+    @Test
     public void editarCompany() throws InterruptedException {
-
-        //Inicio de Propiedades
-        WebDriverManager.chromedriver().setup();
-        WebDriver driver = new ChromeDriver();
-        Actions action = new Actions(driver);
-        JavascriptExecutor js = (JavascriptExecutor) driver;
-        driver.get("https://cloud.buplat.com/IDO_SANDBOX/");
-        driver.manage().window().maximize();
-        Thread.sleep(5000); // Tiempo de Espera
-
-        //Logeo
-        driver.findElement(By.id("__xmlview0--inputUserName-inner")).sendKeys("cpingo");
-        driver.findElement(By.id("__xmlview0--inputPassword-inner")).sendKeys("1234");
-        driver.findElement(By.id("__xmlview0--btnSubmit")).click();
-        Thread.sleep(3000);
-
-        //Ingresamos al OSM
-        driver.findElement(By.xpath("//span[normalize-space()='Organizational Structure Manager']")).click();
-        Thread.sleep(5000);
-        //Desplegamos Client
-        driver.findElement(By.id("__xmlview4--mainTree-rows-row0-treeicon")).click();
-        //Desplegamos Company
-        driver.findElement(By.id("__xmlview4--mainTree-rows-row1-treeicon")).click();
-        Thread.sleep(5000);
-
-        String company = "Company Selenium";
-        //Obtenemos la lista de Objetos
-        List<WebElement> elementTable = driver.findElements(By.xpath("//span[@class='sapMText sapUiSelectable sapMTextMaxWidth {Tree>class}' or @class='sapMText sapUiSelectable sapMTextBreakWord sapMTextMaxWidth {Tree>class}']"));
-        //Creamos nuevo arreglo
-        List<String> nameElement = new ArrayList<>();
-
-        WebElement scrollBar = driver.findElement(By.id("__xmlview4--mainTree-vsb")); // Definimos el Scroll
-
-        int scrollHeight = js.executeScript("let barra = document.getElementById('__xmlview4--mainTree-vsb');return(barra.scrollHeight)").hashCode();
-        int clientHeight = js.executeScript("let barra = document.getElementById('__xmlview4--mainTree-vsb');return(barra.clientHeight)").hashCode();
-        int numVeces =  scrollHeight/clientHeight; // Numero de veces para repetir el bucle
-        boolean exist = false;
-
-        //Pasamos los nombres de las CompaÃ±ias
-        for(int i = 0; i<=elementTable.size()-1;i=i+1){
-            nameElement.add(i,elementTable.get(i).getText());
-        }
-
-        int iterador = 0;
-        // Verificamos
-        while (iterador<=numVeces){
-            if(nameElement.contains(company)){
-                exist = true;
-                break;
-            }else{
-                iterador = iterador+1;
-                js.executeScript("arguments[0].scroll(0,'"+clientHeight*iterador+"')",scrollBar);
-                elementTable = driver.findElements(By.xpath("//span[@class='sapMText sapUiSelectable sapMTextMaxWidth {Tree>class}' or @class='sapMText sapUiSelectable sapMTextBreakWord sapMTextMaxWidth {Tree>class}']"));
-                for(int i = 0; i<=elementTable.size()-1;i=i+1){
-                    nameElement.add(i,elementTable.get(i).getText());
-                }
-
-            }
-        }
-
-        if(exist == true){
-            driver.findElement(By.xpath("//span[normalize-space()='"+company+"']")).click();
-            Thread.sleep(2000);
-            //Editar Formulario
-            driver.findElement(By.id("__xmlview4--edit-inner")).click();
-            Thread.sleep(2000);
-            //Llenar Formulario
-            List<WebElement> listForm = driver.findElements(By.className("sapMInputBaseInner"));
-            listForm.get(2).clear();
-            listForm.get(2).sendKeys("Company Selenium1");
-            listForm.get(3).clear();
-            listForm.get(3).sendKeys("Company Selenium1");
-            listForm.get(4).clear();
-            listForm.get(4).sendKeys("Compañia Creada en Selenium1");
-            listForm.get(5).clear();
-            listForm.get(5).sendKeys("123456789");
-            //Guardar Formulario
-            driver.findElement(By.id("__xmlview4--save-inner")).click();
-
-
+        exist = searchScrollElement.elementSearch(newCompany);
+        if (exist != -1){
+            driver.findElement(By.xpath("//span[normalize-space()='"+newCompany+"']")).click();
+            FormsOSM.formEditCompany(driver,editCompany);
+            asserts.assertSave();
         }else{
-            js.executeScript("alert('"+" No se encontro la compañia "+company+"')");
+            Assert.assertEquals("No hay Company","The Operation has been Completed Successfully.");
         }
-
     }
 
-    @Test(enabled = false)
+    @Test
     public void eliminarCompany() throws InterruptedException {
-        //Inicio de Propiedades
-        WebDriverManager.chromedriver().setup();
-        WebDriver driver = new ChromeDriver();
-        Actions action = new Actions(driver);
-        JavascriptExecutor js = (JavascriptExecutor) driver;
-        driver.get("https://cloud.buplat.com/IDO_SANDBOX/");
-        driver.manage().window().maximize();
-        Thread.sleep(5000); // Tiempo de Espera
-
-        //Logeo
-        driver.findElement(By.id("__xmlview0--inputUserName-inner")).sendKeys("cpingo");
-        driver.findElement(By.id("__xmlview0--inputPassword-inner")).sendKeys("1234");
-        driver.findElement(By.id("__xmlview0--btnSubmit")).click();
-        Thread.sleep(3000);
-
-        //Ingresamos al OSM
-        driver.findElement(By.xpath("//span[normalize-space()='Organizational Structure Manager']")).click();
-        Thread.sleep(5000);
-        //Desplegamos Client
-        driver.findElement(By.id("__xmlview4--mainTree-rows-row0-treeicon")).click();
-        //Desplegamos Company
-        driver.findElement(By.id("__xmlview4--mainTree-rows-row1-treeicon")).click();
-        Thread.sleep(5000);
-
-        String company = "Company Selenium1";
-        //Obtenemos la lista de Objetos
-        List<WebElement> elementTable = driver.findElements(By.xpath("//span[@class='sapMText sapUiSelectable sapMTextMaxWidth {Tree>class}' or @class='sapMText sapUiSelectable sapMTextBreakWord sapMTextMaxWidth {Tree>class}']"));
-        //Creamos nuevo arreglo
-        List<String> nameElement = new ArrayList<>();
-
-        WebElement scrollBar = driver.findElement(By.id("__xmlview4--mainTree-vsb")); // Definimos el Scroll
-
-        int scrollHeight = js.executeScript("let barra = document.getElementById('__xmlview4--mainTree-vsb');return(barra.scrollHeight)").hashCode();
-        int clientHeight = js.executeScript("let barra = document.getElementById('__xmlview4--mainTree-vsb');return(barra.clientHeight)").hashCode();
-        int numVeces =  scrollHeight/clientHeight; // Numero de veces para repetir el bucle
-        boolean exist = false;
-
-        //Pasamos los nombres de las CompaÃ±ias
-        for(int i = 0; i<=elementTable.size()-1;i=i+1){
-            nameElement.add(i,elementTable.get(i).getText());
-        }
-
-        int iterador = 0;
-        // Verificamos
-        while (iterador<=numVeces){
-            if(nameElement.contains(company)){
-                exist = true;
-                break;
-            }else{
-                iterador = iterador+1;
-                js.executeScript("arguments[0].scroll(0,'"+clientHeight*iterador+"')",scrollBar);
-                elementTable = driver.findElements(By.xpath("//span[@class='sapMText sapUiSelectable sapMTextMaxWidth {Tree>class}' or @class='sapMText sapUiSelectable sapMTextBreakWord sapMTextMaxWidth {Tree>class}']"));
-                for(int i = 0; i<=elementTable.size()-1;i=i+1){
-                    nameElement.add(i,elementTable.get(i).getText());
-                }
-
-            }
-        }
-
-        if(exist == true){
-            WebElement element = driver.findElement(By.xpath("//span[normalize-space()='"+company+"']"));
-            action.contextClick(element).perform();
-            driver.findElement(By.xpath("//div[@id='__item2-unifiedmenu-txt']")).click();
-            Thread.sleep(2000);
-            driver.findElement(By.xpath("//bdi[normalize-space()='Si']")).click();
-            Thread.sleep(2000);
-
-            String message = driver.findElement(By.xpath("//span[@class='sapMText sapUiSelectable sapMTextMaxWidth sapMMsgBoxText']")).getText();
-            Thread.sleep(2000);
-            if(message.equals("The Operation has been Completed Successfully.")){
-                driver.findElement(By.xpath("//bdi[normalize-space()='OK']")).click();
-            }else{
-                driver.findElement(By.xpath("//bdi[normalize-space()='Cerrar']")).click();
-            }
-
-        }else{
-            js.executeScript("alert('"+" No se encontro la compañia "+company+"')");
-        }
 
     }
-
 
 }

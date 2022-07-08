@@ -46,7 +46,7 @@ public class CM_Risk_Profile {
     public void viewDependecies_RP(){
         driver.findElement(By.xpath("//div[text()='"+newRiskProfile+"']")).click();
         driver.findElement(By.id("__xmlview5--viewDependencies-img")).click();
-        asserts.assertDependecies();
+        asserts.assertDependecies(5);
     }
 
     @Test(priority = 2)

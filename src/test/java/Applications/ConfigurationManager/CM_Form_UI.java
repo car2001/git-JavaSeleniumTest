@@ -48,7 +48,7 @@ public class CM_Form_UI {
     public void viewDependecies_FormUI(){
         driver.findElement(By.xpath("//div[text()='"+newFormUI+"']")).click();
         driver.findElement(By.id("__xmlview5--viewDependencies-img")).click();
-        asserts.assertDependecies();
+        asserts.assertDependecies(5);
     }
 
     @Test(priority = 2)

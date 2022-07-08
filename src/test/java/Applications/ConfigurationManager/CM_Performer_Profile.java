@@ -47,7 +47,7 @@ public class CM_Performer_Profile {
     public void viewDependecies_PP(){
         driver.findElement(By.xpath("//div[text()='"+newPerformer+"']")).click();
         driver.findElement(By.id("__xmlview5--viewDependencies-img")).click();
-        asserts.assertDependecies();
+        asserts.assertDependecies(5);
     }
 
     @Test(priority = 2)

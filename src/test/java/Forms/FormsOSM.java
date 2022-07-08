@@ -1,18 +1,48 @@
 package Forms;
 
+import Helpers.FormsControl;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+
+import java.time.Duration;
 import java.util.List;
 
 public class FormsOSM {
 
     private static List<WebElement> listForm;
     private static String save = "__xmlview4--save-img";
-    private static String edit= "__xmlview4--edit-img";
+    private static String edit = "__xmlview4--edit-img";
 
+    private static WebDriverWait wait;
+
+    //Company
+
+    public static void formCreateCompany(WebDriver driver,String company) throws InterruptedException {
+        FormsControl.controlSave(driver);
+        listForm = driver.findElements(By.className("sapMInputBaseInner"));
+        listForm.get(2).sendKeys(company);
+        listForm.get(3).sendKeys(company);
+        listForm.get(4).sendKeys("Compañia Creada en Selenium");
+        listForm.get(5).sendKeys("123456");
+        driver.findElement(By.id(save)).click();
+    }
+
+    public static void formEditCompany(WebDriver driver, String company){
+        listForm = FormsControl.controlEdit(driver,edit,"Empresa");
+        listForm.get(2).clear();
+        listForm.get(2).sendKeys(company);
+        listForm.get(3).clear();
+        listForm.get(3).sendKeys(company);
+        listForm.get(4).clear();
+        listForm.get(4).sendKeys("Compañia Editada en Selenium");
+        listForm.get(5).clear();
+        listForm.get(5).sendKeys("123456");
+        driver.findElement(By.id(save)).click();
+
+    }
 
     //Organizational Unit
     public static void formCreateOrganization(WebDriver driver, String organización) throws InterruptedException{

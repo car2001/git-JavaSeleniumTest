@@ -101,6 +101,11 @@
                     <include name="eliminarPosition"/>
                 </methods>
             </class>
+            <class name="Applications.ReleaseManager.RM_ChangeContainer">
+                <methods>
+                    <include name="crearChangeContainerArbol"/>
+                </methods>
+            </class>
             <class name="Applications.ReleaseManager.RM_Project">
                 <methods>
                     <include name="crearProyecto"/>

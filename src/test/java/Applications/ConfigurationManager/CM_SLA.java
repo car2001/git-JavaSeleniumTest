@@ -46,7 +46,7 @@ public class CM_SLA {
     public void viewDependecies_SLA(){
         driver.findElement(By.xpath("//div[text()='"+newSLA+"']")).click();
         driver.findElement(By.id("__xmlview5--viewDependencies-img")).click();
-        asserts.assertDependecies();
+        asserts.assertDependecies(5);
     }
 
     @Test(priority = 2)

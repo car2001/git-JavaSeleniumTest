@@ -46,7 +46,7 @@ public class CM_Notification_Profile {
     public void viewDependecies_Notification(){
         driver.findElement(By.xpath("//div[text()='"+newNotification+"']")).click();
         driver.findElement(By.id("__xmlview5--viewDependencies-img")).click();
-        asserts.assertDependecies();
+        asserts.assertDependecies(5);
     }
 
     @Test(priority = 2)
