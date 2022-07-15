@@ -1,6 +1,7 @@
 package Applications.ReleaseManager;
 
 import Forms.FormsRM;
+import Helpers.AccessBranches;
 import Helpers.Asserts;
 import Helpers.Dynamic_Scroll_Search;
 import Helpers.SelectBrowser;
@@ -28,6 +29,7 @@ public class RM_Release  {
     Actions action;
     SelectBrowser browser = new SelectBrowser(driver);
     Home_Page login;
+    AccessBranches accessBranch;
     Dynamic_Scroll_Search searchScrollElement;
     Asserts asserts;
 
@@ -42,10 +44,11 @@ public class RM_Release  {
     public void setUp(){
         browser.chooseBrowser(chosen_browser);
         driver = browser.getDriver();
-        login = new Home_Page(driver);
         action = new Actions(driver);
         asserts = new Asserts(driver);
+        accessBranch = new AccessBranches(driver);
         searchScrollElement = new Dynamic_Scroll_Search(driver);
+        login = new Home_Page(driver);
         login.loginPage("cpingo","1234");
         Login_Applications.loginRM(driver,"Project");
     }
@@ -55,8 +58,7 @@ public class RM_Release  {
         crearProyecto(project);
         exist = searchScrollElement.elementSearch(project);
         if(exist != -1){
-            desple = "__xmlview4--mainTree-rows-row"+exist+"-treeicon";
-            driver.findElement(By.id(desple)).click();
+            accessBranch.clickBranches(exist);
             exist= searchScrollElement.elementSearch(component);
             if(exist != -1){
                 WebElement release = driver.findElement(By.xpath("//span[normalize-space()='Release']"));
@@ -76,17 +78,16 @@ public class RM_Release  {
     public void editarRelease(){
         exist = searchScrollElement.elementSearch(project);
         if(exist != -1){
-            desple = "__xmlview4--mainTree-rows-row"+exist+"-treeicon";
-            driver.findElement(By.id(desple)).click();
+            accessBranch.clickBranches(exist);
             exist= searchScrollElement.elementSearch(component);
             if(exist != -1){
-                desple = "__xmlview4--mainTree-rows-row"+exist+"-treeicon";
-                driver.findElement(By.id(desple)).click();
+                accessBranch.clickBranches(exist);
                 exist=searchScrollElement.elementSearch(newRelease);
                 if(exist !=-1){
                     driver.findElement(By.xpath("//span[normalize-space()='"+newRelease+"']")).click();
                     FormsRM.formEditRelease(driver,editRelease);
                     asserts.assertSave();
+                    accessBranch.clickBranches(0);
                 }else{
                     Assert.assertEquals("No hay " + newRelease,"Si hay Release");
                 }
@@ -103,12 +104,10 @@ public class RM_Release  {
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
         exist = searchScrollElement.elementSearch(project);
         if(exist != -1){
-            desple = "__xmlview4--mainTree-rows-row"+exist+"-treeicon";
-            driver.findElement(By.id(desple)).click();
+            accessBranch.clickBranches(exist);
             exist= searchScrollElement.elementSearch(component);
             if(exist != -1){
-                desple = "__xmlview4--mainTree-rows-row"+exist+"-treeicon";
-                driver.findElement(By.id(desple)).click();
+                accessBranch.clickBranches(exist);
                 exist=searchScrollElement.elementSearch(editRelease);
                 if(exist !=-1){
                     WebElement release = driver.findElement(By.xpath("//span[normalize-space()='"+editRelease+"']"));
@@ -118,8 +117,10 @@ public class RM_Release  {
                     String xpathMessage = "//span[@class='sapMText sapUiSelectable sapMTextMaxWidth sapMMsgBoxText']";
                     driver.findElement(By.xpath("//bdi[normalize-space()='OK']")).click();
                     asserts.assertDelete(xpathMessage);
+                    //-------espera que el pop-up de eliminar desaparezca
                     WebElement popUp = driver.findElement(By.id("sap-ui-blocklayer-popup"));
                     wait.until(ExpectedConditions.invisibilityOf(popUp));
+                    //--------------------------
                     WebElement spanProject = driver.findElement(By.xpath("//span[normalize-space()='"+project+"']"));
                     action.contextClick(spanProject).perform();
                     driver.findElement(By.xpath("//div[normalize-space()='Delete Project']")).click();

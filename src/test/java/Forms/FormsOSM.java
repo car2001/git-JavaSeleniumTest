@@ -20,8 +20,8 @@ public class FormsOSM {
 
     //Company
 
-    public static void formCreateCompany(WebDriver driver,String company) throws InterruptedException {
-        FormsControl.controlSave(driver);
+    public static void formCreateCompany(WebDriver driver,String company) {
+        FormsControl.controlNew(driver,"Empresa");
         listForm = driver.findElements(By.className("sapMInputBaseInner"));
         listForm.get(2).sendKeys(company);
         listForm.get(3).sendKeys(company);

@@ -1,23 +1,15 @@
 package Applications.OSM;
 
 import Forms.FormsOSM;
-import Helpers.AccessBranches;
-import Helpers.Asserts;
-import Helpers.Dynamic_Scroll_Search;
-import Helpers.SelectBrowser;
+import Helpers.*;
 import HomepageFunctions.Home_Page;
 import HomepageFunctions.Login_Applications;
-import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.*;
-import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.interactions.Actions;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import java.sql.Driver;
-import java.util.ArrayList;
-import java.util.List;
 
 public class OSM_Company {
 
@@ -54,7 +46,7 @@ public class OSM_Company {
     }
 
     @Test()
-    public void crearCompany() throws InterruptedException {
+    public void crearCompany(){
         WebElement element = driver.findElement(By.xpath("//span[normalize-space()='Company']"));
         action.contextClick(element).perform();
         driver.findElement(By.xpath("//div[normalize-space()='New " + component + "']")).click();
@@ -63,7 +55,7 @@ public class OSM_Company {
     }
 
     @Test
-    public void doubleCheckCompany() throws InterruptedException {
+    public void doubleCheckCompany(){
         WebElement element = driver.findElement(By.xpath("//span[normalize-space()='Company']"));
         action.contextClick(element).perform();
         driver.findElement(By.xpath("//div[normalize-space()='New " + component + "']")).click();
@@ -73,7 +65,7 @@ public class OSM_Company {
     }
 
     @Test
-    public void viewCompanyDependencies() throws InterruptedException {
+    public void viewCompanyDependencies(){
         exist = searchScrollElement.elementSearch(newCompany);
         if (exist != -1){
             driver.findElement(By.xpath("//span[normalize-space()='"+newCompany+"']")).click();
@@ -86,7 +78,7 @@ public class OSM_Company {
 
 
     @Test
-    public void editarCompany() throws InterruptedException {
+    public void editarCompany(){
         exist = searchScrollElement.elementSearch(newCompany);
         if (exist != -1){
             driver.findElement(By.xpath("//span[normalize-space()='"+newCompany+"']")).click();
@@ -98,8 +90,16 @@ public class OSM_Company {
     }
 
     @Test
-    public void eliminarCompany() throws InterruptedException {
-
+    public void eliminarCompany()  {
+        exist = searchScrollElement.elementSearch(newCompany);
+        if (exist != -1){
+            WebElement empresa = driver.findElement(By.xpath("//span[normalize-space()='"+newCompany+"']"));
+            String xpathMessage = "//span[@class='sapMText sapUiSelectable sapMTextMaxWidth sapMMsgBoxText']";
+            FormsControl.controlDelete(driver,action,empresa,"Company");
+            asserts.assertDelete(xpathMessage);
+        }else{
+            Assert.assertEquals("No hay Company","The Operation has been Completed Successfully.");
+        }
     }
 
 }

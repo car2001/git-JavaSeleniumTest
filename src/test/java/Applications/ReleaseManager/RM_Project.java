@@ -3,6 +3,7 @@ package Applications.ReleaseManager;
 import Forms.FormsRM;
 import Helpers.Asserts;
 import Helpers.Dynamic_Scroll_Search;
+import Helpers.FormsControl;
 import Helpers.SelectBrowser;
 import HomepageFunctions.Home_Page;
 import HomepageFunctions.Login_Applications;
@@ -10,15 +11,14 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import java.time.Duration;
+
+import static HomepageFunctions.Login_Applications.accessBranch;
 
 public class RM_Project {
     private WebDriver driver;
@@ -35,7 +35,7 @@ public class RM_Project {
     String newProject = "Proyecto Selenium";
     String editProject = "Proyecto Selenium Editado";
     int exist = -1;
-    String desple;
+
 
 
     @BeforeMethod
@@ -97,15 +97,14 @@ public class RM_Project {
     @AfterMethod
     public void tearDown(){
         if (driver != null){
-            driver.quit();
+            //driver.quit();
         }
     }
 
     public String estadoRelease(String proyecto){
         exist= searchScrollElement.elementSearch(proyecto);
         if(exist !=-1){
-            desple = "__xmlview4--mainTree-rows-row"+exist+"-treeicon";
-            driver.findElement(By.id(desple)).click();
+            accessBranch.clickBranches(exist);
             exist=searchScrollElement.elementSearch("Release");
             if(exist !=-1){
                  return "Si hay Release" ;
@@ -119,11 +118,8 @@ public class RM_Project {
         exist= searchScrollElement.elementSearch(proyecto);
         if(exist !=-1){
             WebElement btnEditProject = driver.findElement(By.xpath("//span[normalize-space()='"+proyecto+"']"));
-            action.contextClick(btnEditProject).perform();
-            driver.findElement(By.xpath("//div[normalize-space()='Delete "+componente+"']")).click();
-            driver.findElement(By.xpath("//bdi[normalize-space()='Si']")).click();
             String xpathMessage = "//span[@class='sapMText sapUiSelectable sapMTextMaxWidth sapMMsgBoxText']";
-            driver.findElement(By.xpath("//bdi[normalize-space()='OK']")).click();
+            FormsControl.controlDelete(driver,action,btnEditProject,componente);
             asserts.assertDelete(xpathMessage);
         }else{Assert.assertEquals("No hay "+proyecto, "Si hay Proyecto");}
     }

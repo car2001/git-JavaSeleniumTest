@@ -1,15 +1,15 @@
 package Forms;
 
+import Helpers.FormsControl;
 import org.openqa.selenium.By;
-import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 
-import java.time.Duration;
+
 import java.time.LocalDate;
 import java.util.List;
+
+
 
 public class FormsRM {
     private static List<WebElement> listForm;
@@ -21,12 +21,12 @@ public class FormsRM {
     //Project
 
     public static void formCreateProject(WebDriver driver,String proyecto){
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
-        wait.until(ExpectedConditions.elementToBeClickable(By.id(save)));
-        List<WebElement> listForm = driver.findElements(By.className("sapMInputBaseInner"));
+        FormsControl.controlNew(driver,"Proyecto");
+        listForm = driver.findElements(By.className("sapMInputBaseInner"));
         listForm.get(2).sendKeys(proyecto);
         listForm.get(3).sendKeys(proyecto);
         listForm.get(4).sendKeys("Proyecto Creado en Selenium");
+        //Thread.sleep(500);
         driver.findElement(By.id("__xmlview4--ProjectStartDate-icon")).click();
         LocalDate date = LocalDate.now();
         driver.findElement(By.xpath("//span[normalize-space()='"+date.getDayOfMonth()+"']")).click();
@@ -43,11 +43,7 @@ public class FormsRM {
     }
 
     public static void formEditProject(WebDriver driver,String proyecto){
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
-        wait.until(ExpectedConditions.elementToBeClickable(By.id(edit)));
-        driver.findElement(By.id(edit)).click();
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.id(save)));
-        List<WebElement> listForm = driver.findElements(By.className("sapMInputBaseInner"));
+        listForm = FormsControl.controlEdit(driver,edit,"Proyecto");
         listForm.get(2).clear();
         listForm.get(2).sendKeys(proyecto);
         listForm.get(3).clear();
@@ -61,9 +57,8 @@ public class FormsRM {
     }
 
     public static void formCreateProjectWithoutRelease(WebDriver driver,String proyecto){
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
-        wait.until(ExpectedConditions.elementToBeClickable(By.id(save)));
-        List<WebElement> listForm = driver.findElements(By.className("sapMInputBaseInner"));
+        FormsControl.controlNew(driver,"Proyecto");
+        listForm = driver.findElements(By.className("sapMInputBaseInner"));
         listForm.get(2).sendKeys(proyecto);
         listForm.get(3).sendKeys(proyecto);
         listForm.get(4).sendKeys(" Proyecto sin Release Creado en Selenium");
@@ -82,14 +77,12 @@ public class FormsRM {
 
     //Release
 
-    public static void formCreateRelease(WebDriver driver,String release) throws InterruptedException {
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.id(save)));
-        List<WebElement> listForm = driver.findElements(By.className("sapMInputBaseInner"));
+    public static void formCreateRelease(WebDriver driver,String release){
+        FormsControl.controlNew(driver,"Release");
+        listForm = driver.findElements(By.className("sapMInputBaseInner"));
         listForm.get(2).sendKeys(release);
         listForm.get(3).sendKeys(release);
         listForm.get(4).sendKeys("Release Creado en Selenium");
-        Thread.sleep(500);
         driver.findElement(By.id("__xmlview4--ReleaseStartDate-icon")).click();
         LocalDate date = LocalDate.now();
         List<WebElement> Day = driver.findElements(By.xpath("//span[normalize-space()='"+date.getDayOfMonth()+"']"));
@@ -107,12 +100,7 @@ public class FormsRM {
     }
 
     public static void formEditRelease(WebDriver driver,String release){
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
-        wait.until(ExpectedConditions.elementToBeClickable(By.id(edit)));
-        driver.findElement(By.id(edit)).click();
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.id(save)));
-        wait.until(ExpectedConditions.elementToBeClickable(By.id(save)));
-        List<WebElement> listForm = driver.findElements(By.className("sapMInputBaseInner"));
+        listForm = FormsControl.controlEdit(driver,edit,"Release");
         listForm.get(2).clear();
         listForm.get(2).sendKeys(release);
         listForm.get(3).clear();
@@ -133,15 +121,14 @@ public class FormsRM {
 
     // Change Container
 
-    public static void formCreateChangeContainer(WebDriver driver,String ChangeContainer){
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.id(save)));
-        List<WebElement> listForm = driver.findElements(By.className("sapMInputBaseInner"));
+    public static void formCreateChangeContainer(WebDriver driver,String ChangeContainer,String Proyecto){
+        FormsControl.controlNew(driver,"Contenedor de Cambios");
+        listForm = driver.findElements(By.className("sapMInputBaseInner"));
         listForm.get(2).sendKeys(ChangeContainer);
         listForm.get(3).sendKeys(ChangeContainer);
         listForm.get(4).sendKeys( ChangeContainer);
         driver.findElement(By.id("__xmlview4--selectCCProject-arrow")).click();
-        driver.findElement(By.xpath("//li[text()='Proyecto Release Selenium']")).click();
+        driver.findElement(By.xpath("//li[text()='"+Proyecto+"']")).click();
         driver.findElement(By.id("__xmlview4--selectCCRelease-arrow")).click();
         driver.findElement(By.xpath("//li[text()='Release Selenium Editado']")).click();
     }

@@ -14,7 +14,6 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import java.util.List;
 
 public class RM_ChangeContainer {
     private WebDriver driver;
@@ -28,6 +27,7 @@ public class RM_ChangeContainer {
 
     String componente = "Change Container";
     String newChangeContainer = "CC_SELENIUM";
+    String proyecto = "";
     int exist = -1;
 
 
@@ -44,12 +44,11 @@ public class RM_ChangeContainer {
     }
 
     @Test()
-    public void crearChangeContainerArbol() throws InterruptedException {
+    public void crearChangeContainerArbol(){
         WebElement btnOpen = driver.findElement(By.xpath("//span[text()='Open']"));
         action.contextClick(btnOpen).perform();
         driver.findElement(By.xpath("//div[normalize-space()='New " + componente + "']")).click();
-        Thread.sleep(1000);
-        FormsRM.formCreateChangeContainer(driver,newChangeContainer);
+        FormsRM.formCreateChangeContainer(driver,newChangeContainer,proyecto);
     }
 
     @AfterMethod
