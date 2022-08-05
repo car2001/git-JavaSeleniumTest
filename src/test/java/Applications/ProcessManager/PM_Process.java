@@ -1,6 +1,5 @@
 package Applications.ProcessManager;
 
-import Forms.FormsPM;
 import Helpers.*;
 import HomepageFunctions.Home_Page;
 import HomepageFunctions.Login_Applications;
@@ -12,7 +11,7 @@ import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-public class PM_Hierarchies {
+public class PM_Process {
 
     private WebDriver driver;
     private final String chosen_browser = "Chrome";
@@ -24,10 +23,10 @@ public class PM_Hierarchies {
     Dynamic_Scroll_Search searchScrollElement;
     Asserts asserts;
 
-    String component = "Process Hierarchies";
+    String component = "Processes";
     String nameLevel = "Jerarquia Selenium";
-
-
+    String nameProcess = "Proceso Selenium";
+    int xpos;
 
     @BeforeMethod
     public void setUp() throws InterruptedException {
@@ -43,24 +42,20 @@ public class PM_Hierarchies {
     }
 
     @Test
-    public void crearHierarchies(){
-        WebElement hierarchies = driver.findElement(By.xpath("//span[text()='"+component+"']"));
-        action.contextClick(hierarchies).perform();
-        driver.findElement(By.xpath("//div[normalize-space()='New Level']")).click();
-        FormsPM.createNewHierarchie(driver,nameLevel);
-        asserts.assertSave();
-    }
-
-    @Test
-    public void eliminarHierarchies(){
-        int xpos = searchScrollElement.elementSearch(nameLevel);
+    public void crearProceso(){
+        xpos = searchScrollElement.elementSearch(nameLevel);
         if(xpos != -1){
-            WebElement hierarchie = driver.findElement(By.xpath("//span[text()='"+nameLevel+"']"));
-            FormsControl.controlDelete(driver,action,hierarchie,"Level");
-        }else{
-            Assert.assertEquals("No se encontro la jerarquia","NO");
+            accessBranch.clickBranches(xpos);
+            xpos = searchScrollElement.elementSearch(component);
+            if(xpos!=-1){
+                WebElement process = driver.findElement(By.xpath("//span[text()='"+component+"']"));
+                action.contextClick(process).perform();
+                driver.findElement(By.xpath("//div[normalize-space()='New Process']")).click();
+            }else{
+                Assert.assertEquals("No se encontro la jerarquia","NO");
+
+            }
+
         }
     }
-
-
 }

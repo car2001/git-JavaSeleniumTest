@@ -20,10 +20,15 @@ public class AccessBranches {
     public void clickBranches(Integer exist){
         String branch = "__xmlview4--mainTree-rows-row"+exist+"-treeicon";
         driver.findElement(By.id(branch)).click();
-        String script = "let next=document.getElementById('__xmlview4--mainTree-rows-row"+(exist+1)+"');return next.textContent";
-        String next = js.executeScript(script).toString();
-        while(next.contains("Loading...")){
-            next = js.executeScript(script).toString();
+        try {
+            String script = "let next=document.getElementById('__xmlview4--mainTree-rows-row"+(exist+1)+"');return next.textContent";
+            String next = js.executeScript(script).toString();
+            while(next.contains("Loading...")){
+                next = js.executeScript(script).toString();
+            }
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+            System.out.println("Esta al final");
         }
 
     }

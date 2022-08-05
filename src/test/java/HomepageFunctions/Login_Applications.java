@@ -16,8 +16,10 @@ public class Login_Applications {
     public static AccessBranches accessBranch;
 
     public static void loginOSM(WebDriver driver){
+        wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         accessBranch = new AccessBranches(driver);
         String routeOSM = "//span[@class='sapMTextMaxLine sapMTextLineClamp' and normalize-space()='Organizational Structure Manager']";
+        wait.until(ExpectedConditions.elementToBeClickable(By.xpath(routeOSM)));
         driver.findElement(By.xpath(routeOSM)).click();
         accessBranch.clickBranches(0);
         accessBranch.clickBranches(1);
@@ -26,6 +28,7 @@ public class Login_Applications {
     public static void loginCM(WebDriver driver,String componente){
         wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         String routeCM = "//span[@class='sapMTextMaxLine sapMTextLineClamp' and normalize-space()='Configuration Manager']";
+        wait.until(ExpectedConditions.elementToBeClickable(By.xpath(routeCM)));
         driver.findElement(By.xpath(routeCM)).click();
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("navListItem-navList-0-a")));
         driver.findElement(By.xpath("//div[@title='Reusable Component']")).click();
@@ -50,6 +53,7 @@ public class Login_Applications {
         wait = new WebDriverWait(driver,Duration.ofSeconds(50));
         accessBranch = new AccessBranches(driver);
         String routeRM = "//span[@class='sapMTextMaxLine sapMTextLineClamp' and normalize-space()='Release Manager']";
+        wait.until(ExpectedConditions.elementToBeClickable(By.xpath(routeRM)));
         driver.findElement(By.xpath(routeRM)).click();
         wait.until(ExpectedConditions.elementToBeClickable(By.id("__xmlview4--mainTree-rows-row0-treeicon")));
         if(componente.equals("Project")){
@@ -67,12 +71,17 @@ public class Login_Applications {
     }
 
     public static void loginPM(WebDriver driver){
-        wait = new WebDriverWait(driver,Duration.ofSeconds(50));
+        wait = new WebDriverWait(driver,Duration.ofSeconds(100));
+        accessBranch = new AccessBranches(driver);
         String routePM = "//span[@class='sapMTextMaxLine sapMTextLineClamp' and normalize-space()='Process Manager']";
+        wait.until(ExpectedConditions.elementToBeClickable(By.xpath(routePM)));
         driver.findElement(By.xpath(routePM)).click();
-        WebElement popupCarga = driver.findElement(By.xpath("//div[@role='progressbar']"));
+        WebElement popupCarga = driver.findElement(By.cssSelector("#sapUiBusyIndicator.sapUiUserSelectable"));
         wait.until(ExpectedConditions.visibilityOf(popupCarga));
         wait.until(ExpectedConditions.invisibilityOf(popupCarga));
-        driver.findElement(By.id("__xmlview4--mainTree-rows-row0-treeicon")).click();
+        wait.until(ExpectedConditions.visibilityOf(popupCarga));
+        wait.until(ExpectedConditions.invisibilityOf(popupCarga));
+
+        accessBranch.clickBranches(1);
     }
 }
