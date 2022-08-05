@@ -2,6 +2,7 @@ package Applications.ConfigurationManager;
 
 import Forms.FormsCM;
 import Helpers.Asserts;
+import Helpers.FormsControl;
 import Helpers.SelectBrowser;
 import HomepageFunctions.Home_Page;
 import HomepageFunctions.Login_Applications;
@@ -32,7 +33,7 @@ public class CM_Notification_Profile {
         driver = browser.getDriver();
         asserts = new Asserts(driver);
         login = new Home_Page(driver);
-        login.loginPage("cpingo","1234");
+        login.loginPage();
         Login_Applications.loginCM(driver,componente);
     }
 
@@ -57,21 +58,21 @@ public class CM_Notification_Profile {
     }
 
     @Test(priority = 3)
-    public void versionMayor_SLA(){
+    public void versionMayor_Notificatio(){
         driver.findElement(By.xpath("//div[text()='"+editNotification+"']")).click();
         FormsCM.MayorVersionNotification(driver,versionMayor_NP);
         asserts.assertSave();
     }
 
     @Test(priority = 4)
-    public void versionMenor_SLA(){
+    public void versionMenor_Notification(){
         driver.findElement(By.xpath("//div[text()='"+versionMayor_NP+"']")).click();
         FormsCM.MenorVersionNotification(driver,versionMenor_NP);
         asserts.assertSave();
     }
 
     @Test(priority = 5)
-    public void restoreVersion_SLA(){
+    public void restoreVersion_Notification(){
         driver.findElement(By.xpath("//div[text()='"+versionMenor_NP+"']")).click();
         FormsCM.restoreVersion_NP(driver,restoreVersion);
         asserts.assertSave();
@@ -79,10 +80,8 @@ public class CM_Notification_Profile {
 
     @Test(priority = 6)
     public void eliminarNotification(){
-        driver.findElement(By.xpath("//div[text()='"+restoreVersion+"']/parent::div/parent::div/following-sibling::button")).click();
-        driver.findElement(By.xpath("//bdi[normalize-space()='Si']")).click();
+        FormsControl.controlDelete(driver,restoreVersion);
         String xpathMessage = "//span[@class='sapMText sapUiSelectable sapMTextMaxWidth sapMMsgBoxText']";
-        driver.findElement(By.xpath("//bdi[normalize-space()='OK']")).click();
         asserts.assertDelete(xpathMessage);
     }
 

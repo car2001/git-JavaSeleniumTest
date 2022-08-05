@@ -12,11 +12,24 @@ public class Home_Page {
 
     private WebDriver driver;
     private String url;
+    private String user;
+    private String password;
 
     public Home_Page(WebDriver driver) {
         this.driver = driver;
         this.url = "https://cloud.buplat.com/IDO_SANDBOX/";
         //this.url = "http://wedox.sytes.net/buplat_config/";
+        this.user = "cpingo";
+        this.password = "1234";
+    }
+
+    public void loginPage(){
+        driver.get(url);
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+        driver.manage().window().maximize();
+        driver.findElement(By.id("__xmlview0--inputUserName-inner")).sendKeys(user);
+        driver.findElement(By.id("__xmlview0--inputPassword-inner")).sendKeys(password);
+        driver.findElement(By.id("__xmlview0--btnSubmit")).click();
     }
 
     public void loginPage(String user,String password){
@@ -28,4 +41,7 @@ public class Home_Page {
         driver.findElement(By.id("__xmlview0--btnSubmit")).click();
     }
 
+    public String getUser() {
+        return user;
+    }
 }

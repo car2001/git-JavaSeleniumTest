@@ -46,7 +46,7 @@ public class RM_Project {
         action = new Actions(driver);
         asserts = new Asserts(driver);
         searchScrollElement = new Dynamic_Scroll_Search(driver);
-        login.loginPage("cpingo", "1234");
+        login.loginPage();
         Login_Applications.loginRM(driver, componente);
     }
 

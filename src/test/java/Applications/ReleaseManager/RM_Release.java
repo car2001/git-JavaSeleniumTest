@@ -38,7 +38,7 @@ public class RM_Release  {
     String newRelease = "Release Selenium";
     String editRelease = "Release Selenium Editado";
     int exist = -1;
-    String desple;
+
 
     @BeforeMethod
     public void setUp(){
@@ -49,12 +49,12 @@ public class RM_Release  {
         accessBranch = new AccessBranches(driver);
         searchScrollElement = new Dynamic_Scroll_Search(driver);
         login = new Home_Page(driver);
-        login.loginPage("cpingo","1234");
+        login.loginPage();
         Login_Applications.loginRM(driver,"Project");
     }
 
     @Test
-    public void crearRelease() throws InterruptedException {
+    public void crearRelease(){
         crearProyecto(project);
         exist = searchScrollElement.elementSearch(project);
         if(exist != -1){
@@ -113,7 +113,7 @@ public class RM_Release  {
                     WebElement release = driver.findElement(By.xpath("//span[normalize-space()='"+editRelease+"']"));
                     action.contextClick(release).perform();
                     driver.findElement(By.xpath("//div[normalize-space()='Delete "+component+"']")).click();
-                    driver.findElement(By.xpath("//bdi[normalize-space()='Si']")).click();
+                    driver.findElement(By.xpath("//bdi[normalize-space()='Sí']")).click();
                     String xpathMessage = "//span[@class='sapMText sapUiSelectable sapMTextMaxWidth sapMMsgBoxText']";
                     driver.findElement(By.xpath("//bdi[normalize-space()='OK']")).click();
                     asserts.assertDelete(xpathMessage);
@@ -124,7 +124,7 @@ public class RM_Release  {
                     WebElement spanProject = driver.findElement(By.xpath("//span[normalize-space()='"+project+"']"));
                     action.contextClick(spanProject).perform();
                     driver.findElement(By.xpath("//div[normalize-space()='Delete Project']")).click();
-                    driver.findElement(By.xpath("//bdi[normalize-space()='Si'][last()]")).click();
+                    driver.findElement(By.xpath("//bdi[normalize-space()='Sí'][last()]")).click();
                     driver.findElement(By.xpath("//bdi[normalize-space()='OK'][last()]")).click();
                 }else{
                     Assert.assertEquals("No hay " + newRelease,"Si hay Release");

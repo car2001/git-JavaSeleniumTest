@@ -47,7 +47,7 @@ public class OSM_Location {
         asserts = new Asserts(driver);
         accessBranch = new AccessBranches(driver);
         login = new Home_Page(driver);
-        login.loginPage("cpingo","1234");
+        login.loginPage();
         Login_Applications.loginOSM(driver);
     }
 

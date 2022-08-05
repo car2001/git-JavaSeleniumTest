@@ -11,7 +11,7 @@ public class Asserts {
 
     public void assertSave(){
         String message = driver.findElement(By.className("sapMMsgStripMessage")).getAttribute("textContent");
-        Assert.assertEquals(message,"The Operation has been Completed Successfully."+ "\n");
+        Assert.assertEquals(message, "La operación se ha completado con éxito."+ "\n" );
     }
 
     public void assertDependecies(int num){
@@ -21,7 +21,7 @@ public class Asserts {
 
     public void assertDelete(String xpathMessage ){
         String message = driver.findElement(By.xpath(xpathMessage)).getText();
-        Assert.assertEquals(message,"The Operation has been Completed Successfully.");
+        Assert.assertEquals(message,"La operación se ha completado con éxito.");
     }
 
     public void assertDoubleCheck(String expected){

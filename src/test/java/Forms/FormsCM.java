@@ -1,6 +1,8 @@
 package Forms;
 
+import Helpers.FormsControl;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -15,6 +17,55 @@ public class FormsCM {
     private static String edit= "__xmlview5--edit-img";
     private static String version = "__xmlview5--newVersion-inner";
     private static String versionHistory = "__xmlview5--versionHistory-img";
+    private static String add = "__xmlview5--add-img";
+    private static String num = "5";
+
+
+    //COUNTER
+
+    public static void formCreateCounter(WebDriver driver, String Counter,String inicio , String incremento){
+        driver.findElement(By.id(add)).click();
+        listForm = FormsControl.controlNewWithoutFocus(driver,"contador",num);
+        listForm.get(2).click();
+        listForm.get(2).sendKeys(Counter);
+        listForm.get(3).click();
+        listForm.get(3).sendKeys(Counter);
+        listForm.get(4).click();
+        listForm.get(4).sendKeys(Counter);
+        listForm.get(6).click();
+        listForm.get(6).sendKeys(inicio);
+        listForm.get(7).click();
+        listForm.get(7).sendKeys(incremento);
+        driver.findElement(By.id(save)).click();
+    }
+
+    //INS
+
+    public static void formCreateINS(WebDriver driver, String INS , String separador , String fixedValue, String counter){
+        driver.findElement(By.id(add)).click();
+        listForm = FormsControl.controlNewWithoutFocus(driver,"Nuevo esquema de numeración de instancias",num);
+        listForm.get(2).click();
+        listForm.get(2).sendKeys(INS);
+        listForm.get(3).click();
+        listForm.get(3).sendKeys(INS);
+        listForm.get(4).click();
+        listForm.get(4).sendKeys(INS);
+        listForm.get(6).click();
+        listForm.get(6).sendKeys(separador);
+        driver.findElement(By.id("__xmlview5--addItem-img")).click();
+        driver.findElement(By.id("__xmlview5--addItem-img")).click();
+        List<WebElement> cboComponentes =  driver.findElements(By.xpath("//span[@class='sapUiIcon sapUiIconMirrorInRTL sapUiIconPointer sapMInputBaseIcon' and @aria-label ='Opciones de selección']"));
+        cboComponentes.get(0).click();
+        driver.findElement(By.xpath("//div[text()='Fixed Value'][last()]")).click();
+        cboComponentes.get(1).click();
+        driver.findElements(By.xpath("//div[text()='Counter']")).get(1).click();
+        listForm= driver.findElements(By.className("sapMInputBaseInner"));
+        listForm.get(8).click();
+        listForm.get(8).sendKeys(fixedValue);
+        driver.findElements(By.xpath("//span[@class='sapUiIcon sapUiIconMirrorInRTL sapUiIconPointer sapMInputBaseIcon' and @aria-label ='Opciones de selección']")).get(2).click();
+        driver.findElement(By.xpath("//div[text()='Counter Selenium']")).click();
+        driver.findElement(By.id(save)).click();
+    }
 
     //SLA
     public static void formCreateSLA(WebDriver driver, String SLA){
@@ -216,8 +267,8 @@ public class FormsCM {
         listForm.get(2).sendKeys(performer);
         listForm.get(3).sendKeys(performer);
         listForm.get(4).sendKeys("Descripción " + performer);
-        driver.findElement(By.id("__xmlview5--reusePerformer-handle")).click();
-        driver.findElement(By.id("__xmlview5--assignmentMethod-arrow")).click();
+        //driver.findElement(By.id("__xmlview5--reusePerformer-handle")).click();
+        //driver.findElement(By.id("__xmlview5--assignmentMethod-arrow")).click();
         driver.findElement(By.xpath("//div[@class='sapMSLITitleOnly'][normalize-space()='By Group']")).click();
         driver.findElement(By.id(save)).click();
     }

@@ -4,6 +4,7 @@ import Helpers.FormsControl;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 
 
 import java.time.LocalDate;
@@ -17,12 +18,12 @@ public class FormsRM {
     private static String edit= "__xmlview4--edit-img";
     private static String version = "__xmlview4--newVersion-inner";
     private static String versionHistory = "__xmlview4--versionHistory-img";
+    private static String num = "4";
 
     //Project
 
     public static void formCreateProject(WebDriver driver,String proyecto){
-        FormsControl.controlNew(driver,"Proyecto");
-        listForm = driver.findElements(By.className("sapMInputBaseInner"));
+        listForm = FormsControl.controlNew(driver,"proyecto",num);
         listForm.get(2).sendKeys(proyecto);
         listForm.get(3).sendKeys(proyecto);
         listForm.get(4).sendKeys("Proyecto Creado en Selenium");
@@ -43,7 +44,7 @@ public class FormsRM {
     }
 
     public static void formEditProject(WebDriver driver,String proyecto){
-        listForm = FormsControl.controlEdit(driver,edit,"Proyecto");
+        listForm = FormsControl.controlEdit(driver,edit,"proyecto",num);
         listForm.get(2).clear();
         listForm.get(2).sendKeys(proyecto);
         listForm.get(3).clear();
@@ -57,8 +58,7 @@ public class FormsRM {
     }
 
     public static void formCreateProjectWithoutRelease(WebDriver driver,String proyecto){
-        FormsControl.controlNew(driver,"Proyecto");
-        listForm = driver.findElements(By.className("sapMInputBaseInner"));
+        listForm = FormsControl.controlNew(driver,"proyecto",num);
         listForm.get(2).sendKeys(proyecto);
         listForm.get(3).sendKeys(proyecto);
         listForm.get(4).sendKeys(" Proyecto sin Release Creado en Selenium");
@@ -78,8 +78,7 @@ public class FormsRM {
     //Release
 
     public static void formCreateRelease(WebDriver driver,String release){
-        FormsControl.controlNew(driver,"Release");
-        listForm = driver.findElements(By.className("sapMInputBaseInner"));
+        listForm = FormsControl.controlNew(driver,"liberación",num);
         listForm.get(2).sendKeys(release);
         listForm.get(3).sendKeys(release);
         listForm.get(4).sendKeys("Release Creado en Selenium");
@@ -100,7 +99,7 @@ public class FormsRM {
     }
 
     public static void formEditRelease(WebDriver driver,String release){
-        listForm = FormsControl.controlEdit(driver,edit,"Release");
+        listForm = FormsControl.controlEdit(driver,edit,"liberacion",num);
         listForm.get(2).clear();
         listForm.get(2).sendKeys(release);
         listForm.get(3).clear();
@@ -121,16 +120,26 @@ public class FormsRM {
 
     // Change Container
 
-    public static void formCreateChangeContainer(WebDriver driver,String ChangeContainer,String Proyecto){
-        FormsControl.controlNew(driver,"Contenedor de Cambios");
-        listForm = driver.findElements(By.className("sapMInputBaseInner"));
+    public static void formCreateChangeContainer(WebDriver driver,String ChangeContainer,String Proyecto,String release,String user){
+        listForm = FormsControl.controlNew(driver,"contenedor de cambios",num);
+        listForm.get(2).click();
         listForm.get(2).sendKeys(ChangeContainer);
+        listForm.get(3).click();
         listForm.get(3).sendKeys(ChangeContainer);
+        listForm.get(4).click();
         listForm.get(4).sendKeys( ChangeContainer);
-        driver.findElement(By.id("__xmlview4--selectCCProject-arrow")).click();
+        List<WebElement> listComboBox = driver.findElements(By.className("sapMSltLabel"));
+        listComboBox.get(0).click();
         driver.findElement(By.xpath("//li[text()='"+Proyecto+"']")).click();
-        driver.findElement(By.id("__xmlview4--selectCCRelease-arrow")).click();
-        driver.findElement(By.xpath("//li[text()='Release Selenium Editado']")).click();
+        listComboBox.get(1).click();
+        driver.findElement(By.xpath("//li[text()='"+release+"']")).click();
+        listComboBox.get(2).click();
+        driver.findElement(By.xpath("//li[text()='"+user+"']")).click();
+        driver.findElement(By.id(save)).click();
+    }
+
+    public static void formEditChangeContainer(){
+
     }
 
 }

@@ -2,6 +2,7 @@ package Applications.ConfigurationManager;
 
 import Forms.FormsCM;
 import Helpers.Asserts;
+import Helpers.FormsControl;
 import Helpers.SelectBrowser;
 import HomepageFunctions.Home_Page;
 import HomepageFunctions.Login_Applications;
@@ -32,7 +33,7 @@ public class CM_SLA {
         driver = browser.getDriver();
         asserts = new Asserts(driver);
         login = new Home_Page(driver);
-        login.loginPage("cpingo","1234");
+        login.loginPage();
         Login_Applications.loginCM(driver,componente);
     }
 
@@ -79,10 +80,8 @@ public class CM_SLA {
 
     @Test(priority = 6)
     public void eliminar_SLA(){
-        driver.findElement(By.xpath("//div[text()='"+restoreVersion+"']/parent::div/parent::div/following-sibling::button")).click();
-        driver.findElement(By.xpath("//bdi[normalize-space()='Si']")).click();
+        FormsControl.controlDelete(driver,restoreVersion);
         String xpathMessage = "//span[@class='sapMText sapUiSelectable sapMTextMaxWidth sapMMsgBoxText']";
-        driver.findElement(By.xpath("//bdi[normalize-space()='OK']")).click();
         asserts.assertDelete(xpathMessage);
     }
 

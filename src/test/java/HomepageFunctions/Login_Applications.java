@@ -16,17 +16,11 @@ public class Login_Applications {
     public static AccessBranches accessBranch;
 
     public static void loginOSM(WebDriver driver){
-        wait = new WebDriverWait(driver, Duration.ofSeconds(5));
         accessBranch = new AccessBranches(driver);
         String routeOSM = "//span[@class='sapMTextMaxLine sapMTextLineClamp' and normalize-space()='Organizational Structure Manager']";
         driver.findElement(By.xpath(routeOSM)).click();
         accessBranch.clickBranches(0);
         accessBranch.clickBranches(1);
-//        try{
-//            wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("__xmlview4--mainTree-vsb")));
-//        }catch (Exception e){
-//            System.out.println("Se espero el Scroll pero no se encontro");
-//        }<
     }
 
     public static void loginCM(WebDriver driver,String componente){
@@ -72,9 +66,13 @@ public class Login_Applications {
         }
     }
 
-    public static void main(String[] args) {
-        String division = "20";
-        int entero = Integer.parseInt(division);
-        System.out.println(entero);
+    public static void loginPM(WebDriver driver){
+        wait = new WebDriverWait(driver,Duration.ofSeconds(50));
+        String routePM = "//span[@class='sapMTextMaxLine sapMTextLineClamp' and normalize-space()='Process Manager']";
+        driver.findElement(By.xpath(routePM)).click();
+        WebElement popupCarga = driver.findElement(By.xpath("//div[@role='progressbar']"));
+        wait.until(ExpectedConditions.visibilityOf(popupCarga));
+        wait.until(ExpectedConditions.invisibilityOf(popupCarga));
+        driver.findElement(By.id("__xmlview4--mainTree-rows-row0-treeicon")).click();
     }
 }

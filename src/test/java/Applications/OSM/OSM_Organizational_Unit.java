@@ -44,7 +44,7 @@ public class OSM_Organizational_Unit {
         accessBranch = new AccessBranches(driver);
         searchScrollElement = new Dynamic_Scroll_Search(driver);
         login = new Home_Page(driver);
-        login.loginPage("cpingo","1234");
+        login.loginPage();
         Login_Applications.loginOSM(driver);
     }
 

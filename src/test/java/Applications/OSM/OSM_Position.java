@@ -49,7 +49,7 @@ public class OSM_Position {
         searchScrollElement = new Dynamic_Scroll_Search(driver);
         accessBranch = new AccessBranches(driver);
         login = new Home_Page(driver);
-        login.loginPage("cpingo","1234");
+        login.loginPage();
         Login_Applications.loginOSM(driver);
     }
 

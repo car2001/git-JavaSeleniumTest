@@ -15,13 +15,14 @@ public class FormsOSM {
     private static List<WebElement> listForm;
     private static String save = "__xmlview4--save-img";
     private static String edit = "__xmlview4--edit-img";
+    private static  String num = "4";
 
     private static WebDriverWait wait;
 
     //Company
 
     public static void formCreateCompany(WebDriver driver,String company) {
-        FormsControl.controlNew(driver,"Empresa");
+        FormsControl.controlNew(driver,"Empresa",num);
         listForm = driver.findElements(By.className("sapMInputBaseInner"));
         listForm.get(2).sendKeys(company);
         listForm.get(3).sendKeys(company);
@@ -31,7 +32,7 @@ public class FormsOSM {
     }
 
     public static void formEditCompany(WebDriver driver, String company){
-        listForm = FormsControl.controlEdit(driver,edit,"Empresa");
+        listForm = FormsControl.controlEdit(driver,edit,"Empresa",num);
         listForm.get(2).clear();
         listForm.get(2).sendKeys(company);
         listForm.get(3).clear();
