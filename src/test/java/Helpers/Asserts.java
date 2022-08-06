@@ -14,6 +14,16 @@ public class Asserts {
         Assert.assertEquals(message, "La operación se ha completado con éxito."+ "\n" );
     }
 
+    public void assertSaveDiagram(){
+        String message = driver.findElement(By.className("sapMMsgStripMessage")).getAttribute("textContent");
+        Assert.assertEquals(message, "El diagrama se guardó con éxito.");
+    }
+
+    public void assertSaveModelData(){
+        String message = driver.findElement(By.className("sapMMsgStripMessage")).getAttribute("textContent");
+        Assert.assertEquals(message, "Los atributos del modelo de datos se guardaron con éxito");
+    }
+
     public void assertDependecies(int num){
         String message = driver.findElement(By.id("__xmlview"+num+"--dependenciesTableTitle-inner")).getText();
         Assert.assertEquals(message,"Dependencies List");

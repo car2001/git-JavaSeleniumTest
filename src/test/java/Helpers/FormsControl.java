@@ -7,6 +7,7 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.lang.reflect.MalformedParametersException;
 import java.time.Duration;
 import java.util.List;
 
@@ -100,4 +101,26 @@ public class FormsControl {
         driver.findElement(By.xpath("//bdi[normalize-space()='OK']")).click();
     }
 
+    public static void controlLook(WebDriver driver,String edit){
+        wait = new WebDriverWait(driver, Duration.ofSeconds(1));
+        try {
+            WebElement msgLook = driver.findElement(By.xpath("//span[text()='Este objeto está bloqueado por cpingo.' and @class = 'sapMText sapUiSelectable sapMTextMaxWidth']"));
+            if(msgLook.isDisplayed()){
+                driver.findElement(By.xpath("//span[@title='Opciones de usuario']")).click();
+                driver.findElement(By.xpath("//bdi[text()='Mis bloqueos']")).click();
+                driver.findElement(By.xpath("//div[@title='Seleccionar todo']")).click();
+                driver.findElement(By.xpath("//button[@title='Borrar']")).click();
+                driver.findElement(By.xpath("//bdi[normalize-space()='Sí']")).click();
+                driver.findElement(By.xpath("//bdi[normalize-space()='OK']")).click();
+                driver.findElement(By.xpath("//bdi[text()='Cerrar']")).click();
+                driver.findElement(By.id(edit)).click();
+                WebElement popLokk  = driver.findElement(By.cssSelector(".sapMDialogScrollCont"));
+                wait.until(ExpectedConditions.invisibilityOf(popLokk));
+            }else{
+                System.out.println("Sigue nada más" + "false");
+            }
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+        }
+    }
 }
