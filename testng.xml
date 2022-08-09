@@ -6,7 +6,7 @@
             <class name="Applications.ReleaseManager.RM_ChangeContainer">
                 <methods>
                     <include name="crearChangeContainerArbol"/>
-                    <include name="activarChangeContainer"/>
+                    <include name="activarChangeContainerTabla"/>
                 </methods>
             </class>
 
@@ -43,6 +43,20 @@
                     <include name="crearRiskProfile"/>
                 </methods>
             </class>
+
+            <class name="Applications.ProcessManager.PM_Hierarchies">
+                <methods>
+                    <include name="crearHierarchies"></include>
+                </methods>
+            </class>
+
+            <class name="Applications.ProcessManager.PM_Process">
+                <methods>
+                    <include name="crearProceso"></include>
+                    <include name="stepsProcess"></include>
+                </methods>
+            </class>
+
 
         </classes>
     </test>

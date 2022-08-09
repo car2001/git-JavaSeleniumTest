@@ -15,6 +15,7 @@ import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import java.awt.*;
 import java.time.Duration;
 import java.util.List;
 
@@ -37,7 +38,9 @@ public class PM_Process {
     String nameProcess = "Proceso Selenium";
     String INS = "INS Selenium";
     String SLA = "SLA Selenium";
+    String AF = "Activity Form Selenium";
     int xpos;
+
 
     @BeforeMethod
     public void setUp() throws InterruptedException {
@@ -73,18 +76,49 @@ public class PM_Process {
     }
 
     @Test
-    public void stepsProcess(){
+    public void stepsProcess() throws InterruptedException, AWTException {
         //PASOS TOTALES
+        openWizard();
+        step1Process();
+        step2Process();
+        step3Process();
     }
 
     @Test
-    public void step3Process() throws InterruptedException {
-        openWizard();
+    public void testPruebaForm() throws InterruptedException, AWTException {
+        openWizard2();
+        xpos = searchScrollElement.elementSearch("Activity Form");
+        if (xpos!=-1){
+            driver.findElement(By.xpath("//span[text()='Activity Form']")).click();
+            driver.findElement(By.xpath("//span[text()='Activity Form Selenium']")).click();
+            driver.findElement(By.xpath("//button[@aria-label='Desing Form']")).click();
+            WebElement popupCarga = driver.findElement(By.cssSelector("#sapUiBusyIndicator.sapUiUserSelectable"));
+            wait.until(ExpectedConditions.visibilityOf(popupCarga));
+            wait.until(ExpectedConditions.invisibilityOf(popupCarga));
+            Forms.FormsPM.panelActivityForm(driver,action,3,js);
+        }
+
+    }
+
+
+    public void step3Process() throws InterruptedException, AWTException {
         driver.findElements(By.cssSelector(".sapUiIcon.sapUiIconMirrorInRTL.sapMITBFilterIcon.sapMITBBadgeHolder.sapMITBFilterDefault")).get(2).click();
         driver.findElement(By.id("__xmlview4--btnEditModelerFB-inner")).click();
         FormsControl.controlLook(driver,"__xmlview4--btnEditModelerFB-inner");
         WebElement task1 =  driver.findElement(By.cssSelector("#__xmlview4--js-canvas-fb > div > div > svg > g > g > g > g.djs-children > g:nth-child(9) > g > rect.djs-hit.djs-hit-all"));
         action.moveToElement(task1).click().build().perform();
+        Thread.sleep(1500);
+        //WebElement verticalBar = driver.findElement(By.xpath("//span[@aria-label='vertical-grip' and @class ='sapUiLoSplitterBarGripIcon sapUiIcon sapUiIconMirrorInRTL']"));
+        //action.moveToElement(verticalBar).doubleClick().build().perform();
+        driver.findElement(By.id("__xmlview4--btnAddACTF-inner")).click();
+        Forms.FormsPM.createNewActivityForm(driver,AF);
+        WebElement popupCarga = driver.findElement(By.xpath("//div[contains(@id,'--resSplitMain-busyIndicator')]"));
+        wait.until(ExpectedConditions.visibilityOf(popupCarga));
+        wait.until(ExpectedConditions.invisibilityOf(popupCarga));
+        Thread.sleep(5000);
+        //WebElement verticalBar = driver.findElement(By.xpath("//span[@aria-label='vertical-grip' and @class ='sapUiLoSplitterBarGripIcon sapUiIcon sapUiIconMirrorInRTL']"));
+        //action.moveToElement(verticalBar).clickAndHold().moveByOffset(-200,0).release(verticalBar).build().perform();
+        Forms.FormsPM.panelActivityForm(driver,action,3,js);
     }
 
 
@@ -152,7 +186,7 @@ public class PM_Process {
                     WebElement popupCarga = driver.findElement(By.cssSelector("#sapUiBusyIndicator.sapUiUserSelectable"));
                     wait.until(ExpectedConditions.visibilityOf(popupCarga));
                     wait.until(ExpectedConditions.invisibilityOf(popupCarga));
-                    driver.findElement(By.id("__xmlview4--btnGoToWizard-content")).click();
+                    driver.findElement(By.id("__xmlview4--btnGoToWizard-content")).click(); // este el original
                     Thread.sleep(3000);
                 }
             }
@@ -161,6 +195,31 @@ public class PM_Process {
         }
     }
 
+
+    public void openWizard2() throws InterruptedException {
+        wait = new WebDriverWait(driver, Duration.ofSeconds(100));
+        xpos = searchScrollElement.elementSearch(nameLevel);
+        if(xpos != -1){
+            accessBranch.clickBranches(xpos);
+            xpos = searchScrollElement.elementSearch(component);
+            if(xpos!=-1){
+                accessBranch.clickBranches(xpos);
+                xpos = searchScrollElement.elementSearch(nameProcess);
+                if(xpos!=-1){
+                    driver.findElement(By.xpath("//span[text()='"+nameProcess+"']")).click();
+
+                    WebElement popupCarga = driver.findElement(By.cssSelector("#sapUiBusyIndicator.sapUiUserSelectable"));
+                    wait.until(ExpectedConditions.visibilityOf(popupCarga));
+                    wait.until(ExpectedConditions.invisibilityOf(popupCarga));
+                    accessBranch.clickBranches(xpos); // agrgado paara probar
+                    //driver.findElement(By.id("__xmlview4--btnGoToWizard-content")).click(); // este el original
+                    Thread.sleep(3000);
+                }
+            }
+        }else{
+            Assert.assertEquals("No se encontro la jerarquia","NO");
+        }
+    }
 
 
 
