@@ -4,10 +4,7 @@ import Forms.FormsPM;
 import Helpers.*;
 import HomepageFunctions.Home_Page;
 import HomepageFunctions.Login_Applications;
-import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -100,25 +97,45 @@ public class PM_Process {
 
     }
 
-
+    @Test
     public void step3Process() throws InterruptedException, AWTException {
+        openWizard();
         driver.findElements(By.cssSelector(".sapUiIcon.sapUiIconMirrorInRTL.sapMITBFilterIcon.sapMITBBadgeHolder.sapMITBFilterDefault")).get(2).click();
         driver.findElement(By.id("__xmlview4--btnEditModelerFB-inner")).click();
         FormsControl.controlLook(driver,"__xmlview4--btnEditModelerFB-inner");
+        js.executeScript("let g = document.querySelector('#__xmlview4--js-canvas-fb > div > div > svg > g'); g.scrollIntoView();");
         WebElement task1 =  driver.findElement(By.cssSelector("#__xmlview4--js-canvas-fb > div > div > svg > g > g > g > g.djs-children > g:nth-child(9) > g > rect.djs-hit.djs-hit-all"));
         action.moveToElement(task1).click().build().perform();
-        Thread.sleep(1500);
-        //WebElement verticalBar = driver.findElement(By.xpath("//span[@aria-label='vertical-grip' and @class ='sapUiLoSplitterBarGripIcon sapUiIcon sapUiIconMirrorInRTL']"));
-        //action.moveToElement(verticalBar).doubleClick().build().perform();
+        Thread.sleep(1000);
+        js.executeScript("let y = document.getElementById('__xmlview4--detail-cont');y.scroll(0,0)");
         driver.findElement(By.id("__xmlview4--btnAddACTF-inner")).click();
         Forms.FormsPM.createNewActivityForm(driver,AF);
         WebElement popupCarga = driver.findElement(By.xpath("//div[contains(@id,'--resSplitMain-busyIndicator')]"));
         wait.until(ExpectedConditions.visibilityOf(popupCarga));
         wait.until(ExpectedConditions.invisibilityOf(popupCarga));
-        Thread.sleep(5000);
-        //WebElement verticalBar = driver.findElement(By.xpath("//span[@aria-label='vertical-grip' and @class ='sapUiLoSplitterBarGripIcon sapUiIcon sapUiIconMirrorInRTL']"));
-        //action.moveToElement(verticalBar).clickAndHold().moveByOffset(-200,0).release(verticalBar).build().perform();
         Forms.FormsPM.panelActivityForm(driver,action,3,js);
+        js.executeScript("let g = document.querySelector('#__xmlview4--js-canvas-fb > div > div > svg > g'); g.scrollIntoView();");
+        WebElement task2 = driver.findElement(By.cssSelector("#__xmlview4--js-canvas-fb > div > div > svg > g > g > g > g.djs-children > g:nth-child(13) > g > rect.djs-hit.djs-hit-all"));
+        action.moveToElement(task2).click().build().perform();
+        js.executeScript("let y = document.getElementById('__xmlview4--detail-cont');y.scroll(0,0)");
+        driver.findElement(By.xpath("//input[contains(@id,'--cbActivityForm-inner') and @placeholder = 'Seleccione una opción']")).click();
+        driver.findElement(By.xpath("//input[contains(@id,'--cbActivityForm-inner') and @placeholder = 'Seleccione una opción']")).sendKeys(AF);
+        driver.findElement(By.xpath("//button[@title='Rechazar']")).click();
+        js.executeScript("let g = document.querySelector('#__xmlview4--js-canvas-fb > div > div > svg > g'); g.scrollIntoView();");
+        WebElement task3 = driver.findElement(By.cssSelector("#__xmlview4--js-canvas-fb > div > div > svg > g > g > g > g.djs-children > g:nth-child(16) > g > rect.djs-hit.djs-hit-all"));
+        action.moveToElement(task3).click().build().perform();
+        Thread.sleep(1000);
+        js.executeScript("let y = document.getElementById('__xmlview4--detail-cont');y.scroll(0,0)");
+        Thread.sleep(1000);
+        driver.findElement(By.xpath("//span[contains(@id,'--btnEmailDefinition-img')]")).click();
+        WebElement popEmailDefinition = driver.findElement(By.xpath("//span[text()='Editor de correo electrónico']"));
+        wait.until(ExpectedConditions.visibilityOf(popEmailDefinition));
+        driver.findElement(By.xpath("//input[contains(@id,'--miTO-inner')]")).click();
+        driver.findElement(By.xpath("//input[contains(@id,'--miTO-inner')]")).sendKeys("role: Superadmin");
+        driver.findElement(By.xpath("//input[contains(@id,'--miTO-inner')]")).sendKeys(Keys.TAB);
+        driver.findElement(By.xpath("//input[contains(@id,'--txtSubject-inner')]")).click();
+        driver.findElement(By.xpath("//input[contains(@id,'--txtSubject-inner')]")).sendKeys("Proceso Selenium iniciooo");
+
     }
 
 
@@ -196,7 +213,7 @@ public class PM_Process {
     }
 
 
-    public void openWizard2() throws InterruptedException {
+    public void openWizard2() throws InterruptedException { //este es de pri}ueba
         wait = new WebDriverWait(driver, Duration.ofSeconds(100));
         xpos = searchScrollElement.elementSearch(nameLevel);
         if(xpos != -1){
