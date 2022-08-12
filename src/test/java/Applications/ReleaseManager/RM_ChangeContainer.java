@@ -53,7 +53,7 @@ public class RM_ChangeContainer {
     }
 
     @Test()
-    public void crearChangeContainerArbol(){
+    public void crearChangeContainerArbol() throws InterruptedException {
         String user = login.getUser();
         WebElement btnOpen = driver.findElement(By.xpath("//span[text()='Open']"));
         action.contextClick(btnOpen).perform();
@@ -72,18 +72,21 @@ public class RM_ChangeContainer {
         }
     }
 
-    @Test()
+    @Test()//arreglar estoo
     public void crearChangeContainerTabla() throws InterruptedException {
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         String user = login.getUser();
         driver.findElement(By.xpath("//span[text()='Open']")).click();
+        Thread.sleep(4000);
         WebElement titulo = driver.findElement(By.xpath("//span[text()='Lista de contenedor de cambios']"));
         wait.until(ExpectedConditions.visibilityOf(titulo));
-        Thread.sleep(2000);
+        Thread.sleep(5000);
         List<WebElement> buttons = driver.findElements(By.xpath("//span[@class ='sapMBtnInner sapMBtnHoverable sapMFocusable sapMBtnIconFirst sapMBtnDefault']"));
         action.moveToElement(buttons.get(0)).click().perform();
+        Thread.sleep(5000);
         FormsRM.formCreateChangeContainer(driver,newChangeContainer,project,release,user);
         asserts.assertSave();
+
     }
 
     @Test()
@@ -100,7 +103,8 @@ public class RM_ChangeContainer {
     }
 
     @Test
-    public void activarChangeContainerTabla(){
+    public void activarChangeContainerTabla() throws InterruptedException {
+        crearChangeContainerArbol();
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         driver.findElement(By.xpath("//span[text()='Open']")).click();
         WebElement titulo = driver.findElement(By.xpath("//span[text()='Lista de contenedor de cambios']"));
@@ -111,10 +115,12 @@ public class RM_ChangeContainer {
         asserts.assertSave();
     }
 
+
+
     @AfterMethod
     public void tearDown(){
         if (driver != null){
-            //driver.quit();
+            driver.quit();
         }
     }
 

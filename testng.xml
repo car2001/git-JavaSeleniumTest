@@ -5,7 +5,6 @@
         <classes>
             <class name="Applications.ReleaseManager.RM_ChangeContainer">
                 <methods>
-                    <include name="crearChangeContainerArbol"/>
                     <include name="activarChangeContainerTabla"/>
                 </methods>
             </class>

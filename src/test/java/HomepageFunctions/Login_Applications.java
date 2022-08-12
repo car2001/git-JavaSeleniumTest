@@ -89,7 +89,8 @@ public class Login_Applications {
         CargaPopPup.PopPupGeneral(driver,wait);
         driver.findElement(By.id("navListItem-navList-2")).click();
         CargaPopPup.PopPupGeneral(driver,wait);
-        driver.findElement(By.xpath("//div[contains(@aria-label,'Proceso Selenium')]")).click();
+        driver.findElement(By.xpath("//div[contains(@aria-label,'"+proceso+"')]")).click();
+        //driver.findElement(By.xpath("//bdi[text()='Sí']"));
     }
 
 }
