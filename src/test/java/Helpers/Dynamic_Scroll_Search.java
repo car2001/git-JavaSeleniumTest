@@ -41,14 +41,15 @@ public class Dynamic_Scroll_Search {
             }
         }
 
-        existScroll = driver.findElement(By.id("__xmlview4--mainTree-vsb")).isDisplayed();
+        existScroll = driver.findElement(By.cssSelector(".sapUiTableVSb")).isDisplayed();
 
         if(existScroll){
             try {
-                WebElement scrollBar = driver.findElement(By.id("__xmlview4--mainTree-vsb"));
+                WebElement scrollBar = driver.findElement(By.xpath("//div[contains(@id,'--mainTree-vsb') and @class='sapUiTableVSb']"));
                 int scrollHeight,clientHeight;
-                scrollHeight = js.executeScript("let barra = document.getElementById('__xmlview4--mainTree-vsb');return(barra.scrollHeight)").hashCode();
-                clientHeight = js.executeScript("let barra = document.getElementById('__xmlview4--mainTree-vsb');return(barra.clientHeight)").hashCode();
+
+                scrollHeight = js.executeScript("let int = arguments[0].scrollHeight; return(int)",scrollBar).hashCode();
+                clientHeight = js.executeScript("let int = arguments[0].clientHeight; return(int)",scrollBar).hashCode();
 
                 int numVeces,iterator;
 

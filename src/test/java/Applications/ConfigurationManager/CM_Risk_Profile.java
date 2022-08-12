@@ -2,6 +2,7 @@ package Applications.ConfigurationManager;
 
 import Forms.FormsCM;
 import Helpers.Asserts;
+import Helpers.BasicControl;
 import Helpers.FormsControl;
 import Helpers.SelectBrowser;
 import HomepageFunctions.Home_Page;
@@ -19,6 +20,7 @@ public class CM_Risk_Profile {
     SelectBrowser browser = new SelectBrowser(driver);
     Home_Page login;
     Asserts asserts;
+    BasicControl basicControl;
 
     String componente = "Risk Profile";
     String newRiskProfile = "Risk Profile Selenium";
@@ -32,6 +34,7 @@ public class CM_Risk_Profile {
         browser.chooseBrowser(chosen_browser);
         driver = browser.getDriver();
         asserts = new Asserts(driver);
+        basicControl = new BasicControl(driver);
         login = new Home_Page(driver);
         login.loginPage();
         Login_Applications.loginCM(driver,componente);
@@ -46,8 +49,8 @@ public class CM_Risk_Profile {
     @Test(priority = 1)
     public void viewDependecies_RP(){
         driver.findElement(By.xpath("//div[text()='"+newRiskProfile+"']")).click();
-        driver.findElement(By.id("__xmlview5--viewDependencies-img")).click();
-        asserts.assertDependecies(5);
+        basicControl.btnDependecies();
+        asserts.assertDependecies();
     }
 
     @Test(priority = 2)

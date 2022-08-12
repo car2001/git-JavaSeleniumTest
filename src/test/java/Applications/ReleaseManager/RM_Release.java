@@ -75,7 +75,7 @@ public class RM_Release  {
     }
 
     @Test
-    public void editarRelease(){
+    public void editarRelease() throws InterruptedException {
         exist = searchScrollElement.elementSearch(project);
         if(exist != -1){
             accessBranch.clickBranches(exist);

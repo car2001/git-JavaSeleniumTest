@@ -1,6 +1,7 @@
 package Helpers;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
@@ -15,10 +16,11 @@ public class FormsControl {
 
     private static WebDriverWait wait;
     private static List<WebElement> listForm;
+    private static BasicControl basicControl;
 
-    public static List<WebElement> controlNewWithoutFocus( WebDriver driver,String componente,String num){
+    public static List<WebElement> controlNewWithoutFocus( WebDriver driver,String componente){
         wait = new WebDriverWait(driver, Duration.ofSeconds(50));
-        WebElement titulo = driver.findElement(By.xpath("//span[@id='__xmlview"+num+"--objFormTitle-inner' and contains(text(),'"+componente+"')]"));
+        WebElement titulo = driver.findElement(By.xpath("//span[contains(@id,'--objFormTitle-inner') and contains(text(),'"+componente+"')]"));
         wait.until(ExpectedConditions.visibilityOf(titulo));
         listForm = driver.findElements(By.className("sapMInputBaseInner"));
         boolean focus = false;
@@ -38,9 +40,9 @@ public class FormsControl {
         return listForm;
     }
 
-    public static List<WebElement> controlNew( WebDriver driver,String componente,String num){
+    public static List<WebElement> controlNew( WebDriver driver,String componente){
         wait = new WebDriverWait(driver, Duration.ofSeconds(50));
-        WebElement titulo = driver.findElement(By.xpath("//span[@id='__xmlview"+num+"--objFormTitle-inner' and contains(text(),'"+componente+"')]"));
+        WebElement titulo = driver.findElement(By.xpath("//span[contains(@id,'--objFormTitle-inner') and contains(text(),'"+componente+"')]"));
         wait.until(ExpectedConditions.visibilityOf(titulo));
         listForm = driver.findElements(By.className("sapMInputBaseInner"));
         boolean focus = false;
@@ -60,11 +62,12 @@ public class FormsControl {
     }
 
 
-    public static List<WebElement> controlEdit(WebDriver driver,String edit,String componente,String num){
+    public static List<WebElement> controlEdit(WebDriver driver,String edit,String componente,String num) throws InterruptedException{
         wait = new WebDriverWait(driver, Duration.ofSeconds(50));
-        WebElement titleDetail = driver.findElement(By.xpath("//span[@id='__xmlview"+num+"--objFormTitle-inner' and contains(text(),'"+componente+"')]"));
+        WebElement titleDetail = driver.findElement(By.xpath("//span[contains(@id,'--objFormTitle-inner') and contains(text(),'"+componente+"')]"));
         wait.until(ExpectedConditions.visibilityOf(titleDetail));
-        driver.findElement(By.id(edit)).click();
+        basicControl = new BasicControl(driver);
+        basicControl.btnEdit();
         WebElement titleEdit = driver.findElement(By.xpath("//span[text()='Editar "+componente+"']"));
         wait.until(ExpectedConditions.visibilityOf(titleEdit));
         listForm = driver.findElements(By.className("sapMInputBaseInner"));
@@ -101,21 +104,26 @@ public class FormsControl {
         driver.findElement(By.xpath("//bdi[normalize-space()='OK']")).click();
     }
 
-    public static void controlLook(WebDriver driver,String edit){
-        wait = new WebDriverWait(driver, Duration.ofSeconds(1));
+    public static void controlLook(WebDriver driver, String edit, JavascriptExecutor js) throws InterruptedException {
+        wait = new WebDriverWait(driver, Duration.ofMillis(1000));
+        Thread.sleep(500);
+        js.executeScript("async function prueba(){let x =  document.querySelector('.sapMMsgStripMessage');x.textContent }");
         try {
-            WebElement msgLook = driver.findElement(By.xpath("//span[text()='Este objeto está bloqueado por cpingo.' and @class = 'sapMText sapUiSelectable sapMTextMaxWidth']"));
-            if(msgLook.isDisplayed()){
-                driver.findElement(By.xpath("//span[@title='Opciones de usuario']")).click();
-                driver.findElement(By.xpath("//bdi[text()='Mis bloqueos']")).click();
-                driver.findElement(By.xpath("//div[@title='Seleccionar todo']")).click();
-                driver.findElement(By.xpath("//button[@title='Borrar']")).click();
-                driver.findElement(By.xpath("//bdi[normalize-space()='Sí']")).click();
-                driver.findElement(By.xpath("//bdi[normalize-space()='OK']")).click();
-                driver.findElement(By.xpath("//bdi[text()='Cerrar']")).click();
-                driver.findElement(By.id(edit)).click();
-                WebElement popLokk  = driver.findElement(By.cssSelector(".sapMDialogScrollCont"));
-                wait.until(ExpectedConditions.invisibilityOf(popLokk));
+            if(js.executeScript("let msg = document.querySelector('.sapMMsgStripMessage'); return(msg.textContent);").toString() != null){
+                String message = driver.findElement(By.className("sapMMsgStripMessage")).getAttribute("textContent");
+                if(message.contains("Este objeto está bloqueado por")){
+                    driver.findElement(By.xpath("//button[@title='Cerrar']")).click();
+                    driver.findElement(By.xpath("//span[@title='Opciones de usuario']")).click();
+                    driver.findElement(By.xpath("//bdi[text()='Mis bloqueos']")).click();
+                    driver.findElement(By.xpath("//div[@title='Seleccionar todo']")).click();
+                    driver.findElement(By.xpath("//button[@title='Borrar']")).click();
+                    driver.findElement(By.xpath("//bdi[normalize-space()='Sí']")).click();
+                    driver.findElement(By.xpath("//bdi[normalize-space()='OK']")).click();
+                    WebElement popLokk  = driver.findElement(By.xpath("//span[text()='Mis bloqueos']"));
+                    driver.findElement(By.xpath("//bdi[text()='Cerrar']")).click();
+                    wait.until(ExpectedConditions.invisibilityOf(popLokk));
+                    driver.findElement(By.xpath(edit)).click();
+                }
             }else{
                 System.out.println("Sigue nada más" + "false");
             }

@@ -1,5 +1,6 @@
 package Forms;
 
+import Helpers.BasicControl;
 import Helpers.FormsControl;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -19,11 +20,13 @@ public class FormsRM {
     private static String version = "__xmlview4--newVersion-inner";
     private static String versionHistory = "__xmlview4--versionHistory-img";
     private static String num = "4";
+    private static BasicControl basicControl;
+
 
     //Project
 
     public static void formCreateProject(WebDriver driver,String proyecto){
-        listForm = FormsControl.controlNew(driver,"proyecto",num);
+        listForm = FormsControl.controlNew(driver,"proyecto");
         listForm.get(2).sendKeys(proyecto);
         listForm.get(3).sendKeys(proyecto);
         listForm.get(4).sendKeys("Proyecto Creado en Selenium");
@@ -43,7 +46,7 @@ public class FormsRM {
         driver.findElement(By.id(save)).click();
     }
 
-    public static void formEditProject(WebDriver driver,String proyecto){
+    public static void formEditProject(WebDriver driver,String proyecto) throws InterruptedException {
         listForm = FormsControl.controlEdit(driver,edit,"proyecto",num);
         listForm.get(2).clear();
         listForm.get(2).sendKeys(proyecto);
@@ -58,7 +61,7 @@ public class FormsRM {
     }
 
     public static void formCreateProjectWithoutRelease(WebDriver driver,String proyecto){
-        listForm = FormsControl.controlNew(driver,"proyecto",num);
+        listForm = FormsControl.controlNew(driver,"proyecto");
         listForm.get(2).sendKeys(proyecto);
         listForm.get(3).sendKeys(proyecto);
         listForm.get(4).sendKeys(" Proyecto sin Release Creado en Selenium");
@@ -78,7 +81,7 @@ public class FormsRM {
     //Release
 
     public static void formCreateRelease(WebDriver driver,String release){
-        listForm = FormsControl.controlNew(driver,"liberación",num);
+        listForm = FormsControl.controlNew(driver,"liberación");
         listForm.get(2).sendKeys(release);
         listForm.get(3).sendKeys(release);
         listForm.get(4).sendKeys("Release Creado en Selenium");
@@ -98,7 +101,7 @@ public class FormsRM {
         driver.findElement(By.id(save)).click();
     }
 
-    public static void formEditRelease(WebDriver driver,String release){
+    public static void formEditRelease(WebDriver driver,String release) throws InterruptedException {
         listForm = FormsControl.controlEdit(driver,edit,"liberacion",num);
         listForm.get(2).clear();
         listForm.get(2).sendKeys(release);
@@ -121,7 +124,7 @@ public class FormsRM {
     // Change Container
 
     public static void formCreateChangeContainer(WebDriver driver,String ChangeContainer,String Proyecto,String release,String user){
-        listForm = FormsControl.controlNew(driver,"contenedor de cambios",num);
+        listForm = FormsControl.controlNew(driver,"contenedor de cambios");
         listForm.get(2).click();
         listForm.get(2).sendKeys(ChangeContainer);
         listForm.get(3).click();

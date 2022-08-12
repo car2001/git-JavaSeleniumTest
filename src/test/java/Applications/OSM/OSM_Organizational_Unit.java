@@ -28,6 +28,8 @@ public class OSM_Organizational_Unit {
     AccessBranches accessBranch;
     Actions action;
     JavascriptExecutor js;
+    Asserts asserts;
+    BasicControl basicControl;
 
     String company = "Company Selenium";
     String elemen_unit = "Organizational Unit";
@@ -42,6 +44,8 @@ public class OSM_Organizational_Unit {
         action = new Actions(driver);
         js = (JavascriptExecutor) driver;
         accessBranch = new AccessBranches(driver);
+        asserts = new Asserts(driver);
+        basicControl = new BasicControl(driver);
         searchScrollElement = new Dynamic_Scroll_Search(driver);
         login = new Home_Page(driver);
         login.loginPage();
@@ -61,8 +65,7 @@ public class OSM_Organizational_Unit {
                 Thread.sleep(500);
                 //Llenando Formulario
                 FormsOSM.formCreateOrganization(driver,elemen_org);
-                String message = driver.findElement(By.className("sapMMsgStripMessage")).getAttribute("textContent");
-                Assert.assertEquals(message, "The Operation has been Completed Successfully." + "\n");
+                asserts.assertSave();
             }else{
                 Assert.assertEquals("No hay Organizational Unit", "The Operation has been Completed Successfully.");
            }
@@ -84,8 +87,7 @@ public class OSM_Organizational_Unit {
                 Thread.sleep(500);
                 //Llenando Formulario
                 FormsOSM.formCreateOrganization(driver,elemen_org);
-                String message = driver.findElement(By.className("sapMMsgStripMessage")).getAttribute("textContent");
-                Assert.assertEquals(message,"Organizational Unit Already Exist");
+                asserts.assertDoubleCheck("Organizational Unit Already Exist");
             }else{
                 Assert.assertEquals("No hay Organizational Unit", "Organizational Unit Already Exist");
             }

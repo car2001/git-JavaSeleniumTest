@@ -21,7 +21,7 @@ import java.util.concurrent.RecursiveTask;
 
 public class FormsPM {
     private static List<WebElement> listForm;
-    private static String save = "__xmlview4--save-img";  /////span[contains(@id,'--save-inner')]
+    private static String save = "__xmlview4--save-img";  ///
     private static String edit= "__xmlview4--edit-img";
     private static String version = "__xmlview4--newVersion-inner";
     private static String versionHistory = "__xmlview4--versionHistory-img";
@@ -30,7 +30,7 @@ public class FormsPM {
 
     //HIERARCHIE
     public static void createNewHierarchie(WebDriver driver,String hierarchie){
-        listForm = FormsControl.controlNewWithoutFocus(driver,"nivel",num);
+        listForm = FormsControl.controlNewWithoutFocus(driver,"nivel");
         listForm.get(2).click();
         listForm.get(2).sendKeys(hierarchie);
         listForm.get(3).click();
@@ -42,7 +42,7 @@ public class FormsPM {
 
     //PROCESS
     public static void creteNewProcess(WebDriver driver, String process , Actions action, String INS, String SLA , JavascriptExecutor js){
-        listForm = FormsControl.controlNew(driver,"proceso",num);
+        listForm = FormsControl.controlNew(driver,"proceso");
         listForm.get(2).click();
         listForm.get(2).sendKeys(process);
         listForm.get(3).click();
@@ -94,7 +94,7 @@ public class FormsPM {
 
     //Activity Form
     public static void createNewActivityForm(WebDriver driver , String nameAf){
-        listForm = FormsControl.controlNew(driver,"formulario de actividad",num);
+        listForm = FormsControl.controlNew(driver,"formulario de actividad");
         listForm.get(2).click();
         listForm.get(2).sendKeys(nameAf);
         listForm.get(3).click();
@@ -161,7 +161,6 @@ public class FormsPM {
         //Desplazamiento
         int desX = x1-x2;
         int desy = y2-y1;
-
 
 
         posiciones.add(desX);

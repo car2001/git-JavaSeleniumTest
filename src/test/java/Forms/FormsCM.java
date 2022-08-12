@@ -1,5 +1,6 @@
 package Forms;
 
+import Helpers.BasicControl;
 import Helpers.FormsControl;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
@@ -19,13 +20,13 @@ public class FormsCM {
     private static String versionHistory = "__xmlview5--versionHistory-img";
     private static String add = "__xmlview5--add-img";
     private static String num = "5";
-
+    private static BasicControl basicControl;
 
     //COUNTER
 
     public static void formCreateCounter(WebDriver driver, String Counter,String inicio , String incremento){
         driver.findElement(By.id(add)).click();
-        listForm = FormsControl.controlNewWithoutFocus(driver,"contador",num);
+        listForm = FormsControl.controlNewWithoutFocus(driver,"contador");
         listForm.get(2).click();
         listForm.get(2).sendKeys(Counter);
         listForm.get(3).click();
@@ -43,7 +44,7 @@ public class FormsCM {
 
     public static void formCreateINS(WebDriver driver, String INS , String separador , String fixedValue, String counter){
         driver.findElement(By.id(add)).click();
-        listForm = FormsControl.controlNewWithoutFocus(driver,"Nuevo esquema de numeración de instancias",num);
+        listForm = FormsControl.controlNewWithoutFocus(driver,"Nuevo esquema de numeración de instancias");
         listForm.get(2).click();
         listForm.get(2).sendKeys(INS);
         listForm.get(3).click();
@@ -83,10 +84,11 @@ public class FormsCM {
     }
 
 
-    public static void formEditSLA(WebDriver driver, String SLA){
+    public static void formEditSLA(WebDriver driver, String SLA) throws InterruptedException {
         WebDriverWait wait = new WebDriverWait(driver,Duration.ofSeconds(5));
         wait.until(ExpectedConditions.elementToBeClickable(By.id(edit)));
-        driver.findElement(By.id(edit)).click();
+        basicControl = new BasicControl(driver);
+        basicControl.btnEdit();
         wait.until(ExpectedConditions.elementToBeClickable(By.id(save)));
         listForm = driver.findElements(By.className("sapMInputBaseInner"));
         listForm.get(2).clear();

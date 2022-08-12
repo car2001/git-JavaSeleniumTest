@@ -32,7 +32,7 @@ public class RM_Project {
     Asserts asserts;
 
     String componente = "Project";
-    String newProject = "Proyecto Selenium";
+    String newProject = "Proyecto Selenium2";
     String editProject = "Proyecto Selenium Editado";
     int exist = -1;
 
@@ -66,7 +66,7 @@ public class RM_Project {
     }
 
     @Test(priority = 2)
-    public void editarProyecto(){
+    public void editarProyecto() throws InterruptedException {
         exist= searchScrollElement.elementSearch(newProject);
         if(exist !=-1){
             driver.findElement(By.xpath("//span[normalize-space()='"+newProject+"']")).click();

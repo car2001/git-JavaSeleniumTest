@@ -2,6 +2,7 @@ package Applications.ConfigurationManager;
 
 import Forms.FormsCM;
 import Helpers.Asserts;
+import Helpers.BasicControl;
 import Helpers.FormsControl;
 import Helpers.SelectBrowser;
 import HomepageFunctions.Home_Page;
@@ -26,12 +27,14 @@ public class CM_SLA {
     SelectBrowser browser = new SelectBrowser(driver);
     Home_Page login;
     Asserts asserts;
+    BasicControl basicControl;
 
     @BeforeMethod
     public void setUp(){
         browser.chooseBrowser(chosen_browser);
         driver = browser.getDriver();
         asserts = new Asserts(driver);
+        basicControl = new BasicControl(driver);
         login = new Home_Page(driver);
         login.loginPage();
         Login_Applications.loginCM(driver,componente);
@@ -46,12 +49,12 @@ public class CM_SLA {
     @Test(priority = 1)
     public void viewDependecies_SLA(){
         driver.findElement(By.xpath("//div[text()='"+newSLA+"']")).click();
-        driver.findElement(By.id("__xmlview5--viewDependencies-img")).click();
-        asserts.assertDependecies(5);
+        basicControl.btnDependecies();
+        asserts.assertDependecies();
     }
 
     @Test(priority = 2)
-    public void editar_SLA(){
+    public void editar_SLA() throws InterruptedException{
         driver.findElement(By.xpath("//div[text()='"+newSLA+"']")).click();
         FormsCM.formEditSLA(driver,editSLA);
         asserts.assertSave();
@@ -88,7 +91,7 @@ public class CM_SLA {
     @AfterMethod
     public void tearDown(){
         if (driver != null){
-            driver.quit();
+            //driver.quit();
         }
     }
 }

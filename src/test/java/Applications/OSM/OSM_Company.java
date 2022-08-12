@@ -12,7 +12,6 @@ import org.testng.annotations.Test;
 
 
 public class OSM_Company {
-
     private WebDriver driver;
     private String chosen_browser = "Chrome";
 
@@ -23,6 +22,8 @@ public class OSM_Company {
     Actions action;
     JavascriptExecutor js;
     Asserts asserts;
+    BasicControl basicControl;
+
 
     String component = "Company";
     String newCompany = "Company Selenium";
@@ -39,6 +40,7 @@ public class OSM_Company {
         action = new Actions(driver);
         searchScrollElement = new Dynamic_Scroll_Search(driver);
         asserts = new Asserts(driver);
+        basicControl = new BasicControl(driver);
         accessBranch = new AccessBranches(driver);
         login = new Home_Page(driver);
         login.loginPage();
@@ -61,7 +63,6 @@ public class OSM_Company {
         driver.findElement(By.xpath("//div[normalize-space()='New " + component + "']")).click();
         FormsOSM.formCreateCompany(driver,newCompany);
         asserts.assertDoubleCheck("Company Already Exist");
-        driver.findElement(By.id("__xmlview4--cancel-img")).click();
     }
 
     @Test
@@ -69,8 +70,8 @@ public class OSM_Company {
         exist = searchScrollElement.elementSearch(newCompany);
         if (exist != -1){
             driver.findElement(By.xpath("//span[normalize-space()='"+newCompany+"']")).click();
-            driver.findElement(By.id("__xmlview4--viewDependencies-img")).click();
-            asserts.assertDependecies(4);
+            basicControl.btnDependecies();
+            asserts.assertDependecies();
         }else{
             Assert.assertEquals("No hay Company","The Operation has been Completed Successfully.");
         }
@@ -78,7 +79,7 @@ public class OSM_Company {
 
 
     @Test
-    public void editarCompany(){
+    public void editarCompany() throws InterruptedException {
         exist = searchScrollElement.elementSearch(newCompany);
         if (exist != -1){
             driver.findElement(By.xpath("//span[normalize-space()='"+newCompany+"']")).click();

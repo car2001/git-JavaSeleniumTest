@@ -1,10 +1,7 @@
 package Applications.OSM;
 
-import Helpers.AccessBranches;
-import Helpers.Asserts;
-import Helpers.Dynamic_Scroll_Search;
+import Helpers.*;
 import Forms.FormsOSM;
-import Helpers.SelectBrowser;
 import HomepageFunctions.Home_Page;
 import HomepageFunctions.Login_Applications;
 import org.openqa.selenium.*;
@@ -28,6 +25,7 @@ public class OSM_Location {
     Actions action;
     JavascriptExecutor js;
     Asserts asserts;
+    BasicControl basicControl;
 
     String company = "Company Selenium";                    //Compañia
     String location = "Location";                           // Componente a Buscar
@@ -45,6 +43,7 @@ public class OSM_Location {
         action = new Actions(driver);
         searchScrollElement = new Dynamic_Scroll_Search(driver);
         asserts = new Asserts(driver);
+        basicControl = new BasicControl(driver);
         accessBranch = new AccessBranches(driver);
         login = new Home_Page(driver);
         login.loginPage();
@@ -85,7 +84,6 @@ public class OSM_Location {
                 //Llenando Formulario
                 FormsOSM.formCreateLocation(driver,"Location Selenium");
                 asserts.assertDoubleCheck("Location  Already Exist");
-                driver.findElement(By.id("__xmlview4--cancel-img")).click();
             }else{
                 Assert.assertEquals("No hay Location","The Operation has been Completed Successfully.");
             }
@@ -105,8 +103,8 @@ public class OSM_Location {
                 exist = searchScrollElement.elementSearch(newLocation);
                 if(exist !=-1){
                     driver.findElement(By.xpath("//span[normalize-space()='"+newLocation+"']")).click();
-                    driver.findElement(By.id("__xmlview4--viewDependencies-img")).click();
-                    asserts.assertDependecies(4);
+                    basicControl.btnDependecies();
+                    asserts.assertDependecies();
                 }else{
                     Assert.assertEquals("No hay"+ newLocation,"The Operation has been Completed Successfully.");
                 }

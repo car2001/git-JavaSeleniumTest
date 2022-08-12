@@ -1,6 +1,7 @@
 package Applications.OSM;
 
 import Helpers.AccessBranches;
+import Helpers.Asserts;
 import Helpers.Dynamic_Scroll_Search;
 import Forms.FormsOSM;
 import Helpers.SelectBrowser;
@@ -32,6 +33,7 @@ public class OSM_Position {
     SelectBrowser browser = new SelectBrowser(driver);
     Actions action;
     AccessBranches accessBranch;
+    Asserts asserts;
 
     String company = "Company Selenium";
     String unit = "Organizational Unit";
@@ -49,6 +51,7 @@ public class OSM_Position {
         searchScrollElement = new Dynamic_Scroll_Search(driver);
         accessBranch = new AccessBranches(driver);
         login = new Home_Page(driver);
+        asserts = new Asserts(driver);
         login.loginPage();
         Login_Applications.loginOSM(driver);
     }
@@ -72,19 +75,18 @@ public class OSM_Position {
                         Thread.sleep(500);
                         //LLenando Formulario
                         FormsOSM.formCreatePosition(driver,newPosition);
-                        String message = driver.findElement(By.className("sapMMsgStripMessage")).getAttribute("textContent");
-                        Assert.assertEquals(message,"The Operation has been Completed Successfully."+ "\n");
+                        asserts.assertSave();
                     }else{
-                        System.out.println("No hay Position");
+                        asserts.assertSave();
                     }
                 }else{
-                    System.out.println("No hay " + new_Unit);
+                    asserts.assertSave();
                 }
             }else{
-                System.out.println("No hay Organizational Unit");
+                asserts.assertSave();
             }
         }else{
-            System.out.println("No hay compañia");
+            asserts.assertSave();
         }
     }
 
@@ -107,19 +109,18 @@ public class OSM_Position {
                         Thread.sleep(700);
                         //LLenando Formulario
                         FormsOSM.formCreatePosition(driver,newPosition);
-                        String message = driver.findElement(By.className("sapMMsgStripMessage")).getAttribute("textContent");
-                        Assert.assertEquals(message,"Position Already Exist");
+                        asserts.assertDoubleCheck("Position Already Exist");
                     }else{
-                        System.out.println("No hay Position");
+                        asserts.assertSave();
                     }
                 }else{
-                    System.out.println("No hay" + new_Unit);
+                    asserts.assertSave();
                 }
             }else{
-                System.out.println("No hay Organizational Unit");
+                asserts.assertSave();
             }
         }else{
-            System.out.println("No hay compañia");
+            asserts.assertSave();
         }
     }
 
@@ -147,19 +148,19 @@ public class OSM_Position {
                             Assert.assertEquals(message,"Dependencies List");
                             Thread.sleep(500);
                         }else{
-                            System.out.println("No hay " + newPosition);
+                            asserts.assertSave();
                         }
                     }else{
-                        System.out.println("No hay position");
+                        asserts.assertSave();
                     }
                 }else{
-                    System.out.println("No hay" + new_Unit);
+                    asserts.assertSave();
                 }
             }else{
-                System.out.println("No hay Organizational Unit");
+                asserts.assertSave();
             }
         }else{
-            System.out.println("No hay company");
+            asserts.assertSave();
         }
     }
 

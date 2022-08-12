@@ -2,12 +2,14 @@ package HomepageFunctions;
 
 
 import Helpers.AccessBranches;
+import Helpers.CargaPopPup;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.testng.annotations.Test;
 
 import java.time.Duration;
 
@@ -30,19 +32,19 @@ public class Login_Applications {
         String routeCM = "//span[@class='sapMTextMaxLine sapMTextLineClamp' and normalize-space()='Configuration Manager']";
         wait.until(ExpectedConditions.elementToBeClickable(By.xpath(routeCM)));
         driver.findElement(By.xpath(routeCM)).click();
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("navListItem-navList-0-a")));
+        //wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("navListItem-navList-0-a")));
+        CargaPopPup.PopPupGeneral(driver,wait);
         driver.findElement(By.xpath("//div[@title='Reusable Component']")).click();
         driver.findElement(By.xpath("//div[@title='Setting']")).click();
         driver.findElement(By.xpath("//span[text()='"+componente+"']")).click();
-        String progress;
+        CargaPopPup.PopPupGeneral(driver,wait);
         String mas = "//span[text()='Más' and @class='sapMSLITitle']";
-        progress = "//div[@class='sapUiLocalBusyIndicator sapUiLocalBusyIndicatorSizeBig sapUiLocalBusyIndicatorFade' and @role='progressbar']";
         try {
-            WebElement barra = driver.findElement(By.xpath(progress));
-            wait.until(ExpectedConditions.invisibilityOf(barra));
             WebElement more = driver.findElement(By.xpath(mas));
-            if(more.isDisplayed()){
+            Boolean moreDisplayed = more.isDisplayed();
+            while (moreDisplayed){
                 more.click();
+                moreDisplayed  = driver.findElement(By.xpath(mas)).isDisplayed();
             }
         }catch (Exception error){
             System.out.println("No hay elemento más");
@@ -58,9 +60,6 @@ public class Login_Applications {
         wait.until(ExpectedConditions.elementToBeClickable(By.id("__xmlview4--mainTree-rows-row0-treeicon")));
         if(componente.equals("Project")){
             accessBranch.clickBranches(0);
-            //WebElement popupCarga = driver.findElement(By.xpath("//div[@id='__xmlview4--mainTree-busyIndicator']"));
-            //wait.until(ExpectedConditions.visibilityOf(popupCarga));
-            //wait.until(ExpectedConditions.invisibilityOf(popupCarga));
         }else if(componente.equals("Change Container")){
             accessBranch.clickBranches(1);
         }else if (componente.equals("Deployment Package")){
@@ -76,12 +75,21 @@ public class Login_Applications {
         String routePM = "//span[@class='sapMTextMaxLine sapMTextLineClamp' and normalize-space()='Process Manager']";
         wait.until(ExpectedConditions.elementToBeClickable(By.xpath(routePM)));
         driver.findElement(By.xpath(routePM)).click();
-        WebElement popupCarga = driver.findElement(By.cssSelector("#sapUiBusyIndicator.sapUiUserSelectable"));
-        wait.until(ExpectedConditions.visibilityOf(popupCarga));
-        wait.until(ExpectedConditions.invisibilityOf(popupCarga));
-        wait.until(ExpectedConditions.visibilityOf(popupCarga));
-        wait.until(ExpectedConditions.invisibilityOf(popupCarga));
-
+        //Esperamos las cargas
+        CargaPopPup.PopPupGeneral(driver,wait);
+        CargaPopPup.PopPupGeneral(driver,wait);
         accessBranch.clickBranches(1);
     }
+
+    public static void loginColl(WebDriver driver, String proceso){
+        wait = new WebDriverWait(driver,Duration.ofSeconds(100));
+        String routePM = "//span[@class='sapMTextMaxLine sapMTextLineClamp' and normalize-space()='Collaboration Workspace']";
+        wait.until(ExpectedConditions.elementToBeClickable(By.xpath(routePM)));
+        driver.findElement(By.xpath(routePM)).click();
+        CargaPopPup.PopPupGeneral(driver,wait);
+        driver.findElement(By.id("navListItem-navList-2")).click();
+        CargaPopPup.PopPupGeneral(driver,wait);
+        driver.findElement(By.xpath("//div[contains(@aria-label,'Proceso Selenium')]")).click();
+    }
+
 }

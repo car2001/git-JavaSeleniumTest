@@ -20,7 +20,7 @@ public class CM_Counter {
     Asserts asserts;
 
     String componente = "Counter ";
-    String newCounter = "Counter Selenium";
+    String newCounter = "Counter Selenium lol";
     String editCounter = "Counter Selenium Editado";
     String inicio = "0";
     String incremento = "1";

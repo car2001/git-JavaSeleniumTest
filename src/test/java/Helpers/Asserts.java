@@ -1,31 +1,40 @@
 package Helpers;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 
 public class Asserts {
     WebDriver driver ;
+    JavascriptExecutor js;
 
-    public Asserts(WebDriver driver) { this.driver = driver; }
+    public Asserts(WebDriver driver) {
+        this.driver = driver;
+        js= (JavascriptExecutor) driver;
+    }
 
     public void assertSave(){
         String message = driver.findElement(By.className("sapMMsgStripMessage")).getAttribute("textContent");
         Assert.assertEquals(message, "La operación se ha completado con éxito."+ "\n" );
+        driver.findElement(By.xpath("//button[@title='Cerrar']")).click();
     }
 
     public void assertSaveDiagram(){
         String message = driver.findElement(By.className("sapMMsgStripMessage")).getAttribute("textContent");
         Assert.assertEquals(message, "El diagrama se guardó con éxito.");
+        driver.findElement(By.xpath("//button[@title='Cerrar']")).click();
     }
 
     public void assertSaveModelData(){
         String message = driver.findElement(By.className("sapMMsgStripMessage")).getAttribute("textContent");
         Assert.assertEquals(message, "Los atributos del modelo de datos se guardaron con éxito");
+        driver.findElement(By.xpath("//button[@title='Cerrar']")).click();
     }
 
-    public void assertDependecies(int num){
-        String message = driver.findElement(By.id("__xmlview"+num+"--dependenciesTableTitle-inner")).getText();
+    public void assertDependecies(){
+        String message = driver.findElement(By.xpath("//span[contains(@id,'--dependenciesTableTitle-inner')]")).getText();
         Assert.assertEquals(message,"Dependencies List");
     }
 
@@ -37,6 +46,8 @@ public class Asserts {
     public void assertDoubleCheck(String expected){
         String message = driver.findElement(By.className("sapMMsgStripMessage")).getAttribute("textContent");
         Assert.assertEquals(message,expected);
+        driver.findElement(By.xpath("//button[@title='Close']")).click();
+        driver.findElement(By.xpath("//span[contains(@id,'--cancel-img')]")).click();
     }
 
 }
