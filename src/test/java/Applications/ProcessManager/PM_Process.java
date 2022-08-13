@@ -9,6 +9,7 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
+import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -30,6 +31,7 @@ public class PM_Process {
     Asserts asserts;
     JavascriptExecutor js;
     WebDriverWait wait;
+
 
     String component = "Processes";
     String nameLevel = "Jerarquia Selenium";
@@ -96,7 +98,6 @@ public class PM_Process {
         action.doubleClick(verticalbar).build().perform();
         driver.findElement(By.id("__xmlview4--btnGoToWizard-content")).click();
         CargaPopPup.PopPupsection(driver,wait);
-
     }
 
     public void step1Process() throws InterruptedException {
@@ -358,6 +359,13 @@ public class PM_Process {
         CargaPopPup.PopPupGeneral(driver,wait);
         WebElement verticalbar = driver.findElement(By.xpath("//div[@title='Ajustar el tamaño entre el panel 1 y el panel 2']"));// este el original
         action.doubleClick(verticalbar).build().perform();
+    }
+
+    @AfterMethod
+    public void tearDown(){
+        if (driver != null){
+            driver.quit();
+        }
     }
 
 }

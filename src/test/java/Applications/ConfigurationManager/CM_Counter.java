@@ -8,6 +8,7 @@ import HomepageFunctions.Home_Page;
 import HomepageFunctions.Login_Applications;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -20,9 +21,9 @@ public class CM_Counter {
     Asserts asserts;
 
     String componente = "Counter ";
-    String newCounter = "Counter Selenium lol";
+    String newCounter = "Counter Selenium";
     String editCounter = "Counter Selenium Editado";
-    String inicio = "0";
+    String inicio = "100";
     String incremento = "1";
 
     @BeforeMethod
@@ -46,5 +47,12 @@ public class CM_Counter {
         FormsControl.controlDelete(driver,newCounter);
         String xpathMessage = "//span[@class='sapMText sapUiSelectable sapMTextMaxWidth sapMMsgBoxText']";
         asserts.assertDelete(xpathMessage);
+    }
+
+    @AfterMethod
+    public void tearDown(){
+        if (driver != null){
+            driver.quit();
+        }
     }
 }

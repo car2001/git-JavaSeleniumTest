@@ -3,14 +3,20 @@ package Helpers;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
+import java.time.Duration;
 
 public class BasicControl {
     private WebDriver driver;
     private JavascriptExecutor js;
+    private WebDriverWait wait;
 
     public BasicControl(WebDriver driver){
         this.driver = driver;
         this.js = (JavascriptExecutor)driver;
+        this.wait = new WebDriverWait(driver, Duration.ofSeconds(50));
     }
 
     public void btnAdd(){
@@ -49,6 +55,22 @@ public class BasicControl {
 
     public void btnVersionHistory(){
         driver.findElement(By.xpath("//span[contains(@id,'--versionHistory-img')]")).click();
+    }
+
+    public void logo(){
+        driver.findElement(By.xpath("//img[@src='./public/images/buplat_logo_blanco.png']")).click();
+        String routePM = "//span[@class='sapMTextMaxLine sapMTextLineClamp' and normalize-space()='Process Manager']";
+        wait.until(ExpectedConditions.elementToBeClickable(By.xpath(routePM)));
+    }
+
+    public void claim(){
+        driver.findElement(By.xpath("//span[contains(@id,'--btnClain-img')]")).click();
+        CargaPopPup.PopPupGeneral(driver,wait);
+    }
+
+    public void submit(){
+        driver.findElement(By.xpath("//bdi[text() = 'Enviar' and contains(@id,'--btnSubmit-BDI-content')]")).click();
+        CargaPopPup.PopPupGeneral(driver,wait);
     }
 
 

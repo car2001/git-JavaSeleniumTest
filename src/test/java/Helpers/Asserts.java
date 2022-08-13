@@ -27,6 +27,18 @@ public class Asserts {
         driver.findElement(By.xpath("//button[@title='Cerrar']")).click();
     }
 
+    public void assertSaveDP(){
+        String message = driver.findElement(By.className("sapMMsgStripMessage")).getAttribute("textContent");
+        Assert.assertEquals(message.substring(0,54), "El paquete de instalación ha sido creado con el nombre");
+        driver.findElement(By.xpath("//button[@title='Cerrar']")).click();
+    }
+
+    public void assertSaveDR(){
+        String message = driver.findElement(By.className("sapMMsgStripMessage")).getAttribute("textContent");
+        Assert.assertEquals(message.substring(0,56), "La solicitud de instalación ha sido creado con el nombre");
+        driver.findElement(By.xpath("//button[@title='Cerrar']")).click();
+    }
+
     public void assertSaveModelData(){
         String message = driver.findElement(By.className("sapMMsgStripMessage")).getAttribute("textContent");
         Assert.assertEquals(message, "Los atributos del modelo de datos se guardaron con éxito");

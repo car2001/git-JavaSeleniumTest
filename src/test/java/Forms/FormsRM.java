@@ -1,5 +1,6 @@
 package Forms;
 
+import Helpers.AccessBranches;
 import Helpers.BasicControl;
 import Helpers.FormsControl;
 import org.openqa.selenium.By;
@@ -141,8 +142,62 @@ public class FormsRM {
         driver.findElement(By.id(save)).click();
     }
 
-    public static void formEditChangeContainer(){
+    //Deployment Package
 
+    public static void formDeploymentPackage(WebDriver driver , String DeploymentPackage,String Proyecto,String release){
+        listForm = FormsControl.controlNewWithoutFocus(driver,"paquete de instalación");
+        listForm.get(3).click();
+        listForm.get(3).sendKeys(DeploymentPackage);
+        listForm.get(4).click();
+        listForm.get(4).sendKeys(DeploymentPackage);
+        List<WebElement> listComboBox = driver.findElements(By.className("sapMSltLabel"));
+        listComboBox.get(0).click();
+        driver.findElement(By.xpath("//li[text()='"+Proyecto+"']")).click();
+        listComboBox.get(1).click();
+        driver.findElement(By.xpath("//li[text()='"+release+"']")).click();
+        listComboBox.get(2).click();
+        driver.findElement(By.id(save)).click();
+    }
+
+    //Deployment Request
+
+    public static void formDeploymentRequest(WebDriver driver , String DeploymentRequest,String Proyecto,String release) throws InterruptedException {
+        listForm = FormsControl.controlNewWithoutFocus(driver,"solicitud de instalación");
+        listForm.get(3).click();
+        listForm.get(3).sendKeys(DeploymentRequest);
+        listForm.get(4).click();
+        listForm.get(4).sendKeys(DeploymentRequest);
+        List<WebElement> listComboBox = driver.findElements(By.className("sapMSltLabel"));
+        listComboBox.get(0).click();
+        driver.findElements(By.xpath("//li[text()='"+Proyecto+"']")).get(1).click();
+        listComboBox.get(1).click();
+        Thread.sleep(1000);
+        driver.findElements(By.xpath("//li[text()='"+release+"']")).get(1).click();
+        listComboBox.get(2).click();
+        driver.findElement(By.id(save)).click();
+    }
+
+    //lIBERACION
+    public static void formReleaseCC(WebDriver driver, AccessBranches accessBranches){
+        basicControl = new BasicControl(driver);
+        listForm = FormsControl.controlNewWithoutFocus(driver,"Liberación");
+        driver.findElement(By.xpath("//span[contains(@id,'--cbDP-arrow')]")).click();
+        driver.findElement(By.xpath("//div[text()='DP_SELENIUM' and @class='sapMSLITitleOnly']")).click();
+        basicControl.btnSave();
+        driver.findElement(By.xpath("//bdi[text()='OK']")).click();
+        accessBranches.clickBranches(1);
+        accessBranches.clickBranches(2);
+
+    }
+    public static  void formReleaseDP(WebDriver driver, AccessBranches accessBranches){
+        basicControl = new BasicControl(driver);
+        listForm = FormsControl.controlNewWithoutFocus(driver,"Liberación");
+        driver.findElement(By.xpath("//span[contains(@id,'--cbDR-arrow') and @class='sapUiIcon sapUiIconMirrorInRTL sapUiIconPointer sapMInputBaseIcon']")).click();
+        driver.findElement(By.xpath("//div[text()='DR_SELENIUM' and @class='sapMSLITitleOnly']")).click();
+        basicControl.btnSave();
+        driver.findElement(By.xpath("//bdi[text()='OK']")).click();
+        accessBranches.clickBranches(2);
+        accessBranches.clickBranches(3);
     }
 
 }

@@ -64,8 +64,8 @@ public class Login_Applications {
             accessBranch.clickBranches(1);
         }else if (componente.equals("Deployment Package")){
             accessBranch.clickBranches(2);
-        }else{
-            accessBranch.clickBranches(4);
+        }else if(componente.equals("Deployment Request")){
+            accessBranch.clickBranches(3);
         }
     }
 
@@ -90,7 +90,9 @@ public class Login_Applications {
         driver.findElement(By.id("navListItem-navList-2")).click();
         CargaPopPup.PopPupGeneral(driver,wait);
         driver.findElement(By.xpath("//div[contains(@aria-label,'"+proceso+"')]")).click();
-        //driver.findElement(By.xpath("//bdi[text()='Sí']"));
+        driver.findElement(By.xpath("//bdi[text()='Sí']")).click();
+        CargaPopPup.PopPupGeneral(driver,wait);
+        CargaPopPup.PopPupGeneral(driver,wait);
     }
 
 }

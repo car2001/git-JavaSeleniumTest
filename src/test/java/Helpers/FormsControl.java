@@ -25,8 +25,8 @@ public class FormsControl {
         listForm = driver.findElements(By.className("sapMInputBaseInner"));
         boolean focus = false;
         while(focus == false){
-            listForm.get(2).click();
-            if(listForm.get(2).equals(driver.switchTo().activeElement())){
+            listForm.get(3).click();
+            if(listForm.get(3).equals(driver.switchTo().activeElement())){
                 System.out.println("Element is focused");
                 focus = true;
             }
@@ -123,6 +123,7 @@ public class FormsControl {
                     driver.findElement(By.xpath("//bdi[text()='Cerrar']")).click();
                     wait.until(ExpectedConditions.invisibilityOf(popLokk));
                     driver.findElement(By.xpath(edit)).click();
+                    Thread.sleep(1000);
                 }
             }else{
                 System.out.println("Sigue nada más" + "false");

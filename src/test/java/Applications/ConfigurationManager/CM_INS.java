@@ -7,6 +7,7 @@ import Helpers.SelectBrowser;
 import HomepageFunctions.Home_Page;
 import HomepageFunctions.Login_Applications;
 import org.openqa.selenium.WebDriver;
+import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -49,6 +50,13 @@ public class CM_INS {
         FormsControl.controlDelete(driver,newINS);
         String xpathMessage = "//span[@class='sapMText sapUiSelectable sapMTextMaxWidth sapMMsgBoxText']";
         asserts.assertDelete(xpathMessage);
+    }
+
+    @AfterMethod
+    public void tearDown(){
+        if (driver != null){
+            driver.quit();
+        }
     }
 
 }
