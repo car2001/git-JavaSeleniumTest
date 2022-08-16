@@ -54,17 +54,18 @@ public class RM_ChangeContainer {
         Login_Applications.loginRM(driver, componente);
     }
 
-    @Test()
+
     public void crearChangeContainerArbol() throws InterruptedException {
         String user = login.getUser();
         WebElement btnOpen = driver.findElement(By.xpath("//span[text()='Open']"));
         action.contextClick(btnOpen).perform();
+        Thread.sleep(1000);
         driver.findElement(By.xpath("//div[normalize-space()='New " + componente + "']")).click();
         FormsRM.formCreateChangeContainer(driver,newChangeContainer,project,release,user);
         asserts.assertSave();
     }
 
-    @Test()
+
     public void editarChangeContainerArbol(){
         int xpos = searchScrollElement.elementSearch("Open");
         if(xpos != -1){
@@ -74,7 +75,7 @@ public class RM_ChangeContainer {
         }
     }
 
-    @Test()//arreglar estoo
+    //arreglar estoo
     public void crearChangeContainerTabla() throws InterruptedException {
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         String user = login.getUser();
@@ -91,7 +92,7 @@ public class RM_ChangeContainer {
 
     }
 
-    @Test()
+
     public void editarChangeContainerTabla(){
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         driver.findElement(By.xpath("//span[text()='Open']")).click();
@@ -215,7 +216,7 @@ public class RM_ChangeContainer {
     @AfterMethod
     public void tearDown(){
         if (driver != null){
-            //driver.quit();
+            driver.quit();
         }
     }
 

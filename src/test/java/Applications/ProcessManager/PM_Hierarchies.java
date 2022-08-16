@@ -43,10 +43,11 @@ public class PM_Hierarchies {
     }
 
     @Test
-    public void crearHierarchies(){
+    public void crearHierarchies() throws InterruptedException {
         WebElement hierarchies = driver.findElement(By.xpath("//span[text()='"+component+"']"));
         action.contextClick(hierarchies).perform();
         driver.findElement(By.xpath("//div[normalize-space()='New Level']")).click();
+        Thread.sleep(1000);
         FormsPM.createNewHierarchie(driver,nameLevel);
         asserts.assertSave();
     }

@@ -58,7 +58,7 @@ public class RM_DeploymentRequest {
     @AfterMethod
     public void tearDown(){
         if (driver != null){
-            //driver.quit();
+            driver.quit();
         }
     }
 

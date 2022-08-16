@@ -69,6 +69,7 @@ public class PM_Process {
                 WebElement process = driver.findElement(By.xpath("//span[text()='"+component+"']"));
                 action.contextClick(process).perform();
                 driver.findElement(By.xpath("//div[normalize-space()='New Process']")).click();
+                Thread.sleep(1000);
                 FormsPM.creteNewProcess(driver,nameProcess,action,INS,SLA,js);
                 CargaPopPup.PopPup(driver,wait);
                 asserts.assertSave();

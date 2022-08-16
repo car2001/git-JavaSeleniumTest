@@ -8,11 +8,6 @@
                     <include name="activarChangeContainerTabla"/>
                 </methods>
             </class>
-            <class name="Applications.ReleaseManager.RM_DeploymentPackage">
-                <methods>
-                    <include name="createDeploymentPackage"/>
-                </methods>
-            </class>
             <class name = "Applications.ConfigurationManager.CM_Counter">
                 <methods>
                     <include name="crearCounter"></include>
@@ -61,6 +56,10 @@
                    <include name="runProcessNo"></include>
                </methods>
            </class>
+        </classes>
+    </test>
+    <test name="lol">
+        <classes>
             <class name="Applications.ReleaseManager.RM_DeploymentPackage">
                 <methods>
                     <include name="createDeploymentPackage"/>
@@ -71,7 +70,14 @@
                     <include name="releaseChangeContainer"/>
                 </methods>
             </class>
+            <class name="Applications.CollaborationWorkspace.PrimerProceso">
+                <methods>
+                    <include name="runProcessSiQA"></include>
+                    <include name="runProcessNoQA"></include>
+                    <include name="runProcessSiPROD"></include>
+                    <include name="runProcessNoPROD"></include>
+                </methods>
+            </class>
         </classes>
     </test>
-
 </suite>
