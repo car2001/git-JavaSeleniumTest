@@ -1,12 +1,12 @@
 package Applications.ReleaseManager;
 
 import Forms.FormsRM;
-import Helpers.AccessBranches;
+import Helpers.AccessBranch;
 import Helpers.Asserts;
-import Helpers.Dynamic_Scroll_Search;
+import Helpers.DynamicScroll;
 import Helpers.SelectBrowser;
-import HomepageFunctions.Home_Page;
-import HomepageFunctions.Login_Applications;
+import HomePage.Login;
+import HomePage.LoginApplications;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -22,10 +22,10 @@ public class RM_DeploymentPackage {
 
     Actions action;
     SelectBrowser browser = new SelectBrowser(driver);
-    Home_Page login;
-    Dynamic_Scroll_Search searchScrollElement;
+    Login login;
+    DynamicScroll searchScrollElement;
     Asserts asserts;
-    AccessBranches accessBranch;
+    AccessBranch accessBranch;
 
     String newDR = "DR_SELENIUM";
     String componente = "Deployment Package";
@@ -38,13 +38,13 @@ public class RM_DeploymentPackage {
     public void setUp(){
         browser.chooseBrowser(chosen_browser);
         driver = browser.getDriver();
-        login = new Home_Page(driver);
+        login = new Login(driver);
         action = new Actions(driver);
         asserts = new Asserts(driver);
-        searchScrollElement = new Dynamic_Scroll_Search(driver);
-        accessBranch = new AccessBranches(driver);
+        searchScrollElement = new DynamicScroll(driver);
+        accessBranch = new AccessBranch(driver);
         login.loginPage();
-        Login_Applications.loginRM(driver, componente);
+        LoginApplications.loginRM(driver, componente);
     }
 
     @Test

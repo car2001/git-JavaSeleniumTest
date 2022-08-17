@@ -2,8 +2,8 @@ package Applications.OSM;
 
 import Forms.FormsOSM;
 import Helpers.*;
-import HomepageFunctions.Home_Page;
-import HomepageFunctions.Login_Applications;
+import HomePage.Login;
+import HomePage.LoginApplications;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
@@ -22,10 +22,10 @@ public class OSM_Organizational_Unit {
     private WebDriver driver;
     private String chosen_browser = "Chrome";
 
-    Home_Page login;
-    Dynamic_Scroll_Search searchScrollElement;
+    Login login;
+    DynamicScroll searchScrollElement;
     SelectBrowser browser = new SelectBrowser(driver);
-    AccessBranches accessBranch;
+    AccessBranch accessBranch;
     Actions action;
     JavascriptExecutor js;
     Asserts asserts;
@@ -43,13 +43,13 @@ public class OSM_Organizational_Unit {
         driver = browser.getDriver();
         action = new Actions(driver);
         js = (JavascriptExecutor) driver;
-        accessBranch = new AccessBranches(driver);
+        accessBranch = new AccessBranch(driver);
         asserts = new Asserts(driver);
         basicControl = new BasicControl(driver);
-        searchScrollElement = new Dynamic_Scroll_Search(driver);
-        login = new Home_Page(driver);
+        searchScrollElement = new DynamicScroll(driver);
+        login = new Login(driver);
         login.loginPage();
-        Login_Applications.loginOSM(driver);
+        LoginApplications.loginOSM(driver);
     }
 
     @Test

@@ -2,8 +2,8 @@ package Applications.ConfigurationManager;
 
 
 import Helpers.SelectBrowser;
-import HomepageFunctions.Home_Page;
-import HomepageFunctions.Login_Applications;
+import HomePage.Login;
+import HomePage.LoginApplications;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -22,25 +22,25 @@ public class CM_Global_Settings {
     private String chosen_browser = "Chrome";
 
     SelectBrowser browser = new SelectBrowser(driver);
-    Home_Page login;
+    Login login;
     WebDriverWait wait;
 
     @BeforeMethod
     public void setUp(){
         browser.chooseBrowser(chosen_browser);
         driver = browser.getDriver();
-        login = new Home_Page(driver);
+        login = new Login(driver);
         login.loginPage("jjuarez","1234");
     }
 
     @Test
     public void checkHideAplicaciones(){
         loginApplication();
-        Login_Applications.loginCM(driver,"Global Settings");
+        LoginApplications.loginCM(driver,"Global Settings");
         hideApps();
         loginApplication();
         findHiddenApps();
-        Login_Applications.loginCM(driver,"Global Settings");
+        LoginApplications.loginCM(driver,"Global Settings");
         restoreApps();
     }
 

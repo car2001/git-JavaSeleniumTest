@@ -4,47 +4,49 @@ import Forms.FormsCM;
 import Helpers.Asserts;
 import Helpers.FormsControl;
 import Helpers.SelectBrowser;
-import HomepageFunctions.Home_Page;
-import HomepageFunctions.Login_Applications;
-import org.openqa.selenium.By;
+import HomePage.Login;
+import HomePage.LoginApplications;
 import org.openqa.selenium.WebDriver;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
+import org.testng.annotations.*;
 
 public class CM_Counter {
     private WebDriver driver;
     private final String chosen_browser = "Chrome";
+    final String URL = "http://wedox.sytes.net/buplat_config/";
 
     SelectBrowser browser = new SelectBrowser(driver);
-    Home_Page login;
+    Login login;
     Asserts asserts;
 
-    String componente = "Counter ";
-    String newCounter = "Counter Selenium";
-    String editCounter = "Counter Selenium Editado";
-    String inicio = "100";
-    String incremento = "1";
+    final String componente = "Counter ";
+    final String newCounter = "Counter Selenium";
+    final String editCounter = "Counter Selenium Editado";
+    final String start = "100";
+    final String increment = "1";
 
+    @Parameters("url")
     @BeforeMethod
-    public void setup() throws InterruptedException {
+    public void setup(@Optional(URL) String url) throws InterruptedException {
         browser.chooseBrowser(chosen_browser);
         driver = browser.getDriver();
         asserts = new Asserts(driver);
-        login = new Home_Page(driver);
-        login.loginPage();
-        Login_Applications.loginCM(driver,componente);
+        login = new Login(driver);
+        login.loginPage(url);
+        LoginApplications.loginCM(driver,componente);
     }
 
+    @Parameters({"counter","inicio","incremento"})
     @Test
-    public void crearCounter(){
-        FormsCM.formCreateCounter(driver,newCounter,inicio,incremento);
+    public void crearCounter (@Optional(newCounter) String counter, @Optional(start) String inicio, @Optional(increment) String aumento)
+    {
+        FormsCM.formCreateCounter(driver,counter,inicio,aumento);
         asserts.assertSave();
     }
 
+    @Parameters("counter")
     @Test
-    public void eliminarCounter(){
-        FormsControl.controlDelete(driver,newCounter);
+    public void eliminarCounter(@Optional(newCounter) String counter){
+        FormsControl.controlDelete(driver,counter);
         String xpathMessage = "//span[@class='sapMText sapUiSelectable sapMTextMaxWidth sapMMsgBoxText']";
         asserts.assertDelete(xpathMessage);
     }

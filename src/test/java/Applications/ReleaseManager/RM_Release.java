@@ -1,13 +1,12 @@
 package Applications.ReleaseManager;
 
 import Forms.FormsRM;
-import Helpers.AccessBranches;
+import Helpers.AccessBranch;
 import Helpers.Asserts;
-import Helpers.Dynamic_Scroll_Search;
+import Helpers.DynamicScroll;
 import Helpers.SelectBrowser;
-import HomepageFunctions.Home_Page;
-import HomepageFunctions.Login_Applications;
-import org.apache.hc.client5.http.psl.PublicSuffixList;
+import HomePage.Login;
+import HomePage.LoginApplications;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -20,7 +19,6 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import java.time.Duration;
-import java.util.List;
 
 public class RM_Release  {
     private WebDriver driver;
@@ -28,9 +26,9 @@ public class RM_Release  {
 
     Actions action;
     SelectBrowser browser = new SelectBrowser(driver);
-    Home_Page login;
-    AccessBranches accessBranch;
-    Dynamic_Scroll_Search searchScrollElement;
+    Login login;
+    AccessBranch accessBranch;
+    DynamicScroll searchScrollElement;
     Asserts asserts;
 
     String component = "Release";
@@ -46,11 +44,11 @@ public class RM_Release  {
         driver = browser.getDriver();
         action = new Actions(driver);
         asserts = new Asserts(driver);
-        accessBranch = new AccessBranches(driver);
-        searchScrollElement = new Dynamic_Scroll_Search(driver);
-        login = new Home_Page(driver);
+        accessBranch = new AccessBranch(driver);
+        searchScrollElement = new DynamicScroll(driver);
+        login = new Login(driver);
         login.loginPage();
-        Login_Applications.loginRM(driver,"Project");
+        LoginApplications.loginRM(driver,"Project");
     }
 
     @Test

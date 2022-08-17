@@ -5,15 +5,12 @@ import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
-
-import java.time.Duration;
-
-public class AccessBranches {
+public class AccessBranch {
     private WebDriver driver;
     private JavascriptExecutor js ;
 
 
-    public AccessBranches(WebDriver driver) {
+    public AccessBranch(WebDriver driver) {
         this.driver = driver;
         js= (JavascriptExecutor) driver;
     }

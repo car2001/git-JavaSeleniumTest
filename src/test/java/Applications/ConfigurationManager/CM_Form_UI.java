@@ -5,8 +5,8 @@ import Helpers.Asserts;
 import Helpers.BasicControl;
 import Helpers.FormsControl;
 import Helpers.SelectBrowser;
-import HomepageFunctions.Home_Page;
-import HomepageFunctions.Login_Applications;
+import HomePage.Login;
+import HomePage.LoginApplications;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.testng.annotations.AfterMethod;
@@ -20,7 +20,7 @@ public class CM_Form_UI {
     private final String chosen_browser = "Chrome";
 
     SelectBrowser browser = new SelectBrowser(driver);
-    Home_Page login;
+    Login login;
     Asserts asserts;
     BasicControl basicControl;
 
@@ -37,9 +37,9 @@ public class CM_Form_UI {
         driver = browser.getDriver();
         asserts = new Asserts(driver);
         basicControl = new BasicControl(driver);
-        login = new Home_Page(driver);
+        login = new Login(driver);
         login.loginPage();
-        Login_Applications.loginCM(driver,componente);
+        LoginApplications.loginCM(driver,componente);
     }
 
     @Test

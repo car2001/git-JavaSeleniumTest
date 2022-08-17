@@ -7,8 +7,9 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="Pruebas" />
-        <module name="git-JavaSeleniumTest" />
         <module name="TestSelenium" />
+        <module name="JavaSeleniumTest_Unitarias" />
+        <module name="git-JavaSeleniumTest" />
       </profile>
     </annotationProcessing>
   </component>

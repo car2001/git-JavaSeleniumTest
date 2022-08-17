@@ -2,9 +2,8 @@ package Applications.CollaborationWorkspace;
 
 import Forms.FormsColl;
 import Helpers.*;
-import HomepageFunctions.Home_Page;
-import HomepageFunctions.Login_Applications;
-import org.openqa.selenium.By;
+import HomePage.Login;
+import HomePage.LoginApplications;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.interactions.Actions;
@@ -17,8 +16,8 @@ public class PrimerProceso {
     private WebDriver driver;
     private String chosen_browser = "Chrome";
 
-    Home_Page login;
-    Dynamic_Scroll_Search searchScrollElement;
+    Login login;
+    DynamicScroll searchScrollElement;
     SelectBrowser browser = new SelectBrowser(driver);
     Actions action;
     JavascriptExecutor js;
@@ -33,14 +32,14 @@ public class PrimerProceso {
     public void setUp() {
         browser.chooseBrowser(chosen_browser);
         driver = browser.getDriver();
-        login = new Home_Page(driver);
+        login = new Login(driver);
         action = new Actions(driver);
         asserts = new Asserts(driver);
         js = (JavascriptExecutor) driver;
         basicControl = new BasicControl(driver);
-        searchScrollElement = new Dynamic_Scroll_Search(driver);
+        searchScrollElement = new DynamicScroll(driver);
         login.loginPage();
-        Login_Applications.loginColl(driver, nameProcess);
+        LoginApplications.loginColl(driver, nameProcess);
     }
 
     @Test
@@ -59,7 +58,7 @@ public class PrimerProceso {
     @Test
     public void runProcessSiQA() {
         login.loginPage(urlQA);
-        Login_Applications.loginColl(driver, nameProcess);
+        LoginApplications.loginColl(driver, nameProcess);
         basicControl.claim();
         FormsColl.primerProcesoSi(driver);
     }
@@ -67,7 +66,7 @@ public class PrimerProceso {
     @Test
     public void runProcessNoQA(){
         login.loginPage(urlQA);
-        Login_Applications.loginColl(driver, nameProcess);
+        LoginApplications.loginColl(driver, nameProcess);
         basicControl.claim();
         FormsColl.primerProcesoNo(driver);
     }
@@ -75,7 +74,7 @@ public class PrimerProceso {
     @Test
     public void runProcessSiPROD() {
         login.loginPage(urlPROD);
-        Login_Applications.loginColl(driver, nameProcess);
+        LoginApplications.loginColl(driver, nameProcess);
         basicControl.claim();
         FormsColl.primerProcesoSi(driver);
     }
@@ -83,7 +82,7 @@ public class PrimerProceso {
     @Test
     public void runProcessNoPROD(){
         login.loginPage(urlPROD);
-        Login_Applications.loginColl(driver, nameProcess);
+        LoginApplications.loginColl(driver, nameProcess);
         basicControl.claim();
         FormsColl.primerProcesoNo(driver);
     }

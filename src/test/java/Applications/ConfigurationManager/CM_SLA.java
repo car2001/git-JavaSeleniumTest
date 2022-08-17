@@ -5,85 +5,92 @@ import Helpers.Asserts;
 import Helpers.BasicControl;
 import Helpers.FormsControl;
 import Helpers.SelectBrowser;
-import HomepageFunctions.Home_Page;
-import HomepageFunctions.Login_Applications;
+import HomePage.Login;
+import HomePage.LoginApplications;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
+import org.testng.annotations.*;
 
 public class CM_SLA {
-    String componente = "SLA Definition";
-    String newSLA = "SLA Selenium";
-    String editSLA = "SLA Edit Selenium";
-    String versionMayor_Sla = "Sla Version Mayor Seleneium";
-    String versionMenor_Sla = "Sla Version Menor Seleneium";
-    String restoreVersion = "SLA Restaurado Selenium";
-
     private WebDriver driver;
     private String chosen_browser = "Chrome";
+    final String URL = "http://wedox.sytes.net/buplat_config/";
+
+    final String componente = "SLA Definition";
+    final String newSLA = "SLA Selenium";
+    final String editSLA = "SLA Edit Selenium";
+    final String versionMayor_Sla = "Sla Version Mayor Seleneium";
+    final String versionMenor_Sla = "Sla Version Menor Seleneium";
+    final String restoreVersion = "SLA Restaurado Selenium";
 
     SelectBrowser browser = new SelectBrowser(driver);
-    Home_Page login;
+    Login login;
     Asserts asserts;
     BasicControl basicControl;
 
+    @Parameters("url")
     @BeforeMethod
     public void setUp(){
         browser.chooseBrowser(chosen_browser);
         driver = browser.getDriver();
         asserts = new Asserts(driver);
         basicControl = new BasicControl(driver);
-        login = new Home_Page(driver);
+        login = new Login(driver);
         login.loginPage();
-        Login_Applications.loginCM(driver,componente);
+        LoginApplications.loginCM(driver,componente);
     }
 
+    @Parameters("SLA")
     @Test()
-    public void crear_SLA() {
-        FormsCM.formCreateSLA(driver,newSLA);
+    public void crear_SLA(@Optional(newSLA) String SLA) {
+        FormsCM.formCreateSLA(driver,SLA);
         asserts.assertSave();
     }
 
+    @Parameters("SLA")
     @Test(priority = 1)
-    public void viewDependecies_SLA(){
-        driver.findElement(By.xpath("//div[text()='"+newSLA+"']")).click();
+    public void viewDependecies_SLA(@Optional(newSLA) String SLA){
+        driver.findElement(By.xpath("//div[text()='"+SLA+"']")).click();
         basicControl.btnDependecies();
         asserts.assertDependecies();
     }
 
+    @Parameters({"SLA","SLA_edit"})
     @Test(priority = 2)
-    public void editar_SLA() throws InterruptedException{
-        driver.findElement(By.xpath("//div[text()='"+newSLA+"']")).click();
-        FormsCM.formEditSLA(driver,editSLA);
+    public void editar_SLA(@Optional(newSLA) String SLA, @Optional(editSLA) String SLA_edit) throws InterruptedException{
+        driver.findElement(By.xpath("//div[text()='"+SLA+"']")).click();
+        FormsCM.formEditSLA(driver,SLA_edit);
         asserts.assertSave();
     }
 
+    @Parameters({"SLA_edit","versionMayorSLA"})
     @Test(priority = 3)
-    public void versionMayor_SLA(){
-        driver.findElement(By.xpath("//div[text()='"+editSLA+"']")).click();
-        FormsCM.MayorVersionSLA(driver,versionMayor_Sla);
+    public void versionMayor_SLA(@Optional(editSLA) String SLA_edit, @Optional(versionMayor_Sla) String versionMayorSLA) throws InterruptedException {
+        driver.findElement(By.xpath("//div[text()='"+SLA_edit+"']")).click();
+        FormsCM.MayorVersionSLA(driver,versionMayorSLA);
         asserts.assertSave();
     }
 
+    @Parameters({"versionMayorSLA","versionMenorSLA"})
     @Test(priority = 4)
-    public void versionMenor_SLA(){
-        driver.findElement(By.xpath("//div[text()='"+versionMayor_Sla+"']")).click();
-        FormsCM.MenorVersionSLA(driver,versionMenor_Sla);
+    public void versionMenor_SLA(@Optional(versionMayor_Sla) String versionMayorSLA,@Optional(versionMenor_Sla) String versionMenorSLA){
+        driver.findElement(By.xpath("//div[text()='"+versionMayorSLA+"']")).click();
+        FormsCM.MenorVersionSLA(driver,versionMenorSLA);
         asserts.assertSave();
     }
 
+    @Parameters({"versionMenorSLA","restore_Version"})
     @Test(priority = 5)
-    public void restoreVersion_SLA(){
-        driver.findElement(By.xpath("//div[text()='"+versionMenor_Sla+"']")).click();
-        FormsCM.restoreVersion_SLA(driver,restoreVersion);
+    public void restoreVersion_SLA(@Optional(versionMenor_Sla) String versionMenorSLA,@Optional(restoreVersion) String restore_Version){
+        driver.findElement(By.xpath("//div[text()='"+versionMenorSLA+"']")).click();
+        FormsCM.restoreVersion_SLA(driver,restore_Version);
         asserts.assertSave();
     }
 
+    @Parameters("restore_Version")
     @Test(priority = 6)
-    public void eliminar_SLA(){
-        FormsControl.controlDelete(driver,restoreVersion);
+    public void eliminar_SLA(@Optional(restoreVersion) String restore_Version){
+        FormsControl.controlDelete(driver,restore_Version);
         String xpathMessage = "//span[@class='sapMText sapUiSelectable sapMTextMaxWidth sapMMsgBoxText']";
         asserts.assertDelete(xpathMessage);
     }
@@ -91,7 +98,7 @@ public class CM_SLA {
     @AfterMethod
     public void tearDown(){
         if (driver != null){
-            driver.quit();
+            //driver.quit();
         }
     }
 }

@@ -6,7 +6,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 
-public class SVG_Elements {
+public class ElementSVG {
 
     public static void clickSVGElements(String cssSelectorSVG, JavascriptExecutor js, Actions action , WebDriver driver , String rect, int x){
         js.executeScript("let g = document.querySelector('"+rect+"'); g.scrollIntoView();");

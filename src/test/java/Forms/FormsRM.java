@@ -1,12 +1,11 @@
 package Forms;
 
-import Helpers.AccessBranches;
+import Helpers.AccessBranch;
 import Helpers.BasicControl;
 import Helpers.FormsControl;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.interactions.Actions;
 
 
 import java.time.LocalDate;
@@ -48,7 +47,7 @@ public class FormsRM {
     }
 
     public static void formEditProject(WebDriver driver,String proyecto) throws InterruptedException {
-        listForm = FormsControl.controlEdit(driver,edit,"proyecto",num);
+        listForm = FormsControl.controlEdit(driver,"proyecto");
         listForm.get(2).clear();
         listForm.get(2).sendKeys(proyecto);
         listForm.get(3).clear();
@@ -103,7 +102,7 @@ public class FormsRM {
     }
 
     public static void formEditRelease(WebDriver driver,String release) throws InterruptedException {
-        listForm = FormsControl.controlEdit(driver,edit,"liberacion",num);
+        listForm = FormsControl.controlEdit(driver,"liberacion");
         listForm.get(2).clear();
         listForm.get(2).sendKeys(release);
         listForm.get(3).clear();
@@ -178,7 +177,7 @@ public class FormsRM {
     }
 
     //lIBERACION
-    public static void formReleaseCC(WebDriver driver, AccessBranches accessBranches){
+    public static void formReleaseCC(WebDriver driver, AccessBranch accessBranches){
         basicControl = new BasicControl(driver);
         listForm = FormsControl.controlNewWithoutFocus(driver,"Liberación");
         driver.findElement(By.xpath("//span[contains(@id,'--cbDP-arrow')]")).click();
@@ -189,7 +188,7 @@ public class FormsRM {
         accessBranches.clickBranches(2);
 
     }
-    public static  void formReleaseDP(WebDriver driver, AccessBranches accessBranches){
+    public static  void formReleaseDP(WebDriver driver, AccessBranch accessBranches){
         basicControl = new BasicControl(driver);
         listForm = FormsControl.controlNewWithoutFocus(driver,"Liberación");
         driver.findElement(By.xpath("//span[contains(@id,'--cbDR-arrow') and @class='sapUiIcon sapUiIconMirrorInRTL sapUiIconPointer sapMInputBaseIcon']")).click();

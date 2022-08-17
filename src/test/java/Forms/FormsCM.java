@@ -127,9 +127,9 @@ public class FormsCM {
         WebDriverWait wait = new WebDriverWait(driver,Duration.ofSeconds(5));
         wait.until(ExpectedConditions.elementToBeClickable(By.id(version)));
         driver.findElement(By.id(version)).click();
-        wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//bdi[text()='Minor Version']")));
-        driver.findElement(By.xpath("//bdi[text()='Minor Version']")).click();
-        driver.findElement(By.xpath("//bdi[text()='Create Version']")).click();
+        wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//bdi[contains(@id,'--minorVersionRB-label-bdi') or text()='Minor Version']")));
+        driver.findElement(By.xpath("//bdi[contains(@id,'--minorVersionRB-label-bdi') or text()='Minor Version']")).click();
+        driver.findElement(By.xpath("//bdi[contains(@id,'-BDI-content') and ( text()='Crear versión' or text()='Create Version')]")).click();
         wait.until(ExpectedConditions.elementToBeClickable(By.id(save)));
         listForm = driver.findElements(By.className("sapMInputBaseInner"));
         listForm.get(2).clear();

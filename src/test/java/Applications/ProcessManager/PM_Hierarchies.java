@@ -2,8 +2,8 @@ package Applications.ProcessManager;
 
 import Forms.FormsPM;
 import Helpers.*;
-import HomepageFunctions.Home_Page;
-import HomepageFunctions.Login_Applications;
+import HomePage.Login;
+import HomePage.LoginApplications;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -19,9 +19,9 @@ public class PM_Hierarchies {
 
     Actions action;
     SelectBrowser browser = new SelectBrowser(driver);
-    Home_Page login;
-    AccessBranches accessBranch;
-    Dynamic_Scroll_Search searchScrollElement;
+    Login login;
+    AccessBranch accessBranch;
+    DynamicScroll searchScrollElement;
     Asserts asserts;
 
     String component = "Process Hierarchies";
@@ -35,11 +35,11 @@ public class PM_Hierarchies {
         driver = browser.getDriver();
         action = new Actions(driver);
         asserts = new Asserts(driver);
-        accessBranch = new AccessBranches(driver);
-        searchScrollElement = new Dynamic_Scroll_Search(driver);
-        login = new Home_Page(driver);
+        accessBranch = new AccessBranch(driver);
+        searchScrollElement = new DynamicScroll(driver);
+        login = new Login(driver);
         login.loginPage();
-        Login_Applications.loginPM(driver);
+        LoginApplications.loginPM(driver);
     }
 
     @Test

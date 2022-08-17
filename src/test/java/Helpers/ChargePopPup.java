@@ -6,7 +6,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-public class CargaPopPup {
+public class ChargePopPup {
 
     public static void PopPupGeneral(WebDriver driver, WebDriverWait wait) {
         try {
@@ -19,7 +19,7 @@ public class CargaPopPup {
     }
 
 
-    public static void PopPup(WebDriver driver, WebDriverWait wait){
+    public static void PopPupDetail(WebDriver driver, WebDriverWait wait){
         try{
             WebElement popupCarga = driver.findElement(By.xpath("//div[contains(@id,'--resSplitMain-busyIndicator')]"));
             wait.until(ExpectedConditions.visibilityOf(popupCarga));
@@ -27,7 +27,6 @@ public class CargaPopPup {
         }catch(Exception e){
             System.out.println(e.getMessage());
         }
-
     }
 
     public static void PopPupsection(WebDriver driver, WebDriverWait wait){

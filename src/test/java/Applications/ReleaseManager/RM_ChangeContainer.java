@@ -2,9 +2,8 @@ package Applications.ReleaseManager;
 
 import Forms.FormsRM;
 import Helpers.*;
-import HomepageFunctions.Home_Page;
-import HomepageFunctions.Login_Applications;
-import org.checkerframework.checker.units.qual.A;
+import HomePage.Login;
+import HomePage.LoginApplications;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -25,10 +24,10 @@ public class RM_ChangeContainer {
 
     Actions action;
     SelectBrowser browser = new SelectBrowser(driver);
-    Home_Page login;
-    Dynamic_Scroll_Search searchScrollElement;
+    Login login;
+    DynamicScroll searchScrollElement;
     Asserts asserts;
-    AccessBranches accessBranch;
+    AccessBranch accessBranch;
     BasicControl basicControl;
 
     String componente = "Change Container";
@@ -44,14 +43,14 @@ public class RM_ChangeContainer {
     public void setUp(){
         browser.chooseBrowser(chosen_browser);
         driver = browser.getDriver();
-        login = new Home_Page(driver);
+        login = new Login(driver);
         action = new Actions(driver);
         asserts = new Asserts(driver);
-        searchScrollElement = new Dynamic_Scroll_Search(driver);
-        accessBranch = new AccessBranches(driver);
+        searchScrollElement = new DynamicScroll(driver);
+        accessBranch = new AccessBranch(driver);
         basicControl = new BasicControl(driver);
         login.loginPage();
-        Login_Applications.loginRM(driver, componente);
+        LoginApplications.loginRM(driver, componente);
     }
 
 
@@ -174,19 +173,19 @@ public class RM_ChangeContainer {
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         login.loginPage(urlQA);
         componente = "Deployment Request";
-        Login_Applications.loginRM(driver, componente);
+        LoginApplications.loginRM(driver, componente);
         Thread.sleep(1000);
         int exist = -1;
         exist = searchScrollElement.elementSearch("Open");
         if (exist != -1) {
             driver.findElement(By.xpath("//span[text()='Open']")).click();
-            CargaPopPup.PopPup(driver,wait);
+            ChargePopPup.PopPupDetail(driver,wait);
             WebElement titulo = driver.findElement(By.xpath("//span[text()='Lista de solicitudes de instalación']"));
             wait.until(ExpectedConditions.visibilityOf(titulo));
             List<WebElement> buttons = driver.findElements(By.xpath("//span[@class ='sapMBtnInner sapMBtnHoverable sapMFocusable sapMBtnIconFirst sapMBtnDefault']"));
             driver.findElement(By.xpath("//span[text()='01']")).click();
             action.moveToElement(buttons.get(0)).click().perform();
-            CargaPopPup.PopPup(driver,wait);
+            ChargePopPup.PopPupDetail(driver,wait);
             asserts.assertSave();
         }
     }
@@ -197,7 +196,7 @@ public class RM_ChangeContainer {
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         login.loginPage(urlPROD);
         componente = "Deployment Request";
-        Login_Applications.loginRM(driver, componente);
+        LoginApplications.loginRM(driver, componente);
         int exist = -1;
         exist = searchScrollElement.elementSearch("Open");
         if (exist != -1) {

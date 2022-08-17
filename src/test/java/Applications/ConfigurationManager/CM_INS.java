@@ -4,12 +4,10 @@ import Forms.FormsCM;
 import Helpers.Asserts;
 import Helpers.FormsControl;
 import Helpers.SelectBrowser;
-import HomepageFunctions.Home_Page;
-import HomepageFunctions.Login_Applications;
+import HomePage.Login;
+import HomePage.LoginApplications;
 import org.openqa.selenium.WebDriver;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
+import org.testng.annotations.*;
 
 public class CM_INS {
 
@@ -17,15 +15,15 @@ public class CM_INS {
     private final String chosen_browser = "Chrome";
 
     SelectBrowser browser = new SelectBrowser(driver);
-    Home_Page login;
+    Login login;
     Asserts asserts;
 
-    String componente = "Instance Numbering Schema";
-    String newINS = "INS Selenium";
-    String editINS = "INS Selenium Editado";
-    String separador = "-";
-    String fixedValue = "SELENIUM";
-    String counter = "Counter Selenium";
+    final String componente = "Instance Numbering Schema";
+    final String newINS = "INS Selenium";
+    final String editINS = "INS Selenium Editado";
+    final String separator = "-";
+    final String fixedValue = "SELENIUM";
+    final String Counter = "Counter Selenium";
 
 
     @BeforeMethod
@@ -33,21 +31,22 @@ public class CM_INS {
         browser.chooseBrowser(chosen_browser);
         driver = browser.getDriver();
         asserts = new Asserts(driver);
-        login = new Home_Page(driver);
+        login = new Login(driver);
         login.loginPage();
-        Login_Applications.loginCM(driver,componente);
+        LoginApplications.loginCM(driver,componente);
     }
 
-
+    @Parameters({"INS","separador","valorFijo","counter"})
     @Test
-    public void crearINS(){
-        FormsCM.formCreateINS(driver,newINS,separador,fixedValue,counter);
+    public void crearINS(@Optional(newINS) String INS, @Optional(separator) String separador , @Optional(fixedValue) String valorFijo , @Optional(Counter) String counter){
+        FormsCM.formCreateINS(driver,INS,separador,valorFijo,counter);
         asserts.assertSave();
     }
 
+    @Parameters("INS")
     @Test
-    public void eliminarINS(){
-        FormsControl.controlDelete(driver,newINS);
+    public void eliminarINS(@Optional(newINS) String INS){
+        FormsControl.controlDelete(driver,INS);
         String xpathMessage = "//span[@class='sapMText sapUiSelectable sapMTextMaxWidth sapMMsgBoxText']";
         asserts.assertDelete(xpathMessage);
     }

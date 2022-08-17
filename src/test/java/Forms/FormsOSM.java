@@ -32,7 +32,7 @@ public class FormsOSM {
     }
 
     public static void formEditCompany(WebDriver driver, String company) throws InterruptedException {
-        listForm = FormsControl.controlEdit(driver,edit,"Empresa",num);
+        listForm = FormsControl.controlEdit(driver,"Empresa");
         listForm.get(2).clear();
         listForm.get(2).sendKeys(company);
         listForm.get(3).clear();

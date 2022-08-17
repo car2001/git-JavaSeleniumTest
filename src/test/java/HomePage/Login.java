@@ -1,4 +1,4 @@
-package HomepageFunctions;
+package HomePage;
 
 import org.openqa.selenium.By;
 
@@ -8,14 +8,14 @@ import java.time.Duration;
 
 
 
-public class Home_Page {
+public class Login {
 
     private WebDriver driver;
     private String url;
     private String user;
     private String password;
 
-    public Home_Page(WebDriver driver) {
+    public Login(WebDriver driver) {
         this.driver = driver;
         //this.url = "https://cloud.buplat.com/IDO_SANDBOX/";
         this.url = "http://wedox.sytes.net/buplat_config/";
@@ -56,4 +56,6 @@ public class Home_Page {
     public String getUser() {
         return user;
     }
+
+
 }

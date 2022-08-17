@@ -61,8 +61,7 @@ public class FormsControl {
         return listForm;
     }
 
-
-    public static List<WebElement> controlEdit(WebDriver driver,String edit,String componente,String num) throws InterruptedException{
+    public static List<WebElement> controlEdit(WebDriver driver,String componente) throws InterruptedException{
         wait = new WebDriverWait(driver, Duration.ofSeconds(50));
         WebElement titleDetail = driver.findElement(By.xpath("//span[contains(@id,'--objFormTitle-inner') and contains(text(),'"+componente+"')]"));
         wait.until(ExpectedConditions.visibilityOf(titleDetail));
@@ -89,6 +88,12 @@ public class FormsControl {
             }
         }
         return listForm;
+    }
+
+    public static void controlTitle(WebDriver driver,String componente ){
+        wait = new WebDriverWait(driver, Duration.ofSeconds(50));
+        WebElement titleDetail = driver.findElement(By.xpath("//span[contains(@id,'--objFormTitle-inner') and contains(text(),'"+componente+"')]"));
+        wait.until(ExpectedConditions.visibilityOf(titleDetail));
     }
 
     public static void controlDelete(WebDriver driver, Actions action , WebElement elemento,String componente){

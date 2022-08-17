@@ -2,14 +2,13 @@ package Applications.OSM;
 
 import Helpers.*;
 import Forms.FormsOSM;
-import HomepageFunctions.Home_Page;
-import HomepageFunctions.Login_Applications;
+import HomePage.Login;
+import HomePage.LoginApplications;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
 import org.testng.Assert;
 import org.testng.annotations.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -18,9 +17,9 @@ public class OSM_Location {
     private WebDriver driver;
     private String chosen_browser = "Chrome";
 
-    Home_Page login;
-    Dynamic_Scroll_Search searchScrollElement;
-    AccessBranches accessBranch;
+    Login login;
+    DynamicScroll searchScrollElement;
+    AccessBranch accessBranch;
     SelectBrowser browser = new SelectBrowser(driver);
     Actions action;
     JavascriptExecutor js;
@@ -41,13 +40,13 @@ public class OSM_Location {
         driver = browser.getDriver();
         js = (JavascriptExecutor) driver;
         action = new Actions(driver);
-        searchScrollElement = new Dynamic_Scroll_Search(driver);
+        searchScrollElement = new DynamicScroll(driver);
         asserts = new Asserts(driver);
         basicControl = new BasicControl(driver);
-        accessBranch = new AccessBranches(driver);
-        login = new Home_Page(driver);
+        accessBranch = new AccessBranch(driver);
+        login = new Login(driver);
         login.loginPage();
-        Login_Applications.loginOSM(driver);
+        LoginApplications.loginOSM(driver);
     }
 
     @Test()

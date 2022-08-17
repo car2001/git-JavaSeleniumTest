@@ -1,12 +1,12 @@
 package Applications.OSM;
 
-import Helpers.AccessBranches;
+import Helpers.AccessBranch;
 import Helpers.Asserts;
-import Helpers.Dynamic_Scroll_Search;
+import Helpers.DynamicScroll;
 import Forms.FormsOSM;
 import Helpers.SelectBrowser;
-import HomepageFunctions.Home_Page;
-import HomepageFunctions.Login_Applications;
+import HomePage.Login;
+import HomePage.LoginApplications;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -17,8 +17,6 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import java.util.List;
-
 /**
  *
  * @author Carlos Alberto
@@ -28,11 +26,11 @@ public class OSM_Position {
     private WebDriver driver;
     private String chosen_browser = "Chrome";
 
-    Home_Page login;
-    Dynamic_Scroll_Search searchScrollElement;
+    Login login;
+    DynamicScroll searchScrollElement;
     SelectBrowser browser = new SelectBrowser(driver);
     Actions action;
-    AccessBranches accessBranch;
+    AccessBranch accessBranch;
     Asserts asserts;
 
     String company = "Company Selenium";
@@ -48,12 +46,12 @@ public class OSM_Position {
         browser.chooseBrowser(chosen_browser);
         driver = browser.getDriver();
         action = new Actions(driver);
-        searchScrollElement = new Dynamic_Scroll_Search(driver);
-        accessBranch = new AccessBranches(driver);
-        login = new Home_Page(driver);
+        searchScrollElement = new DynamicScroll(driver);
+        accessBranch = new AccessBranch(driver);
+        login = new Login(driver);
         asserts = new Asserts(driver);
         login.loginPage();
-        Login_Applications.loginOSM(driver);
+        LoginApplications.loginOSM(driver);
     }
 
     @Test(priority = 0)

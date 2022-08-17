@@ -51,6 +51,7 @@ public class BasicControl {
 
     public void btNewVersion(){
         driver.findElement(By.xpath("//span[contains(@id,'--newVersion-img')]")).click();
+
     }
 
     public void btnVersionHistory(){
@@ -65,12 +66,12 @@ public class BasicControl {
 
     public void claim(){
         driver.findElement(By.xpath("//span[contains(@id,'--btnClain-img')]")).click();
-        CargaPopPup.PopPupGeneral(driver,wait);
+        ChargePopPup.PopPupGeneral(driver,wait);
     }
 
     public void submit(){
         driver.findElement(By.xpath("//bdi[text() = 'Enviar' and contains(@id,'--btnSubmit-BDI-content')]")).click();
-        CargaPopPup.PopPupGeneral(driver,wait);
+        ChargePopPup.PopPupGeneral(driver,wait);
     }
 
 
