@@ -1,6 +1,7 @@
 package Applications.ConfigurationManager;
 
-import Forms.FormsCM;
+import Forms.ConfigurationManager.FormsCM;
+import Forms.ConfigurationManager.FormsCounter;
 import Helpers.Asserts;
 import Helpers.FormsControl;
 import Helpers.SelectBrowser;
@@ -20,7 +21,6 @@ public class CM_Counter {
 
     final String componente = "Counter ";
     final String newCounter = "Counter Selenium";
-    final String editCounter = "Counter Selenium Editado";
     final String start = "100";
     final String increment = "1";
 
@@ -39,7 +39,7 @@ public class CM_Counter {
     @Test
     public void crearCounter (@Optional(newCounter) String counter, @Optional(start) String inicio, @Optional(increment) String aumento)
     {
-        FormsCM.formCreateCounter(driver,counter,inicio,aumento);
+        FormsCounter.formCreateCounter(driver,counter,inicio,aumento);
         asserts.assertSave();
     }
 
@@ -54,7 +54,7 @@ public class CM_Counter {
     @AfterMethod
     public void tearDown(){
         if (driver != null){
-            driver.quit();
+            //driver.quit();
         }
     }
 }

@@ -36,7 +36,7 @@ public class LoginApplications {
         driver.findElement(By.xpath("//div[@title='Setting']")).click();
         driver.findElement(By.xpath("//span[text()='"+componente+"']")).click();
         ChargePopPup.PopPupGeneral(driver,wait);
-        String mas = "//span[text()='Más' and @class='sapMSLITitle']";
+        String mas = "//span[(text()='Más' or text()='More') and @class='sapMSLITitle']";
         try {
             WebElement more = driver.findElement(By.xpath(mas));
             Boolean moreDisplayed = more.isDisplayed();

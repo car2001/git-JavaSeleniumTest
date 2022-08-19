@@ -18,9 +18,9 @@ public class FormsControl {
     private static List<WebElement> listForm;
     private static BasicControl basicControl;
 
-    public static List<WebElement> controlNewWithoutFocus( WebDriver driver,String componente){
+    public static List<WebElement> controlNew( WebDriver driver,String componente,String ingles){
         wait = new WebDriverWait(driver, Duration.ofSeconds(50));
-        WebElement titulo = driver.findElement(By.xpath("//span[contains(@id,'--objFormTitle-inner') and contains(text(),'"+componente+"')]"));
+        WebElement titulo = driver.findElement(By.xpath("//span[contains(@id,'--objFormTitle-inner') and (contains(text(),'"+componente+"') or contains(text(),'"+ingles+"') )]"));
         wait.until(ExpectedConditions.visibilityOf(titulo));
         listForm = driver.findElements(By.className("sapMInputBaseInner"));
         boolean focus = false;
@@ -40,14 +40,24 @@ public class FormsControl {
         return listForm;
     }
 
-    public static List<WebElement> controlNew( WebDriver driver,String componente){
+
+
+    public static List<WebElement> controlEdit(WebDriver driver,String componente,String ingles) throws InterruptedException{
         wait = new WebDriverWait(driver, Duration.ofSeconds(50));
-        WebElement titulo = driver.findElement(By.xpath("//span[contains(@id,'--objFormTitle-inner') and contains(text(),'"+componente+"')]"));
-        wait.until(ExpectedConditions.visibilityOf(titulo));
+        WebElement titleDetail = driver.findElement(By.xpath("//span[contains(@id,'--objFormTitle-inner') and (contains(text(),'"+componente+"') or contains(text(),'"+ingles+"') )]"));
+        wait.until(ExpectedConditions.visibilityOf(titleDetail));
+        basicControl = new BasicControl(driver);
+        basicControl.btnEdit();
         listForm = driver.findElements(By.className("sapMInputBaseInner"));
+        WebElement disabled = listForm.get(2);
+        while(disabled.isEnabled() == false){
+            listForm = driver.findElements(By.className("sapMInputBaseInner"));
+            disabled = listForm.get(2);
+        }
         boolean focus = false;
         while(focus == false){
-            if(listForm.get(2).equals(driver.switchTo().activeElement())){
+            listForm.get(3).click();
+            if(listForm.get(3).equals(driver.switchTo().activeElement())){
                 System.out.println("Element is focused");
                 focus = true;
             }
@@ -56,7 +66,6 @@ public class FormsControl {
                 System.out.println("Element is no focused");
                 focus = false;
             }
-
         }
         return listForm;
     }
@@ -67,8 +76,6 @@ public class FormsControl {
         wait.until(ExpectedConditions.visibilityOf(titleDetail));
         basicControl = new BasicControl(driver);
         basicControl.btnEdit();
-        WebElement titleEdit = driver.findElement(By.xpath("//span[text()='Editar "+componente+"']"));
-        wait.until(ExpectedConditions.visibilityOf(titleEdit));
         listForm = driver.findElements(By.className("sapMInputBaseInner"));
         WebElement disabled = listForm.get(2);
         while(disabled.isEnabled() == false){

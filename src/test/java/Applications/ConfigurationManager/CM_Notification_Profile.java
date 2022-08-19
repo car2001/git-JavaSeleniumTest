@@ -1,6 +1,6 @@
 package Applications.ConfigurationManager;
 
-import Forms.FormsCM;
+import Forms.ConfigurationManager.FormsCM;
 import Helpers.Asserts;
 import Helpers.BasicControl;
 import Helpers.FormsControl;

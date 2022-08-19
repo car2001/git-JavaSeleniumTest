@@ -30,7 +30,7 @@ public class FormsPM {
 
     //HIERARCHIE
     public static void createNewHierarchie(WebDriver driver,String hierarchie){
-        listForm = FormsControl.controlNewWithoutFocus(driver,"nivel");
+        listForm = FormsControl.controlNew(driver,"nivel","");
         listForm.get(2).click();
         listForm.get(2).sendKeys(hierarchie);
         listForm.get(3).click();
@@ -42,7 +42,7 @@ public class FormsPM {
 
     //PROCESS
     public static void creteNewProcess(WebDriver driver, String process , Actions action, String INS, String SLA , JavascriptExecutor js){
-        listForm = FormsControl.controlNew(driver,"proceso");
+        listForm = FormsControl.controlNew(driver,"proceso","");
         listForm.get(2).click();
         listForm.get(2).sendKeys(process);
         listForm.get(3).click();
@@ -94,7 +94,7 @@ public class FormsPM {
 
     //Activity Form
     public static void createNewActivityForm(WebDriver driver , String nameAf){
-        listForm = FormsControl.controlNew(driver,"formulario de actividad");
+        listForm = FormsControl.controlNew(driver,"formulario de actividad","");
         listForm.get(2).click();
         listForm.get(2).sendKeys(nameAf);
         listForm.get(3).click();

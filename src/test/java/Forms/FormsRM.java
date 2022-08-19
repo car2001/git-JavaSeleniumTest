@@ -26,7 +26,7 @@ public class FormsRM {
     //Project
 
     public static void formCreateProject(WebDriver driver,String proyecto){
-        listForm = FormsControl.controlNew(driver,"proyecto");
+        listForm = FormsControl.controlNew(driver,"proyecto","");
         listForm.get(2).sendKeys(proyecto);
         listForm.get(3).sendKeys(proyecto);
         listForm.get(4).sendKeys("Proyecto Creado en Selenium");
@@ -61,7 +61,7 @@ public class FormsRM {
     }
 
     public static void formCreateProjectWithoutRelease(WebDriver driver,String proyecto){
-        listForm = FormsControl.controlNew(driver,"proyecto");
+        listForm = FormsControl.controlNew(driver,"proyecto","");
         listForm.get(2).sendKeys(proyecto);
         listForm.get(3).sendKeys(proyecto);
         listForm.get(4).sendKeys(" Proyecto sin Release Creado en Selenium");
@@ -81,7 +81,7 @@ public class FormsRM {
     //Release
 
     public static void formCreateRelease(WebDriver driver,String release){
-        listForm = FormsControl.controlNew(driver,"liberación");
+        listForm = FormsControl.controlNew(driver,"liberación","");
         listForm.get(2).sendKeys(release);
         listForm.get(3).sendKeys(release);
         listForm.get(4).sendKeys("Release Creado en Selenium");
@@ -124,7 +124,7 @@ public class FormsRM {
     // Change Container
 
     public static void formCreateChangeContainer(WebDriver driver,String ChangeContainer,String Proyecto,String release,String user) throws InterruptedException {
-        listForm = FormsControl.controlNew(driver,"contenedor de cambios");
+        listForm = FormsControl.controlNew(driver,"contenedor de cambios","");
         listForm.get(2).click();
         listForm.get(2).sendKeys(ChangeContainer);
         listForm.get(3).click();
@@ -144,7 +144,7 @@ public class FormsRM {
     //Deployment Package
 
     public static void formDeploymentPackage(WebDriver driver , String DeploymentPackage,String Proyecto,String release){
-        listForm = FormsControl.controlNewWithoutFocus(driver,"paquete de instalación");
+        listForm = FormsControl.controlNew(driver,"paquete de instalación","");
         listForm.get(3).click();
         listForm.get(3).sendKeys(DeploymentPackage);
         listForm.get(4).click();
@@ -161,7 +161,7 @@ public class FormsRM {
     //Deployment Request
 
     public static void formDeploymentRequest(WebDriver driver , String DeploymentRequest,String Proyecto,String release) throws InterruptedException {
-        listForm = FormsControl.controlNewWithoutFocus(driver,"solicitud de instalación");
+        listForm = FormsControl.controlNew(driver,"solicitud de instalación","");
         listForm.get(3).click();
         listForm.get(3).sendKeys(DeploymentRequest);
         listForm.get(4).click();
@@ -179,7 +179,7 @@ public class FormsRM {
     //lIBERACION
     public static void formReleaseCC(WebDriver driver, AccessBranch accessBranches){
         basicControl = new BasicControl(driver);
-        listForm = FormsControl.controlNewWithoutFocus(driver,"Liberación");
+        listForm = FormsControl.controlNew(driver,"Liberación","");
         driver.findElement(By.xpath("//span[contains(@id,'--cbDP-arrow')]")).click();
         driver.findElement(By.xpath("//div[text()='DP_SELENIUM' and @class='sapMSLITitleOnly']")).click();
         basicControl.btnSave();
@@ -190,7 +190,7 @@ public class FormsRM {
     }
     public static  void formReleaseDP(WebDriver driver, AccessBranch accessBranches){
         basicControl = new BasicControl(driver);
-        listForm = FormsControl.controlNewWithoutFocus(driver,"Liberación");
+        listForm = FormsControl.controlNew(driver,"Liberación","");
         driver.findElement(By.xpath("//span[contains(@id,'--cbDR-arrow') and @class='sapUiIcon sapUiIconMirrorInRTL sapUiIconPointer sapMInputBaseIcon']")).click();
         driver.findElement(By.xpath("//div[text()='DR_SELENIUM' and @class='sapMSLITitleOnly']")).click();
         basicControl.btnSave();

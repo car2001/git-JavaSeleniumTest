@@ -71,7 +71,7 @@ public class PM_Process {
                 driver.findElement(By.xpath("//div[normalize-space()='New Process']")).click();
                 Thread.sleep(1000);
                 FormsPM.creteNewProcess(driver,nameProcess,action,INS,SLA,js);
-                ChargePopPup.PopPupDetail(driver,wait);
+                ChargePopPup.PopPupMain(driver,wait);
                 asserts.assertSave();
                 //Realizamos los pasos
                 stepsProcess();
@@ -98,7 +98,7 @@ public class PM_Process {
         WebElement verticalbar = driver.findElement(By.xpath("//div[@title='Ajustar el tamaño entre el panel 1 y el panel 2']"));// este el original
         action.doubleClick(verticalbar).build().perform();
         driver.findElement(By.id("__xmlview4--btnGoToWizard-content")).click();
-        ChargePopPup.PopPupsection(driver,wait);
+        ChargePopPup.PopPupDetail(driver,wait);
     }
 
     public void step1Process() throws InterruptedException {
@@ -169,7 +169,7 @@ public class PM_Process {
         Thread.sleep(1000);
         driver.findElement(By.id("__xmlview4--btnAddACTF-inner")).click();
         Forms.FormsPM.createNewActivityForm(driver,AF);
-        ChargePopPup.PopPupDetail(driver,wait);
+        ChargePopPup.PopPupMain(driver,wait);
         Forms.FormsPM.panelActivityForm(driver,action,3,js);
         //Ingresamos a la actividad 2
         String task2 = "#__xmlview4--js-canvas-fb > div > div > svg > g > g > g > g.djs-children > g:nth-child(13) > g > rect.djs-hit.djs-hit-all";
@@ -203,7 +203,7 @@ public class PM_Process {
     public void step4Process() throws InterruptedException {
         //Ingresamos al paso 4
         driver.findElements(By.cssSelector(".sapUiIcon.sapUiIconMirrorInRTL.sapMITBFilterIcon.sapMITBBadgeHolder.sapMITBFilterDefault")).get(3).click();
-        ChargePopPup.PopPupsection(driver,wait);
+        ChargePopPup.PopPupDetail(driver,wait);
         WebElement titleStep3 = driver.findElement(By.xpath("//span[text()='Configurar ejecutantes' and contains(@id,'--objFormTitle')]"));
         wait.until(ExpectedConditions.visibilityOf(titleStep3));
         //Editamos el paso 4

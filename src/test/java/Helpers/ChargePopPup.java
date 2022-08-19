@@ -19,17 +19,19 @@ public class ChargePopPup {
     }
 
 
-    public static void PopPupDetail(WebDriver driver, WebDriverWait wait){
+    public static void PopPupMain(WebDriver driver, WebDriverWait wait){
+
         try{
-            WebElement popupCarga = driver.findElement(By.xpath("//div[contains(@id,'--resSplitMain-busyIndicator')]"));
+            WebElement popupCarga = driver.findElement(By.xpath("//div[@class='sapUiBlockLayer  sapUiLocalBusyIndicator sapUiLocalBusyIndicatorSizeMedium sapUiLocalBusyIndicatorFade' and contains(@id,'--resSplitMain-busyIndicator')]"));
             wait.until(ExpectedConditions.visibilityOf(popupCarga));
             wait.until(ExpectedConditions.invisibilityOf(popupCarga));
         }catch(Exception e){
             System.out.println(e.getMessage());
         }
+
     }
 
-    public static void PopPupsection(WebDriver driver, WebDriverWait wait){
+    public static void PopPupDetail(WebDriver driver, WebDriverWait wait){
         try{
             WebElement popupCarga = driver.findElement(By.xpath("//div[contains(@id,'--detail-busyIndicator')]"));
             wait.until(ExpectedConditions.visibilityOf(popupCarga));

@@ -1,4 +1,4 @@
-package Forms;
+package Forms.ConfigurationManager;
 
 import Helpers.BasicControl;
 import Helpers.FormsControl;
@@ -22,85 +22,9 @@ public class FormsCM {
     private static String num = "5";
     private static BasicControl basicControl;
 
-    //COUNTER
 
-    public static void formCreateCounter(WebDriver driver, String Counter,String inicio , String incremento){
-        driver.findElement(By.id(add)).click();
-        listForm = FormsControl.controlNewWithoutFocus(driver,"contador");
-        listForm.get(2).click();
-        listForm.get(2).sendKeys(Counter);
-        listForm.get(3).click();
-        listForm.get(3).sendKeys(Counter);
-        listForm.get(4).click();
-        listForm.get(4).sendKeys(Counter);
-        listForm.get(6).click();
-        listForm.get(6).sendKeys(inicio);
-        listForm.get(7).click();
-        listForm.get(7).sendKeys(incremento);
-        driver.findElement(By.id(save)).click();
-    }
-
-    //INS
-
-    public static void formCreateINS(WebDriver driver, String INS , String separador , String fixedValue, String counter){
-        driver.findElement(By.id(add)).click();
-        listForm = FormsControl.controlNewWithoutFocus(driver,"Nuevo esquema de numeración de instancias");
-        listForm.get(2).click();
-        listForm.get(2).sendKeys(INS);
-        listForm.get(3).click();
-        listForm.get(3).sendKeys(INS);
-        listForm.get(4).click();
-        listForm.get(4).sendKeys(INS);
-        listForm.get(6).click();
-        listForm.get(6).sendKeys(separador);
-        driver.findElement(By.id("__xmlview5--addItem-img")).click();
-        driver.findElement(By.id("__xmlview5--addItem-img")).click();
-        List<WebElement> cboComponentes =  driver.findElements(By.xpath("//span[@class='sapUiIcon sapUiIconMirrorInRTL sapUiIconPointer sapMInputBaseIcon' and @aria-label ='Opciones de selección']"));
-        cboComponentes.get(0).click();
-        driver.findElement(By.xpath("//div[text()='Fixed Value'][last()]")).click();
-        cboComponentes.get(1).click();
-        driver.findElements(By.xpath("//div[text()='Counter']")).get(1).click();
-        listForm= driver.findElements(By.className("sapMInputBaseInner"));
-        listForm.get(8).click();
-        listForm.get(8).sendKeys(fixedValue);
-        driver.findElements(By.xpath("//span[@class='sapUiIcon sapUiIconMirrorInRTL sapUiIconPointer sapMInputBaseIcon' and @aria-label ='Opciones de selección']")).get(2).click();
-        driver.findElement(By.xpath("//div[text()='Counter Selenium']")).click();
-        driver.findElement(By.id(save)).click();
-    }
 
     //SLA
-    public static void formCreateSLA(WebDriver driver, String SLA){
-        driver.findElement(By.xpath("//div[@class='sapMBarRight sapMBarContainer']/button[@title='Añadir']")).click();
-        WebDriverWait wait = new WebDriverWait(driver,Duration.ofSeconds(5));
-        wait.until(ExpectedConditions.elementToBeClickable(By.id(save)));
-        listForm = driver.findElements(By.className("sapMInputBaseInner"));
-        listForm.get(2).sendKeys(SLA);
-        listForm.get(3).sendKeys(SLA);
-        listForm.get(4).sendKeys("Es un "+ SLA);
-        driver.findElement(By.id("__xmlview5--slaType-arrow")).click();
-        driver.findElement(By.xpath("//div[@class='sapMSLITitleOnly'][normalize-space()='Fixed Value']")).click();
-        driver.findElement(By.id("__xmlview5--useNumberDays-switch")).click();
-        driver.findElement(By.id(save)).click();
-    }
-
-
-    public static void formEditSLA(WebDriver driver, String SLA) throws InterruptedException {
-        WebDriverWait wait = new WebDriverWait(driver,Duration.ofSeconds(5));
-        wait.until(ExpectedConditions.elementToBeClickable(By.id(edit)));
-        basicControl = new BasicControl(driver);
-        basicControl.btnEdit();
-        wait.until(ExpectedConditions.elementToBeClickable(By.id(save)));
-        listForm = driver.findElements(By.className("sapMInputBaseInner"));
-        listForm.get(2).clear();
-        listForm.get(2).sendKeys(SLA);
-        listForm.get(3).clear();
-        listForm.get(3).sendKeys(SLA);
-        listForm.get(4).clear();
-        listForm.get(4).sendKeys("Descripción "+ SLA);
-        driver.findElement(By.id("__xmlview5--slaType-arrow")).click();
-        driver.findElement(By.xpath("//div[@class='sapMSLITitleOnly'][normalize-space()='Depends on a Condition']")).click();
-        driver.findElement(By.id(save)).click();
-    }
 
     public static void MayorVersionSLA(WebDriver driver,String mayor){
         WebDriverWait wait = new WebDriverWait(driver,Duration.ofSeconds(5));

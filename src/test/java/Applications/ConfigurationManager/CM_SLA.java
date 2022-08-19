@@ -1,6 +1,7 @@
 package Applications.ConfigurationManager;
 
-import Forms.FormsCM;
+import Forms.ConfigurationManager.FormsCM;
+import Forms.ConfigurationManager.FormsSLA;
 import Helpers.Asserts;
 import Helpers.BasicControl;
 import Helpers.FormsControl;
@@ -14,7 +15,7 @@ import org.testng.annotations.*;
 public class CM_SLA {
     private WebDriver driver;
     private String chosen_browser = "Chrome";
-    final String URL = "http://wedox.sytes.net/buplat_config/";
+    final String URL = "http://wedox.sytes.net/buplat_dev/";
 
     final String componente = "SLA Definition";
     final String newSLA = "SLA Selenium";
@@ -30,20 +31,20 @@ public class CM_SLA {
 
     @Parameters("url")
     @BeforeMethod
-    public void setUp(){
+    public void setUp(@Optional(URL) String url){
         browser.chooseBrowser(chosen_browser);
         driver = browser.getDriver();
         asserts = new Asserts(driver);
         basicControl = new BasicControl(driver);
         login = new Login(driver);
-        login.loginPage();
+        login.loginPage(URL);
         LoginApplications.loginCM(driver,componente);
     }
 
     @Parameters("SLA")
     @Test()
     public void crear_SLA(@Optional(newSLA) String SLA) {
-        FormsCM.formCreateSLA(driver,SLA);
+        FormsSLA.formCreateSLA(driver,SLA);
         asserts.assertSave();
     }
 
@@ -59,7 +60,7 @@ public class CM_SLA {
     @Test(priority = 2)
     public void editar_SLA(@Optional(newSLA) String SLA, @Optional(editSLA) String SLA_edit) throws InterruptedException{
         driver.findElement(By.xpath("//div[text()='"+SLA+"']")).click();
-        FormsCM.formEditSLA(driver,SLA_edit);
+        FormsSLA.formEditSLA(driver,SLA_edit);
         asserts.assertSave();
     }
 

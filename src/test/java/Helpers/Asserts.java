@@ -17,37 +17,43 @@ public class Asserts {
 
     public void assertSave(){
         String message = driver.findElement(By.className("sapMMsgStripMessage")).getAttribute("textContent");
-        Assert.assertEquals(message, "La operación se ha completado con éxito."+ "\n" );
-        driver.findElement(By.xpath("//button[@title='Cerrar']")).click();
+        if(message.contains("The")){
+            Assert.assertEquals(message, "The Operation has been Completed Successfully."+ "\n" );
+        }else{
+            Assert.assertEquals(message, "La operación se ha completado con éxito."+ "\n" );
+        }
+        driver.findElement(By.xpath("//button[@title='Cerrar' or @title='Close']")).click();
     }
+
+
 
     public void assertSaveDiagram(){
         String message = driver.findElement(By.className("sapMMsgStripMessage")).getAttribute("textContent");
         Assert.assertEquals(message, "El diagrama se guardó con éxito.");
-        driver.findElement(By.xpath("//button[@title='Cerrar']")).click();
+        driver.findElement(By.xpath("//button[@title='Cerrar' or @title='Close']")).click();
     }
 
     public void assertSaveDP(){
         String message = driver.findElement(By.className("sapMMsgStripMessage")).getAttribute("textContent");
         Assert.assertEquals(message.substring(0,54), "El paquete de instalación ha sido creado con el nombre");
-        driver.findElement(By.xpath("//button[@title='Cerrar']")).click();
+        driver.findElement(By.xpath("//button[@title='Cerrar' or @title='Close']")).click();
     }
 
     public void assertSaveDR(){
         String message = driver.findElement(By.className("sapMMsgStripMessage")).getAttribute("textContent");
         Assert.assertEquals(message.substring(0,56), "La solicitud de instalación ha sido creado con el nombre");
-        driver.findElement(By.xpath("//button[@title='Cerrar']")).click();
+        driver.findElement(By.xpath("//button[@title='Cerrar' or @title='Close']")).click();
     }
 
     public void assertSaveModelData(){
         String message = driver.findElement(By.className("sapMMsgStripMessage")).getAttribute("textContent");
         Assert.assertEquals(message, "Los atributos del modelo de datos se guardaron con éxito");
-        driver.findElement(By.xpath("//button[@title='Cerrar']")).click();
+        driver.findElement(By.xpath("//button[@title='Cerrar' or @title='Close']")).click();
     }
 
     public void assertDependecies(){
         String message = driver.findElement(By.xpath("//span[contains(@id,'--dependenciesTableTitle-inner')]")).getText();
-        if(message == "Dependencies List"){
+        if(message.contains("List")){
             Assert.assertEquals(message,"Dependencies List");
         }else {
             Assert.assertEquals(message,"Lista de dependencias");
@@ -62,7 +68,7 @@ public class Asserts {
     public void assertDoubleCheck(String expected){
         String message = driver.findElement(By.className("sapMMsgStripMessage")).getAttribute("textContent");
         Assert.assertEquals(message,expected);
-        driver.findElement(By.xpath("//button[@title='Close']")).click();
+        driver.findElement(By.xpath("//button[@title='Cerrar' or @title='Close']")).click();
         driver.findElement(By.xpath("//span[contains(@id,'--cancel-img')]")).click();
     }
 

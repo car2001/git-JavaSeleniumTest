@@ -1,6 +1,7 @@
 package Applications.ConfigurationManager;
 
-import Forms.FormsCM;
+import Forms.ConfigurationManager.FormsCM;
+import Forms.ConfigurationManager.FormsINS;
 import Helpers.Asserts;
 import Helpers.FormsControl;
 import Helpers.SelectBrowser;
@@ -39,7 +40,7 @@ public class CM_INS {
     @Parameters({"INS","separador","valorFijo","counter"})
     @Test
     public void crearINS(@Optional(newINS) String INS, @Optional(separator) String separador , @Optional(fixedValue) String valorFijo , @Optional(Counter) String counter){
-        FormsCM.formCreateINS(driver,INS,separador,valorFijo,counter);
+        FormsINS.formCreateINS(driver,INS,separador,valorFijo,counter);
         asserts.assertSave();
     }
 

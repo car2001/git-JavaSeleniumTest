@@ -53,8 +53,9 @@ public class RM_ChangeContainer {
         LoginApplications.loginRM(driver, componente);
     }
 
-
+    @Test
     public void crearChangeContainerArbol() throws InterruptedException {
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         String user = login.getUser();
         WebElement btnOpen = driver.findElement(By.xpath("//span[text()='Open']"));
         action.contextClick(btnOpen).perform();
@@ -65,14 +66,6 @@ public class RM_ChangeContainer {
     }
 
 
-    public void editarChangeContainerArbol(){
-        int xpos = searchScrollElement.elementSearch("Open");
-        if(xpos != -1){
-            accessBranch.clickBranches(xpos);
-        }else{
-
-        }
-    }
 
     //arreglar estoo
     public void crearChangeContainerTabla() throws InterruptedException {
@@ -122,7 +115,7 @@ public class RM_ChangeContainer {
     @Test
     public void releaseChangeContainer() throws InterruptedException {
         int exist = -1;
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(100));
         exist = searchScrollElement.elementSearch("Open");
         if (exist != -1){
             accessBranch.clickBranches(exist);
@@ -152,8 +145,8 @@ public class RM_ChangeContainer {
                             action.moveToElement(buttons.get(2)).click().perform();
                             Thread.sleep(1000);
                             asserts.assertSave();
-                            releaseEnviromentQA();
-                            releaseEnviromentPROD();
+                            releaseEnviromentQA(wait);
+                            releaseEnviromentPROD(wait);
                         }
                     }
 
@@ -168,9 +161,8 @@ public class RM_ChangeContainer {
     }
 
     @Test
-    public void releaseEnviromentQA() throws InterruptedException {
+    public void releaseEnviromentQA(WebDriverWait wait) throws InterruptedException {
         Thread.sleep(1000);
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         login.loginPage(urlQA);
         componente = "Deployment Request";
         LoginApplications.loginRM(driver, componente);
@@ -179,21 +171,27 @@ public class RM_ChangeContainer {
         exist = searchScrollElement.elementSearch("Open");
         if (exist != -1) {
             driver.findElement(By.xpath("//span[text()='Open']")).click();
-            ChargePopPup.PopPupDetail(driver,wait);
+            ChargePopPup.PopPupMain(driver,wait);
             WebElement titulo = driver.findElement(By.xpath("//span[text()='Lista de solicitudes de instalación']"));
             wait.until(ExpectedConditions.visibilityOf(titulo));
             List<WebElement> buttons = driver.findElements(By.xpath("//span[@class ='sapMBtnInner sapMBtnHoverable sapMFocusable sapMBtnIconFirst sapMBtnDefault']"));
             driver.findElement(By.xpath("//span[text()='01']")).click();
             action.moveToElement(buttons.get(0)).click().perform();
-            ChargePopPup.PopPupDetail(driver,wait);
+            ChargePopPup.PopPupMain(driver,wait);
+            asserts.assertSave();
+            driver.findElement(By.xpath("//span[text()='02']")).click();
+            Thread.sleep(500);
+            driver.findElement(By.xpath("//span[text()='01']")).click();
+            buttons = driver.findElements(By.xpath("//span[@class ='sapMBtnInner sapMBtnHoverable sapMFocusable sapMBtnIconFirst sapMBtnDefault']"));
+            action.moveToElement(buttons.get(0)).click().perform();
+            ChargePopPup.PopPupMain(driver,wait);
             asserts.assertSave();
         }
     }
 
     @Test
-    public void releaseEnviromentPROD() throws InterruptedException {
+    public void releaseEnviromentPROD(WebDriverWait wait) throws InterruptedException {
         Thread.sleep(1000);
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         login.loginPage(urlPROD);
         componente = "Deployment Request";
         LoginApplications.loginRM(driver, componente);
@@ -215,7 +213,7 @@ public class RM_ChangeContainer {
     @AfterMethod
     public void tearDown(){
         if (driver != null){
-            driver.quit();
+            //driver.quit();
         }
     }
 

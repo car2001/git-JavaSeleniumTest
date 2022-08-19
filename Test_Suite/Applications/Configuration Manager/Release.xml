@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="ALL_CM">
+    <test name="CC">
+        <classes>
+            <class name="Applications.ReleaseManager.RM_ChangeContainer">
+                <methods>
+                    <include name="crearChangeContainerArbol"></include>
+                </methods>
+            </class>
+            <class name="Applications.ReleaseManager.RM_DeploymentPackage">
+                <methods>
+                    <include name="createDeploymentPackage"></include>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="Release CC">
+        <classes>
+            <class name="Applications.ReleaseManager.RM_ChangeContainer">
+                <methods>
+                    <include name="releaseChangeContainer"></include>
+                </methods>
+            </class>
+        </classes>
+    </test>
+</suite>
