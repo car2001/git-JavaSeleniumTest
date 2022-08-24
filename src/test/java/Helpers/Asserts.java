@@ -53,7 +53,7 @@ public class Asserts {
 
     public void assertDependecies(){
         String message = driver.findElement(By.xpath("//span[contains(@id,'--dependenciesTableTitle-inner')]")).getText();
-        if(message.contains("List")){
+        if(message.contains("Dependencies")){
             Assert.assertEquals(message,"Dependencies List");
         }else {
             Assert.assertEquals(message,"Lista de dependencias");

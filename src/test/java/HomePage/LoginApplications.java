@@ -30,7 +30,6 @@ public class LoginApplications {
         String routeCM = "//span[@class='sapMTextMaxLine sapMTextLineClamp' and normalize-space()='Configuration Manager']";
         wait.until(ExpectedConditions.elementToBeClickable(By.xpath(routeCM)));
         driver.findElement(By.xpath(routeCM)).click();
-        //wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("navListItem-navList-0-a")));
         ChargePopPup.PopPupGeneral(driver,wait);
         driver.findElement(By.xpath("//div[@title='Reusable Component']")).click();
         driver.findElement(By.xpath("//div[@title='Setting']")).click();

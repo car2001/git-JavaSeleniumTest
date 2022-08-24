@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
 <suite name="All Test Suite">
-    <test verbose="2" preserve-order="true" name="C:/Users/Usuario/IdeaProjects/Pruebas">
+    <test verbose="2" preserve-order="true" name="Test-1">
         <classes>
             <class name="Applications.ReleaseManager.RM_ChangeContainer">
                 <methods>
@@ -58,7 +58,7 @@
            </class>
         </classes>
     </test>
-    <test name="lol">
+<!--    <test name="Test-2">
         <classes>
             <class name="Applications.ReleaseManager.RM_DeploymentPackage">
                 <methods>
@@ -79,5 +79,5 @@
                 </methods>
             </class>
         </classes>
-    </test>
+    </test>-->
 </suite>

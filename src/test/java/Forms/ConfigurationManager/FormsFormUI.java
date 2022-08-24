@@ -5,73 +5,67 @@ import Helpers.FormsControl;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 
 
-import java.time.Duration;
 import java.util.List;
 
-public class FormsSLA {
+public class FormsFormUI {
     private static List<WebElement> listForm;
     private static BasicControl basicControl;
-    private static String slaType = "//span[contains(@id,'--slaType-arrow')]";
+    private static String comment = "//div[contains(@id,'--comments-switch')]";
+    private static String attachment = "//div[contains(@id,'--attachments-switch')]";
+    private static String instructions = "//div[contains(@id,'--instructions-switch')]";
 
-    public static void formCreateSLA(WebDriver driver, String SLA){
+    public static void formCreateFormUI(WebDriver driver, String UI){
         basicControl = new BasicControl(driver);
         basicControl.btnAdd();
-        listForm = FormsControl.controlNew(driver,"SLA","SLA");
+        listForm = FormsControl.controlNew(driver,"UI","UI");
         listForm.get(2).click();
-        listForm.get(2).sendKeys(SLA);
+        listForm.get(2).sendKeys(UI);
         listForm.get(3).click();
-        listForm.get(3).sendKeys(SLA);
+        listForm.get(3).sendKeys(UI);
         listForm.get(4).click();
-        listForm.get(4).sendKeys("Es un "+ SLA);
-        //Tipo de SLA
-        driver.findElement(By.xpath(slaType)).click();
-        driver.findElement(By.xpath("//div[@class='sapMSLITitleOnly'][text()='Fixed Value']")).click();
-        driver.findElement(By.xpath("//div[contains(@id,'--useNumberDays-switch')]")).click();
+        listForm.get(4).sendKeys(UI);
+        driver.findElement(By.xpath(comment)).click();
+        driver.findElement(By.xpath(attachment)).click();
+        driver.findElement(By.xpath(instructions)).click();
         basicControl.btnSave();
     }
 
-    public static void formEditSLA(WebDriver driver, String SLA) throws InterruptedException {
+    public static void formEditFormUI(WebDriver driver, String UI) throws InterruptedException {
         basicControl = new BasicControl(driver);
-        listForm = FormsControl.controlEdit(driver,"SLA","SLA");
+        listForm = FormsControl.controlEdit(driver,"UI","UI");
         listForm.get(2).click();
         listForm.get(2).clear();
-        listForm.get(2).sendKeys(SLA);
+        listForm.get(2).sendKeys(UI);
         listForm.get(3).click();
         listForm.get(3).clear();
-        listForm.get(3).sendKeys(SLA);
+        listForm.get(3).sendKeys(UI);
         listForm.get(4).click();
         listForm.get(4).clear();
-        listForm.get(4).sendKeys("Descripción "+ SLA);
-        driver.findElement(By.xpath(slaType)).click();
-        driver.findElement(By.xpath("//div[@class='sapMSLITitleOnly'][normalize-space()='Depends on a Condition']")).click();
+        listForm.get(4).sendKeys(UI);
         basicControl.btnSave();
     }
 
-    public static void MayorVersionSLA(WebDriver driver,String mayorSLA) throws InterruptedException {
+    public static void MayorVersionFormUI(WebDriver driver,String mayor) throws InterruptedException {
         basicControl = new BasicControl(driver);
         basicControl.btnNewVersion("mayor");
         listForm = FormsControl.controlNew(driver,"versión","Version");
         listForm.get(2).click();
         listForm.get(2).clear();
-        listForm.get(2).sendKeys(mayorSLA);
+        listForm.get(2).sendKeys(mayor);
         listForm.get(3).click();
         listForm.get(3).clear();
-        listForm.get(3).sendKeys(mayorSLA);
+        listForm.get(3).sendKeys(mayor);
         listForm.get(4).click();
         listForm.get(4).clear();
-        listForm.get(4).sendKeys("Descripción "+ mayorSLA);
+        listForm.get(4).sendKeys("Descripción "+ mayor);
         listForm.get(6).click();
         listForm.get(6).sendKeys("Version Mayor");
-        driver.findElement(By.xpath(slaType)).click();
-        driver.findElement(By.xpath("//div[@class='sapMSLITitleOnly'][normalize-space()='Fixed Value']")).click();
         basicControl.btnSave();
     }
 
-    public static void MenorVersionSLA(WebDriver driver,String menor) throws InterruptedException {
+    public static void MenorVersionFormUI(WebDriver driver,String menor) throws InterruptedException {
         basicControl = new BasicControl(driver);
         basicControl.btnNewVersion("menor");
         listForm = FormsControl.controlNew(driver,"versión","Version");
@@ -86,12 +80,10 @@ public class FormsSLA {
         listForm.get(4).sendKeys("Descripción "+ menor);
         listForm.get(6).click();
         listForm.get(6).sendKeys("Version Menor");
-        driver.findElement(By.xpath(slaType)).click();
-        driver.findElement(By.xpath("//div[@class='sapMSLITitleOnly'][normalize-space()='Fixed Value']")).click();
         basicControl.btnSave();
     }
 
-    public static void restoreVersion_SLA(WebDriver driver,String restore){
+    public static void restoreVersion_FormUI(WebDriver driver,String restore){
         basicControl = new BasicControl(driver);
         basicControl.btnVersionHistory(1,"menor");
         listForm = FormsControl.controlNew(driver,"versión","Version");

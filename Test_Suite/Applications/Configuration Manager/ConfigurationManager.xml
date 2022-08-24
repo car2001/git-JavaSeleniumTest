@@ -35,17 +35,20 @@
         </classes>
     </test>-->
     <!-- TC-SLA -->
-    <test name="SLA">
+    <!--<test name="SLA">
         <parameter name="SLA" value="SLA_WEDOX"></parameter>
         <parameter name="typesla" value="Fixed Value"></parameter>
         <parameter name="SLA_edit" value="SLA_WEDOX_EDIT"></parameter>
         <parameter name="versionMayorSLA" value="SLA_WEDOX_MAYOR"></parameter>
         <parameter name="versionMenorrSLA" value="SLA_WEDOX_MAYOR"></parameter>
         <parameter name="restore_Version" value="SLA_WEDOX_RESTAURADO"></parameter>
+        <parameter name="delete_SLA" value="SLA_WEDOX_RESTAURADO"></parameter>
         <classes>
             <class name="Applications.ConfigurationManager.CM_SLA">
                 <methods>
                     <include name="crear_SLA"></include>
+                    <include name="viewDependecies_SLA"></include>
+                    <include name="editar_SLA"></include>
                     <include name="versionMayor_SLA"></include>
                     <include name="versionMenor_SLA"></include>
                     <include name="restoreVersion_SLA"></include>
@@ -53,5 +56,50 @@
                 </methods>
             </class>
         </classes>
+    </test> -->
+    <!-- TC-Form UI -->
+    <!-- <test name="Form UI">
+        <parameter name="formUI" value="FUI_WEDOX"></parameter>
+        <parameter name="formUI_edit" value="FUI_WEDOX_EDIT"></parameter>
+        <parameter name="versionMayorFormUI" value="FUI_WEDOX_MAYOR"></parameter>
+        <parameter name="versionMenorFormUI" value="FUI_WEDOX_MAYOR"></parameter>
+        <parameter name="restore_Version" value="FUI_WEDOX_RESTAURADO"></parameter>
+        <parameter name="delete_FormUI" value="FUI_WEDOX_RESTAURADO"></parameter>
+        <classes>
+            <class name="Applications.ConfigurationManager.CM_Form_UI">
+                <methods>
+                    <include name="crear_FormUI"></include>
+                    <include name="viewDependecies_FormUI"></include>
+                    <include name="editar_FormUI"></include>
+                    <include name="versionMayor_FormUI"></include>
+                    <include name="versionMenor_FormUI"></include>
+                    <include name="restoreVersion_FormUI"></include>
+                    <include name="eliminar_FormUI"></include>
+                </methods>
+            </class>
+        </classes>
+    </test> -->
+    <!-- TC-Performer Profile -->
+    <test name="Performer Profile">
+        <parameter name="PP" value="PP_WEDOX"></parameter>
+        <parameter name="PP_edit" value="PP_WEDOX_EDIT"></parameter>
+        <parameter name="versionMayorPP" value="PP_WEDOX_MAYOR"></parameter>
+        <parameter name="versionMenorPP" value="PP_WEDOX_MAYOR"></parameter>
+        <parameter name="restore_Version" value="PP_WEDOX_RESTAURADO"></parameter>
+        <parameter name="delete_PP" value="PP_WEDOX_RESTAURADO"></parameter>
+        <classes>
+            <class name="Applications.ConfigurationManager.CM_Performer_Profile">
+                <methods>
+                    <include name="crearPerformerProfile"></include>
+                    <include name="viewDependecies_PP"></include>
+                    <include name="editarPerformerProfile"></include>
+                    <include name="versionMayor_PP"></include>
+                    <include name="versionMenor_PP"></include>
+                    <include name="restoreVersion_PP"></include>
+                    <include name="eliminarPerformerProfile"></include>
+                </methods>
+            </class>
+        </classes>
     </test>
+    
 </suite>

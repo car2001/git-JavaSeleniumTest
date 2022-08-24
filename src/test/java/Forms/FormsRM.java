@@ -47,7 +47,7 @@ public class FormsRM {
     }
 
     public static void formEditProject(WebDriver driver,String proyecto) throws InterruptedException {
-        listForm = FormsControl.controlEdit(driver,"proyecto");
+        listForm = FormsControl.controlEdit(driver,"proyecto","");
         listForm.get(2).clear();
         listForm.get(2).sendKeys(proyecto);
         listForm.get(3).clear();
@@ -102,7 +102,7 @@ public class FormsRM {
     }
 
     public static void formEditRelease(WebDriver driver,String release) throws InterruptedException {
-        listForm = FormsControl.controlEdit(driver,"liberacion");
+        listForm = FormsControl.controlEdit(driver,"liberacion","");
         listForm.get(2).clear();
         listForm.get(2).sendKeys(release);
         listForm.get(3).clear();

@@ -22,7 +22,7 @@ public class FormsOSM {
     //Company
 
     public static void formCreateCompany(WebDriver driver,String company) {
-        FormsControl.controlNew(driver,"Empresa");
+        FormsControl.controlNew(driver,"Empresa","");
         listForm = driver.findElements(By.className("sapMInputBaseInner"));
         listForm.get(2).sendKeys(company);
         listForm.get(3).sendKeys(company);
@@ -32,7 +32,7 @@ public class FormsOSM {
     }
 
     public static void formEditCompany(WebDriver driver, String company) throws InterruptedException {
-        listForm = FormsControl.controlEdit(driver,"Empresa");
+        listForm = FormsControl.controlEdit(driver,"Empresa","");
         listForm.get(2).clear();
         listForm.get(2).sendKeys(company);
         listForm.get(3).clear();

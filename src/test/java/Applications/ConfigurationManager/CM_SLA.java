@@ -37,7 +37,7 @@ public class CM_SLA {
         asserts = new Asserts(driver);
         basicControl = new BasicControl(driver);
         login = new Login(driver);
-        login.loginPage(URL);
+        login.loginPage();
         LoginApplications.loginCM(driver,componente);
     }
 
@@ -68,15 +68,15 @@ public class CM_SLA {
     @Test(priority = 3)
     public void versionMayor_SLA(@Optional(editSLA) String SLA_edit, @Optional(versionMayor_Sla) String versionMayorSLA) throws InterruptedException {
         driver.findElement(By.xpath("//div[text()='"+SLA_edit+"']")).click();
-        FormsCM.MayorVersionSLA(driver,versionMayorSLA);
+        FormsSLA.MayorVersionSLA(driver,versionMayorSLA);
         asserts.assertSave();
     }
 
     @Parameters({"versionMayorSLA","versionMenorSLA"})
     @Test(priority = 4)
-    public void versionMenor_SLA(@Optional(versionMayor_Sla) String versionMayorSLA,@Optional(versionMenor_Sla) String versionMenorSLA){
+    public void versionMenor_SLA(@Optional(versionMayor_Sla) String versionMayorSLA,@Optional(versionMenor_Sla) String versionMenorSLA) throws InterruptedException {
         driver.findElement(By.xpath("//div[text()='"+versionMayorSLA+"']")).click();
-        FormsCM.MenorVersionSLA(driver,versionMenorSLA);
+        FormsSLA.MenorVersionSLA(driver,versionMenorSLA);
         asserts.assertSave();
     }
 
@@ -84,14 +84,14 @@ public class CM_SLA {
     @Test(priority = 5)
     public void restoreVersion_SLA(@Optional(versionMenor_Sla) String versionMenorSLA,@Optional(restoreVersion) String restore_Version){
         driver.findElement(By.xpath("//div[text()='"+versionMenorSLA+"']")).click();
-        FormsCM.restoreVersion_SLA(driver,restore_Version);
+        FormsSLA.restoreVersion_SLA(driver,restore_Version);
         asserts.assertSave();
     }
 
-    @Parameters("restore_Version")
+    @Parameters("delete_SLA")
     @Test(priority = 6)
-    public void eliminar_SLA(@Optional(restoreVersion) String restore_Version){
-        FormsControl.controlDelete(driver,restore_Version);
+    public void eliminar_SLA(@Optional(restoreVersion) String delete_SLA){
+        FormsControl.controlDelete(driver,delete_SLA);
         String xpathMessage = "//span[@class='sapMText sapUiSelectable sapMTextMaxWidth sapMMsgBoxText']";
         asserts.assertDelete(xpathMessage);
     }
@@ -99,7 +99,7 @@ public class CM_SLA {
     @AfterMethod
     public void tearDown(){
         if (driver != null){
-            //driver.quit();
+            driver.quit();
         }
     }
 }

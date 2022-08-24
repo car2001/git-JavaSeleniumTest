@@ -31,7 +31,7 @@ public class CM_Counter {
         driver = browser.getDriver();
         asserts = new Asserts(driver);
         login = new Login(driver);
-        login.loginPage(url);
+        login.loginPage();
         LoginApplications.loginCM(driver,componente);
     }
 

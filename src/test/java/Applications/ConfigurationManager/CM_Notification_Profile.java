@@ -1,6 +1,7 @@
 package Applications.ConfigurationManager;
 
 import Forms.ConfigurationManager.FormsCM;
+import Forms.ConfigurationManager.FormsNotificationProfile;
 import Helpers.Asserts;
 import Helpers.BasicControl;
 import Helpers.FormsControl;
@@ -42,7 +43,7 @@ public class CM_Notification_Profile {
 
     @Test
     public void crearNotification(){
-        FormsCM.formCreateNotification(driver,newNotification);
+        FormsNotificationProfile.formCreateNotification(driver,newNotification);
         asserts.assertSave();
     }
 
@@ -54,14 +55,14 @@ public class CM_Notification_Profile {
     }
 
     @Test(priority = 2)
-    public void editarNotification(){
+    public void editarNotification() throws InterruptedException {
         driver.findElement(By.xpath("//div[text()='"+newNotification+"']")).click();
-        FormsCM.formEditNotification(driver,editNotification);
+        FormsNotificationProfile.formEditNotification(driver,editNotification);
         asserts.assertSave();
     }
 
     @Test(priority = 3)
-    public void versionMayor_Notificatio(){
+    public void versionMayor_Notification(){
         driver.findElement(By.xpath("//div[text()='"+editNotification+"']")).click();
         FormsCM.MayorVersionNotification(driver,versionMayor_NP);
         asserts.assertSave();

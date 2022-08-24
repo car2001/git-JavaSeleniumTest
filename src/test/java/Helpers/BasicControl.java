@@ -3,10 +3,12 @@ package Helpers;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
+import java.util.List;
 
 public class BasicControl {
     private WebDriver driver;
@@ -62,14 +64,36 @@ public class BasicControl {
     }
 
     //Nueva Versión
-    public void btNewVersion(){
+    public void btnNewVersion(String version) throws InterruptedException {
+        WebDriverWait wait = new WebDriverWait(driver,Duration.ofSeconds(10));
         driver.findElement(By.xpath("//span[contains(@id,'--newVersion-img')]")).click();
+        FormsControl.controlLook(driver,"//span[contains(@id,'--newVersion-img')]",js); // contolamos el look
+        //Esperamos el pop up de version
+        wait.until(ExpectedConditions.visibilityOf(driver.findElement(By.xpath("//div[contains(@id,'--newVersionDialog-scrollCont')]"))));
+        if(version.equals("mayor")){
+            driver.findElement(By.xpath("//bdi[contains(@id,'--majorVersionRB-label-bdi') or text()='Major Version']")).click();
+        }else{
+            driver.findElement(By.xpath("//bdi[contains(@id,'--minorVersionRB-label-bdi') or text()='Minor Version']")).click();
+        }
+        driver.findElement(By.xpath("//bdi[contains(@id,'-BDI-content') and ( text()='Crear versión' or text()='Create Version')]")).click();
 
     }
 
     //Historia de Versión
-    public void btnVersionHistory(){
+    public void btnVersionHistory(int xpos, String version){
+        WebDriverWait wait = new WebDriverWait(driver,Duration.ofSeconds(10));
         driver.findElement(By.xpath("//span[contains(@id,'--versionHistory-img')]")).click();
+        wait.until(ExpectedConditions.visibilityOf(driver.findElement(By.xpath("//tbody[contains(@id,'--versionsTable-tblBody')]"))));
+        List<WebElement> btn_restore = driver.findElements(By.xpath("//button[@title='Restaurar' or @title='Restore']"));
+        btn_restore.get(xpos).click();
+        //Esperamos el pop up de version
+        wait.until(ExpectedConditions.visibilityOf(driver.findElement(By.xpath("//div[contains(@id,'--newVersionDialog-scrollCont')]"))));
+        if(version.equals("mayor")){
+            driver.findElement(By.xpath("//bdi[contains(@id,'--majorVersionRB-label-bdi') or text()='Major Version']")).click();
+        }else{
+            driver.findElement(By.xpath("//bdi[contains(@id,'--minorVersionRB-label-bdi') or text()='Minor Version']")).click();
+        }
+        driver.findElement(By.xpath("//bdi[contains(@id,'-BDI-content') and ( text()='Crear versión' or text()='Create Version')]")).click();
     }
 
     //Reclamar

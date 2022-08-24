@@ -5,73 +5,68 @@ import Helpers.FormsControl;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 
 
-import java.time.Duration;
+
 import java.util.List;
 
-public class FormsSLA {
+public class FormsPerformerProfile {
     private static List<WebElement> listForm;
     private static BasicControl basicControl;
-    private static String slaType = "//span[contains(@id,'--slaType-arrow')]";
+    private static String reusePP = "//div[contains(@id,'--reusePerformer-handle')]";
+    private static String currentUser = "//div[contains(@id,'--assignCurrentUser-switch')]";
+    private static String assignMethod = "//span[contains(@id,'--assignmentMethod-arrow')]";
 
-    public static void formCreateSLA(WebDriver driver, String SLA){
+    public static void formCreatePerformer(WebDriver driver, String performer){
         basicControl = new BasicControl(driver);
         basicControl.btnAdd();
-        listForm = FormsControl.controlNew(driver,"SLA","SLA");
+        listForm = FormsControl.controlNew(driver,"perfil de ejecutor","Performer Profile");
         listForm.get(2).click();
-        listForm.get(2).sendKeys(SLA);
+        listForm.get(2).sendKeys(performer);
         listForm.get(3).click();
-        listForm.get(3).sendKeys(SLA);
+        listForm.get(3).sendKeys(performer);
         listForm.get(4).click();
-        listForm.get(4).sendKeys("Es un "+ SLA);
-        //Tipo de SLA
-        driver.findElement(By.xpath(slaType)).click();
-        driver.findElement(By.xpath("//div[@class='sapMSLITitleOnly'][text()='Fixed Value']")).click();
-        driver.findElement(By.xpath("//div[contains(@id,'--useNumberDays-switch')]")).click();
+        listForm.get(4).sendKeys("Descripción " + performer);
+        driver.findElement(By.xpath(assignMethod)).click();
+        driver.findElement(By.xpath("//div[@class='sapMSLITitleOnly'][normalize-space()='By Group']")).click();
         basicControl.btnSave();
     }
 
-    public static void formEditSLA(WebDriver driver, String SLA) throws InterruptedException {
+    public static void formEditPerformer(WebDriver driver,String performer) throws InterruptedException {
         basicControl = new BasicControl(driver);
-        listForm = FormsControl.controlEdit(driver,"SLA","SLA");
-        listForm.get(2).click();
+        listForm = FormsControl.controlEdit(driver,"perfil de ejecutor","Performer Profile");
         listForm.get(2).clear();
-        listForm.get(2).sendKeys(SLA);
-        listForm.get(3).click();
+        listForm.get(2).sendKeys(performer);
         listForm.get(3).clear();
-        listForm.get(3).sendKeys(SLA);
-        listForm.get(4).click();
+        listForm.get(3).sendKeys(performer);
         listForm.get(4).clear();
-        listForm.get(4).sendKeys("Descripción "+ SLA);
-        driver.findElement(By.xpath(slaType)).click();
-        driver.findElement(By.xpath("//div[@class='sapMSLITitleOnly'][normalize-space()='Depends on a Condition']")).click();
+        listForm.get(4).sendKeys("Descripción " + performer);
+        driver.findElement(By.xpath(assignMethod)).click();
+        driver.findElement(By.xpath("//div[@class='sapMSLITitleOnly'][normalize-space()='By Experience']")).click();
         basicControl.btnSave();
     }
 
-    public static void MayorVersionSLA(WebDriver driver,String mayorSLA) throws InterruptedException {
+    public static void MayorVersionPerformer(WebDriver driver, String mayor) throws InterruptedException {
         basicControl = new BasicControl(driver);
         basicControl.btnNewVersion("mayor");
         listForm = FormsControl.controlNew(driver,"versión","Version");
         listForm.get(2).click();
         listForm.get(2).clear();
-        listForm.get(2).sendKeys(mayorSLA);
+        listForm.get(2).sendKeys(mayor);
         listForm.get(3).click();
         listForm.get(3).clear();
-        listForm.get(3).sendKeys(mayorSLA);
+        listForm.get(3).sendKeys(mayor);
         listForm.get(4).click();
         listForm.get(4).clear();
-        listForm.get(4).sendKeys("Descripción "+ mayorSLA);
+        listForm.get(4).sendKeys("Descripción " + mayor);
         listForm.get(6).click();
         listForm.get(6).sendKeys("Version Mayor");
-        driver.findElement(By.xpath(slaType)).click();
-        driver.findElement(By.xpath("//div[@class='sapMSLITitleOnly'][normalize-space()='Fixed Value']")).click();
+        driver.findElement(By.xpath(assignMethod)).click();
+        driver.findElement(By.xpath("//div[@class='sapMSLITitleOnly'][normalize-space()='By Group']")).click();
         basicControl.btnSave();
     }
 
-    public static void MenorVersionSLA(WebDriver driver,String menor) throws InterruptedException {
+    public static void MenorVersionPerformer(WebDriver driver, String menor) throws InterruptedException {
         basicControl = new BasicControl(driver);
         basicControl.btnNewVersion("menor");
         listForm = FormsControl.controlNew(driver,"versión","Version");
@@ -83,15 +78,13 @@ public class FormsSLA {
         listForm.get(3).sendKeys(menor);
         listForm.get(4).click();
         listForm.get(4).clear();
-        listForm.get(4).sendKeys("Descripción "+ menor);
+        listForm.get(4).sendKeys("Descripción " + menor);
         listForm.get(6).click();
         listForm.get(6).sendKeys("Version Menor");
-        driver.findElement(By.xpath(slaType)).click();
-        driver.findElement(By.xpath("//div[@class='sapMSLITitleOnly'][normalize-space()='Fixed Value']")).click();
         basicControl.btnSave();
     }
 
-    public static void restoreVersion_SLA(WebDriver driver,String restore){
+    public static void restoreVersion_PP(WebDriver driver,String restore){
         basicControl = new BasicControl(driver);
         basicControl.btnVersionHistory(1,"menor");
         listForm = FormsControl.controlNew(driver,"versión","Version");
@@ -108,5 +101,4 @@ public class FormsSLA {
         listForm.get(6).sendKeys("Version restore");
         basicControl.btnSave();
     }
-
 }
