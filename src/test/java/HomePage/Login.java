@@ -19,7 +19,7 @@ public class Login {
         this.driver = driver;
         //this.url = "https://cloud.buplat.com/IDO_SANDBOX/";
         this.url = "http://wedox.sytes.net/buplat_config/";
-
+        
         this.user = "cpingo";
         this.password = "1234";
     }

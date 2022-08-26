@@ -1,6 +1,6 @@
 package Applications.ConfigurationManager;
 
-import Forms.ConfigurationManager.FormsCM;
+
 import Forms.ConfigurationManager.FormsNotificationProfile;
 import Helpers.Asserts;
 import Helpers.BasicControl;
@@ -10,9 +10,7 @@ import HomePage.Login;
 import HomePage.LoginApplications;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
+import org.testng.annotations.*;
 
 public class CM_Notification_Profile {
     private WebDriver driver;
@@ -23,12 +21,12 @@ public class CM_Notification_Profile {
     Asserts asserts;
     BasicControl basicControl;
 
-    String componente = "Notification Profile";
-    String newNotification = "Notification Profile Selenium";
-    String editNotification = "Notification Profile Selenium Editado";
-    String versionMayor_NP = "Notification Profile Selenium version Mayor";
-    String versionMenor_NP = "Notification Profile Selenium version Menor";
-    String restoreVersion = "Notification Profile Selenium version Restaurado";
+    final String componente = "Notification Profile";
+    final String newNotification = "Notification Profile Selenium";
+    final String editNotification = "Notification Profile Selenium Editado";
+    final String versionMayor_NP = "Notification Profile Selenium version Mayor";
+    final String versionMenor_NP = "Notification Profile Selenium version Menor";
+    final String restoreVersion = "Notification Profile Selenium version Restaurado";
 
     @BeforeMethod
     public void setUp(){
@@ -41,50 +39,57 @@ public class CM_Notification_Profile {
         LoginApplications.loginCM(driver,componente);
     }
 
+    @Parameters("notificationProfile")
     @Test
-    public void crearNotification(){
-        FormsNotificationProfile.formCreateNotification(driver,newNotification);
+    public void crearNotification(@Optional(newNotification)String notificationProfile){
+        FormsNotificationProfile.formCreateNotification(driver,notificationProfile);
         asserts.assertSave();
     }
 
-    @Test(priority = 1)
-    public void viewDependecies_Notification(){
-        driver.findElement(By.xpath("//div[text()='"+newNotification+"']")).click();
+    @Parameters("notificationProfile")
+    @Test
+    public void viewDependecies_Notification(@Optional(newNotification)String notificationProfile){
+        driver.findElement(By.xpath("//div[text()='"+notificationProfile+"']")).click();
         basicControl.btnDependecies();
         asserts.assertDependecies();
     }
 
-    @Test(priority = 2)
-    public void editarNotification() throws InterruptedException {
-        driver.findElement(By.xpath("//div[text()='"+newNotification+"']")).click();
-        FormsNotificationProfile.formEditNotification(driver,editNotification);
+    @Parameters({"notificationProfile","editNotificationProfile"})
+    @Test
+    public void editarNotification(@Optional(newNotification)String notificationProfile,@Optional(editNotification) String editNotificationProfile) throws InterruptedException {
+        driver.findElement(By.xpath("//div[text()='"+notificationProfile+"']")).click();
+        FormsNotificationProfile.formEditNotification(driver,editNotificationProfile);
         asserts.assertSave();
     }
 
-    @Test(priority = 3)
-    public void versionMayor_Notification(){
-        driver.findElement(By.xpath("//div[text()='"+editNotification+"']")).click();
-        FormsCM.MayorVersionNotification(driver,versionMayor_NP);
+    @Parameters({"editNotificationProfile","versionMayorNP"})
+    @Test
+    public void versionMayor_Notification(@Optional(editNotification) String editNotificationProfile,@Optional(versionMayor_NP)String versionMayorNP) throws InterruptedException {
+        driver.findElement(By.xpath("//div[text()='"+editNotificationProfile+"']")).click();
+        FormsNotificationProfile.MayorVersionNotification(driver,versionMayorNP);
         asserts.assertSave();
     }
 
-    @Test(priority = 4)
-    public void versionMenor_Notification(){
-        driver.findElement(By.xpath("//div[text()='"+versionMayor_NP+"']")).click();
-        FormsCM.MenorVersionNotification(driver,versionMenor_NP);
+    @Parameters({"versionMayorNP","versionMenorNP"})
+    @Test
+    public void versionMenor_Notification(@Optional(versionMayor_NP) String versionMayorNP,@Optional(versionMenor_NP)String versionMenorNP) throws InterruptedException {
+        driver.findElement(By.xpath("//div[text()='"+versionMayorNP+"']")).click();
+        FormsNotificationProfile.MenorVersionNotification(driver,versionMenorNP);
         asserts.assertSave();
     }
 
-    @Test(priority = 5)
-    public void restoreVersion_Notification(){
-        driver.findElement(By.xpath("//div[text()='"+versionMenor_NP+"']")).click();
-        FormsCM.restoreVersion_NP(driver,restoreVersion);
+    @Parameters({"versionMenorNP","restoreVersionNP"})
+    @Test
+    public void restoreVersion_Notification(@Optional(versionMenor_NP) String versionMenorNP,@Optional(restoreVersion)String restoreVersionNP){
+        driver.findElement(By.xpath("//div[text()='"+versionMenorNP+"']")).click();
+        FormsNotificationProfile.restoreVersion_NP(driver,restoreVersionNP);
         asserts.assertSave();
     }
 
-    @Test(priority = 6)
-    public void eliminarNotification(){
-        FormsControl.controlDelete(driver,restoreVersion);
+    @Parameters("delete_NP")
+    @Test
+    public void eliminarNotification(@Optional(restoreVersion)String delete_NP){
+        FormsControl.controlDelete(driver,delete_NP);
         String xpathMessage = "//span[@class='sapMText sapUiSelectable sapMTextMaxWidth sapMMsgBoxText']";
         asserts.assertDelete(xpathMessage);
     }

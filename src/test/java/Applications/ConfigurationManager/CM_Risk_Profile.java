@@ -1,6 +1,7 @@
 package Applications.ConfigurationManager;
 
-import Forms.ConfigurationManager.FormsCM;
+
+import Forms.ConfigurationManager.FormsRiskProfile;
 import Helpers.Asserts;
 import Helpers.BasicControl;
 import Helpers.FormsControl;
@@ -9,9 +10,7 @@ import HomePage.Login;
 import HomePage.LoginApplications;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
+import org.testng.annotations.*;
 
 public class CM_Risk_Profile {
     private WebDriver driver;
@@ -22,12 +21,12 @@ public class CM_Risk_Profile {
     Asserts asserts;
     BasicControl basicControl;
 
-    String componente = "Risk Profile";
-    String newRiskProfile = "Risk Profile Selenium";
-    String editRiskProfile = "Risk Profile Selenium Editado";
-    String versionMayor_PP = "Risk Profile Selenium version Mayor";
-    String versionMenor_PP = "Risk Profile Selenium version Menor";
-    String restoreVersion = "Risk Profile Selenium version Restaurada";
+    final String componente = "Risk Profile";
+    final String newRiskProfile = "Risk Profile Selenium";
+    final String editRiskProfile = "Risk Profile Selenium Editado";
+    final String versionMayor_RP = "Risk Profile Selenium version Mayor";
+    final String versionMenor_RP = "Risk Profile Selenium version Menor";
+    final String restoreVersion = "Risk Profile Selenium version Restaurada";
 
     @BeforeMethod
     public void setUp(){
@@ -40,50 +39,57 @@ public class CM_Risk_Profile {
         LoginApplications.loginCM(driver,componente);
     }
 
+    @Parameters("riskProfile")
     @Test
-    public void crearRiskProfile(){
-        FormsCM.formCreateRisk(driver,newRiskProfile);
+    public void crearRiskProfile(@Optional(newRiskProfile) String riskProfile){
+        FormsRiskProfile.formCreateRisk(driver,riskProfile);
         asserts.assertSave();
     }
 
-    @Test(priority = 1)
-    public void viewDependecies_RP(){
-        driver.findElement(By.xpath("//div[text()='"+newRiskProfile+"']")).click();
+    @Parameters("riskProfile")
+    @Test
+    public void viewDependecies_RP(@Optional(newRiskProfile) String riskProfile){
+        driver.findElement(By.xpath("//div[text()='"+riskProfile+"']")).click();
         basicControl.btnDependecies();
         asserts.assertDependecies();
     }
 
-    @Test(priority = 2)
-    public void editRiskProfile(){
-        driver.findElement(By.xpath("//div[text()='"+newRiskProfile+"']")).click();
-        FormsCM.formEditRisk(driver,editRiskProfile);
+    @Parameters({"riskProfile","edit_RiskProfile"})
+    @Test
+    public void editRiskProfile(@Optional(newRiskProfile) String riskProfile, @Optional(editRiskProfile) String edit_RiskProfile) throws InterruptedException {
+        driver.findElement(By.xpath("//div[text()='"+riskProfile+"']")).click();
+        FormsRiskProfile.formEditRisk(driver,edit_RiskProfile);
         asserts.assertSave();
     }
 
-    @Test(priority = 3)
-    public void versionMayor_RP(){
-        driver.findElement(By.xpath("//div[text()='"+editRiskProfile+"']")).click();
-        FormsCM.MayorVersionRisk(driver,versionMayor_PP);
+    @Parameters({"edit_RiskProfile","versionMayorRP"})
+    @Test
+    public void versionMayor_RP(@Optional(editRiskProfile) String edit_RiskProfile,@Optional(versionMayor_RP) String versionMayorRP) throws InterruptedException {
+        driver.findElement(By.xpath("//div[text()='"+edit_RiskProfile+"']")).click();
+        FormsRiskProfile.MayorVersionRisk(driver,versionMayorRP);
         asserts.assertSave();
     }
 
-    @Test(priority = 4)
-    public void versionMenor_RP(){
-        driver.findElement(By.xpath("//div[text()='"+versionMayor_PP+"']")).click();
-        FormsCM.MenorVersionRisk(driver,versionMenor_PP);
+    @Parameters({"versionMayorRP","versionMenorRP"})
+    @Test
+    public void versionMenor_RP(@Optional(versionMayor_RP) String versionMayorRP,@Optional(versionMenor_RP)String versionMenorRP) throws InterruptedException {
+        driver.findElement(By.xpath("//div[text()='"+versionMayorRP+"']")).click();
+        FormsRiskProfile.MenorVersionRisk(driver,versionMenorRP);
         asserts.assertSave();
     }
 
-    @Test(priority = 5)
-    public void restoreVersion_RP(){
-        driver.findElement(By.xpath("//div[text()='"+versionMenor_PP+"']")).click();
-        FormsCM.restoreVersionRisk(driver,restoreVersion);
+    @Parameters({"versionMenorRP","restoreVersionRP"})
+    @Test
+    public void restoreVersion_RP(@Optional(versionMenor_RP) String versionMenorRP,@Optional(restoreVersion)String restoreVersionRP){
+        driver.findElement(By.xpath("//div[text()='"+versionMenorRP+"']")).click();
+        FormsRiskProfile.restoreVersionRisk(driver,restoreVersionRP);
         asserts.assertSave();
     }
 
-    @Test(priority = 6)
-    public void eliminar_RP(){
-        FormsControl.controlDelete(driver,restoreVersion);
+    @Parameters("delete_RP")
+    @Test
+    public void eliminar_RP(@Optional(restoreVersion) String delete_RP){
+        FormsControl.controlDelete(driver,delete_RP);
         String xpathMessage = "//span[@class='sapMText sapUiSelectable sapMTextMaxWidth sapMMsgBoxText']";
         asserts.assertDelete(xpathMessage);
     }

@@ -1,6 +1,7 @@
 package Applications.ProcessManager;
 
 import Forms.FormsPM;
+import Forms.ProcessManager.FormsHierarchie;
 import Helpers.*;
 import HomePage.Login;
 import HomePage.LoginApplications;
@@ -42,13 +43,14 @@ public class PM_Hierarchies {
         LoginApplications.loginPM(driver);
     }
 
+
     @Test
     public void crearHierarchies() throws InterruptedException {
         WebElement hierarchies = driver.findElement(By.xpath("//span[text()='"+component+"']"));
         action.contextClick(hierarchies).perform();
         driver.findElement(By.xpath("//div[normalize-space()='New Level']")).click();
         Thread.sleep(1000);
-        FormsPM.createNewHierarchie(driver,nameLevel);
+        FormsHierarchie.createNewHierarchie(driver,nameLevel);
         asserts.assertSave();
     }
 

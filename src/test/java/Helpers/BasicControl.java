@@ -28,6 +28,11 @@ public class BasicControl {
         wait.until(ExpectedConditions.elementToBeClickable(By.xpath(routePM)));
     }
 
+    public void btnUser(){
+        driver.findElement(By.xpath("//span[contains(@id,'--avatarUser') and (@title='User Options' or @title='Opciones de usuario')]")).click();
+        //driver.findElement(By.xpath("//bdi[text()='"+option+"']"));
+    }
+
     //Añadir
     public void btnAdd(){
         driver.findElement(By.xpath("//span[contains(@id,'--add-img')]")).click();
@@ -108,5 +113,8 @@ public class BasicControl {
         ChargePopPup.PopPupGeneral(driver,wait);
     }
 
+    public void btn_MsgStrigMessage(){
+        driver.findElement(By.xpath("//button[@title='Cerrar' or @title='Close']")).click();
+    }
 
 }

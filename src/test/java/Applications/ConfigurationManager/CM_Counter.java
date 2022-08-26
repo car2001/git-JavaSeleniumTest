@@ -1,6 +1,5 @@
 package Applications.ConfigurationManager;
 
-import Forms.ConfigurationManager.FormsCM;
 import Forms.ConfigurationManager.FormsCounter;
 import Helpers.Asserts;
 import Helpers.FormsControl;
@@ -23,6 +22,8 @@ public class CM_Counter {
     final String newCounter = "Counter Selenium";
     final String start = "100";
     final String increment = "1";
+
+
 
     @Parameters("url")
     @BeforeMethod
@@ -54,7 +55,7 @@ public class CM_Counter {
     @AfterMethod
     public void tearDown(){
         if (driver != null){
-            //driver.quit();
+            driver.quit();
         }
     }
 }

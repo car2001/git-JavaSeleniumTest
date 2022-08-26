@@ -28,17 +28,7 @@ public class FormsPM {
     private static String num = "4";
     private static WebDriverWait wait;
 
-    //HIERARCHIE
-    public static void createNewHierarchie(WebDriver driver,String hierarchie){
-        listForm = FormsControl.controlNew(driver,"nivel","");
-        listForm.get(2).click();
-        listForm.get(2).sendKeys(hierarchie);
-        listForm.get(3).click();
-        listForm.get(3).sendKeys(hierarchie);
-        listForm.get(4).click();
-        listForm.get(4).sendKeys(hierarchie);
-        driver.findElement(By.id(save)).click();
-    }
+
 
     //PROCESS
     public static void creteNewProcess(WebDriver driver, String process , Actions action, String INS, String SLA , JavascriptExecutor js){

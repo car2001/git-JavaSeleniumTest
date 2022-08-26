@@ -73,26 +73,27 @@ public class FormsControl {
     public static void controlDelete(WebDriver driver, Actions action , WebElement elemento,String componente){
         action.contextClick(elemento).perform();
         driver.findElement(By.xpath("//div[normalize-space()='Delete "+componente+"']")).click();
-        driver.findElement(By.xpath("//bdi[normalize-space()='Sí']")).click();
+        driver.findElement(By.xpath("//bdi[normalize-space()='Sí' or normalize-space()='Yes']")).click();
         driver.findElement(By.xpath("//bdi[normalize-space()='OK']")).click();
     }
 
     public static void controlDelete(WebDriver driver, String nameComponent){
         driver.findElement(By.xpath("//div[text()='"+nameComponent+"']/parent::div/parent::div/following-sibling::button")).click();
-        driver.findElement(By.xpath("//bdi[normalize-space()='Sí']")).click();
+        driver.findElement(By.xpath("//bdi[normalize-space()='Sí' or normalize-space()='Yes']")).click();
         driver.findElement(By.xpath("//bdi[normalize-space()='OK']")).click();
     }
 
     public static void controlLook(WebDriver driver, String edit, JavascriptExecutor js) throws InterruptedException {
+        basicControl = new BasicControl(driver);
         wait = new WebDriverWait(driver, Duration.ofMillis(1000));
         Thread.sleep(500);
         try {
             if(js.executeScript("let msg = document.querySelector('.sapMMsgStripMessage'); return(msg.textContent);").toString() != null){
                 String message = driver.findElement(By.className("sapMMsgStripMessage")).getAttribute("textContent");
-                if(message.contains("Este objeto está bloqueado por")){
-                    driver.findElement(By.xpath("//button[@title='Cerrar']")).click();
-                    driver.findElement(By.xpath("//span[@title='Opciones de usuario']")).click();
-                    driver.findElement(By.xpath("//bdi[text()='Mis bloqueos']")).click();
+                if(message.contains("Este objeto está bloqueado por") || message.contains("This object is locked by") ){
+                    basicControl.btn_MsgStrigMessage();
+                    basicControl.btnUser();
+                    driver.findElement(By.xpath("//bdi[text()='Mis bloqueos' or text()='My Locks']")).click();
                     driver.findElement(By.xpath("//div[@title='Seleccionar todo']")).click();
                     driver.findElement(By.xpath("//button[@title='Borrar']")).click();
                     driver.findElement(By.xpath("//bdi[normalize-space()='Sí']")).click();
