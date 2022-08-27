@@ -18,7 +18,7 @@ public class CM_SLA {
     final String URL = "http://wedox.sytes.net/buplat_dev/";
 
     final String componente = "SLA Definition";
-    final String newSLA = "SLA Selenium";
+    final String newSLA = "SLA Selenium2";
     final String editSLA = "SLA Edit Selenium";
     final String versionMayor_Sla = "Sla Version Mayor Seleneium";
     final String versionMenor_Sla = "Sla Version Menor Seleneium";

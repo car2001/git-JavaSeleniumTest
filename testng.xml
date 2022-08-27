@@ -1,70 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
 <suite name="All Test Suite">
-    <test verbose="2" preserve-order="true" name="Test-1">
+    <test name="Test-2">
         <classes>
-            <class name="Applications.ReleaseManager.RM_ChangeContainer">
-                <methods>
-                    <include name="activarChangeContainerTabla"/>
-                </methods>
-            </class>
-            <class name = "Applications.ConfigurationManager.CM_Counter">
-                <methods>
-                    <include name="crearCounter"></include>
-                </methods>
-            </class>
-            <class name = "Applications.ConfigurationManager.CM_INS">
-                <methods>
-                    <include name="crearINS"></include>
-                </methods>
-            </class>
-            <class name="Applications.ConfigurationManager.CM_SLA">
-                <methods>
-                    <include name="crear_SLA"/>
-                </methods>
-            </class>
-            <class name="Applications.ConfigurationManager.CM_Performer_Profile">
-                <methods>
-                    <include name="crearPerformerProfile"/>
-                </methods>
-            </class>
-            <class name="Applications.ConfigurationManager.CM_Notification_Profile">
-                <methods>
-                    <include name="crearNotification"/>
-                </methods>
-            </class>
-            <class name="Applications.ConfigurationManager.CM_Risk_Profile">
-                <methods>
-                    <include name="crearRiskProfile"/>
-                </methods>
-            </class>
-            <class name="Applications.ProcessManager.PM_Hierarchies">
-                <methods>
-                    <include name="crearHierarchies"></include>
-                </methods>
-            </class>
-
-            <class name="Applications.ProcessManager.PM_Process">
-                <methods>
-                    <include name="crearProceso"></include>
-                </methods>
-            </class>
-
-           <class name="Applications.CollaborationWorkspace.PrimerProceso">
-               <methods>
-                   <include name="runProcessSi"></include>
-                   <include name="runProcessNo"></include>
-               </methods>
-           </class>
-        </classes>
-    </test>
-<!--    <test name="Test-2">
-        <classes>
-            <class name="Applications.ReleaseManager.RM_DeploymentPackage">
-                <methods>
-                    <include name="createDeploymentPackage"/>
-                </methods>
-            </class>
             <class name="Applications.ReleaseManager.RM_ChangeContainer">
                 <methods>
                     <include name="releaseChangeContainer"/>
@@ -79,5 +17,5 @@
                 </methods>
             </class>
         </classes>
-    </test>-->
+    </test>
 </suite>

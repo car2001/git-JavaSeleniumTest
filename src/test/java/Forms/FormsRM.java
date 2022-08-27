@@ -190,7 +190,7 @@ public class FormsRM {
     }
     public static  void formReleaseDP(WebDriver driver, AccessBranch accessBranches){
         basicControl = new BasicControl(driver);
-        listForm = FormsControl.controlNew(driver,"Liberación","");
+        listForm = FormsControl.controlNewCC(driver,"Liberación","");
         driver.findElement(By.xpath("//span[contains(@id,'--cbDR-arrow') and @class='sapUiIcon sapUiIconMirrorInRTL sapUiIconPointer sapMInputBaseIcon']")).click();
         driver.findElement(By.xpath("//div[text()='DR_SELENIUM' and @class='sapMSLITitleOnly']")).click();
         basicControl.btnSave();

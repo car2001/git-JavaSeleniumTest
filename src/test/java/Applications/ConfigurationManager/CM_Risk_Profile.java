@@ -22,7 +22,7 @@ public class CM_Risk_Profile {
     BasicControl basicControl;
 
     final String componente = "Risk Profile";
-    final String newRiskProfile = "Risk Profile Selenium";
+    final String newRiskProfile = "Risk Profile Selenium2";
     final String editRiskProfile = "Risk Profile Selenium Editado";
     final String versionMayor_RP = "Risk Profile Selenium version Mayor";
     final String versionMenor_RP = "Risk Profile Selenium version Menor";

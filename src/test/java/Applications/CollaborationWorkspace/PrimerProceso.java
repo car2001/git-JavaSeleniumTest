@@ -24,7 +24,7 @@ public class PrimerProceso {
     Asserts asserts;
     BasicControl basicControl;
 
-    private String nameProcess = "Proceso Selenium";
+    private String nameProcess = "Proceso Selenium2";
     String urlQA = "http://wedox.sytes.net/buplat_QA/";
     String urlPROD = "http://wedox.sytes.net/buplat/";
 

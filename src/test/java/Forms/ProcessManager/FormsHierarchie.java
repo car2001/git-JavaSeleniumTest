@@ -15,6 +15,7 @@ public class FormsHierarchie {
     private static BasicControl basicControl;
 
     public static void createNewHierarchie(WebDriver driver, String hierarchie){
+        basicControl = new BasicControl(driver);
         listForm = FormsControl.controlNew(driver,"nivel","Level");
         listForm.get(2).click();
         listForm.get(2).sendKeys(hierarchie);

@@ -20,11 +20,11 @@ public class CM_INS {
     Asserts asserts;
 
     final String componente = "Instance Numbering Schema";
-    final String newINS = "INS Selenium";
+    final String newINS = "INS Selenium2";
     final String editINS = "INS Selenium Editado";
     final String separator = "-";
     final String fixedValue = "SELENIUM";
-    final String Counter = "Counter Selenium";
+    final String Counter = "Counter Selenium2";
 
 
     @BeforeMethod

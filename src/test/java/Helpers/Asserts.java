@@ -65,9 +65,9 @@ public class Asserts {
     public void assertDelete(String xpathMessage ){
         String message = driver.findElement(By.xpath(xpathMessage)).getText();
         if(message.contains("The")){
-            Assert.assertEquals(message, "The Operation has been Completed Successfully."+ "\n" );
+            Assert.assertEquals(message, "The Operation has been Completed Successfully.");
         }else{
-            Assert.assertEquals(message, "La operación se ha completado con éxito."+ "\n" );
+            Assert.assertEquals(message, "La operación se ha completado con éxito.");
         }
     }
 

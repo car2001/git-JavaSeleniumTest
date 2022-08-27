@@ -23,7 +23,7 @@ public class CM_Performer_Profile {
     BasicControl basicControl;
 
     final String componente = "Performer Profile";
-    final String newPerformer = "Performer Selenium";
+    final String newPerformer = "Performer Selenium2";
     final String editPerformer = "Performer Edit Selenium";
     final String versionMayor_PP = "Performer Selenium Version Mayor";
     final String versionMenor_PP = "Performer Selenium Version Menor";

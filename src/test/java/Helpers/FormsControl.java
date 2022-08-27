@@ -24,13 +24,33 @@ public class FormsControl {
         wait.until(ExpectedConditions.visibilityOf(titleDetail));
     }
 
-    public static List<WebElement> controlNew( WebDriver driver,String componente,String ingles){
+    public static List<WebElement> controlNewCC( WebDriver driver,String componente,String ingles){
         controlTitle(driver,componente,ingles);
         listForm = driver.findElements(By.className("sapMInputBaseInner"));
         boolean focus = false;
         while(focus == false){
             listForm.get(3).click();
             if(listForm.get(3).equals(driver.switchTo().activeElement())){
+                System.out.println("Element is focused");
+                focus = true;
+            }
+            else {
+                listForm = driver.findElements(By.className("sapMInputBaseInner"));
+                System.out.println("Element is no focused");
+                focus = false;
+            }
+        }
+        return listForm;
+    }
+
+
+    public static List<WebElement> controlNew( WebDriver driver,String componente,String ingles){
+        controlTitle(driver,componente,ingles);
+        listForm = driver.findElements(By.className("sapMInputBaseInner"));
+        boolean focus = false;
+        while(focus == false){
+            listForm.get(2).click();
+            if(listForm.get(2).equals(driver.switchTo().activeElement())){
                 System.out.println("Element is focused");
                 focus = true;
             }

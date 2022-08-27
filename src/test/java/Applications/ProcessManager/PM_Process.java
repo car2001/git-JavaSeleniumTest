@@ -34,12 +34,12 @@ public class PM_Process {
 
 
     String component = "Processes";
-    String nameLevel = "Jerarquia Selenium";
-    String nameProcess = "Proceso Selenium";
-    String INS = "INS Selenium";
-    String SLA = "SLA Selenium";
-    String AF = "Activity Form Selenium";
-    String PP = "Performer Selenium";
+    String nameLevel = "Jerarquia Selenium2";
+    String nameProcess = "Proceso Selenium2";
+    String INS = "INS Selenium2";
+    String SLA = "SLA Selenium2";
+    String AF = "Activity Form Selenium2";
+    String PP = "Performer Selenium2";
     int xpos;
 
 

@@ -25,7 +25,7 @@ public class CM_Form_UI {
 
     final String URL = "http://wedox.sytes.net/buplat_dev/";
     final String componente = "Form UI Configuration";
-    final String newFormUI = "Form UI Selenium";
+    final String newFormUI = "Form UI Selenium2";
     final String editFormUI = "Form UI Selenium Editado";
     final String versionMayor_FormUI = "Form UI Selenium versionMayor";
     final String versionMenor_FormUI = "Form UI Selenium versionMenor";

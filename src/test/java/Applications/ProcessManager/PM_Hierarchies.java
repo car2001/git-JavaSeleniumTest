@@ -26,7 +26,7 @@ public class PM_Hierarchies {
     Asserts asserts;
 
     String component = "Process Hierarchies";
-    String nameLevel = "Jerarquia Selenium";
+    String nameLevel = "Jerarquia Selenium2";
 
 
 
