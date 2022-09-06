@@ -16,7 +16,7 @@ public class LoginApplications {
     public static AccessBranch accessBranch;
 
     public static void loginOSM(WebDriver driver){
-        wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        wait = new WebDriverWait(driver, Duration.ofSeconds(100));
         accessBranch = new AccessBranch(driver);
         String routeOSM = "//span[@class='sapMTextMaxLine sapMTextLineClamp' and normalize-space()='Organizational Structure Manager']";
         wait.until(ExpectedConditions.elementToBeClickable(By.xpath(routeOSM)));
@@ -26,7 +26,7 @@ public class LoginApplications {
     }
 
     public static void loginCM(WebDriver driver,String componente){
-        wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        wait = new WebDriverWait(driver, Duration.ofSeconds(100));
         String routeCM = "//span[@class='sapMTextMaxLine sapMTextLineClamp' and normalize-space()='Configuration Manager']";
         wait.until(ExpectedConditions.elementToBeClickable(By.xpath(routeCM)));
         driver.findElement(By.xpath(routeCM)).click();
@@ -49,7 +49,7 @@ public class LoginApplications {
     }
 
     public static void loginRM(WebDriver driver, String componente){
-        wait = new WebDriverWait(driver,Duration.ofSeconds(50));
+        wait = new WebDriverWait(driver,Duration.ofSeconds(100));
         accessBranch = new AccessBranch(driver);
         String routeRM = "//span[@class='sapMTextMaxLine sapMTextLineClamp' and normalize-space()='Release Manager']";
         wait.until(ExpectedConditions.elementToBeClickable(By.xpath(routeRM)));

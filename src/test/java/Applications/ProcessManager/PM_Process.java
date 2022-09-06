@@ -1,6 +1,7 @@
 package Applications.ProcessManager;
 
 import Forms.FormsPM;
+import Forms.ProcessManager.FormsProcess;
 import Helpers.*;
 import HomePage.Login;
 import HomePage.LoginApplications;
@@ -14,6 +15,8 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import java.awt.*;
+import java.io.File;
+import java.io.IOException;
 import java.time.Duration;
 import java.util.List;
 
@@ -34,7 +37,7 @@ public class PM_Process {
 
 
     String component = "Processes";
-    String nameLevel = "Jerarquia Selenium2";
+    String nameLevel = "Jerarquia Selenium";
     String nameProcess = "Proceso Selenium2";
     String INS = "INS Selenium2";
     String SLA = "SLA Selenium2";
@@ -59,7 +62,7 @@ public class PM_Process {
     }
 
     @Test
-    public void crearProceso() throws InterruptedException, AWTException {
+    public void crearProceso() throws InterruptedException, AWTException, IOException {
         wait = new WebDriverWait(driver, Duration.ofSeconds(100));
         xpos = searchScrollElement.elementSearch(nameLevel);
         if(xpos != -1){
@@ -70,7 +73,7 @@ public class PM_Process {
                 action.contextClick(process).perform();
                 driver.findElement(By.xpath("//div[normalize-space()='New Process']")).click();
                 Thread.sleep(1000);
-                FormsPM.creteNewProcess(driver,nameProcess,action,INS,SLA,js);
+                FormsProcess.createProcess(driver,nameProcess,action,INS,SLA);
                 ChargePopPup.PopPupMain(driver,wait);
                 asserts.assertSave();
                 //Realizamos los pasos
@@ -83,32 +86,34 @@ public class PM_Process {
     }
 
     @Test
-    public void stepsProcess() throws InterruptedException, AWTException {
+    public void stepsProcess() throws InterruptedException, AWTException, IOException {
         //PASOS TOTALES
         openWizard();
         step1Process();
-        step2Process();
-        step3Process();
-        step4Process();
-        step5Process();
-        step8Process();
+        //step2Process();
+        //step3Process();
+        //step4Process();
+        //step5Process();
+        //step8Process();
     }
 
     public void openWizard(){
-        WebElement verticalbar = driver.findElement(By.xpath("//div[@title='Ajustar el tamaño entre el panel 1 y el panel 2']"));// este el original
+        WebElement verticalbar = driver.findElement(By.xpath("//div[@title='Ajustar el tamaño entre el panel 1 y el panel 2' or @title='Resize between pane 1 and pane 2']"));// este el original
         action.doubleClick(verticalbar).build().perform();
-        driver.findElement(By.id("__xmlview4--btnGoToWizard-content")).click();
+        driver.findElement(By.xpath("//span[contains(@id,'--btnGoToWizard-content')]")).click();
         ChargePopPup.PopPupDetail(driver,wait);
     }
 
-    public void step1Process() throws InterruptedException {
+    public void step1Process() throws InterruptedException, IOException {
         //Ingrsamos al paso 1
         WebElement titleStep1 = driver.findElement(By.xpath("//span[text()='Modelar proceso' and contains(@id,'--objFormTitle')]"));
         wait.until(ExpectedConditions.visibilityOf(titleStep1));
         //Editamos el paso 1
         basicControl.btnEdit("--btnEdit-img");
+        Thread.sleep(800);
+
         //Empezamos a crear el diagrama
-        List<WebElement> start = driver.findElements(By.cssSelector("#__xmlview4--js-canvas > div > div > svg > g > g.layer-base > g > g.djs-children > g:nth-child(1) > g > rect.djs-outline"));
+       List<WebElement> start = driver.findElements(By.cssSelector("#__xmlview4--js-canvas > div > div > svg > g > g.layer-base > g > g.djs-children > g:nth-child(1) > g > rect.djs-outline"));
         action.moveToElement(start.get(0)).click().build().perform();
         driver.findElement(By.xpath("//div[@title='Append User Task']")).click();
         driver.findElement(By.xpath("//div[@title='Append Exclusive Gateway']")).click();
@@ -365,7 +370,7 @@ public class PM_Process {
     @AfterMethod
     public void tearDown(){
         if (driver != null){
-            driver.quit();
+            //driver.quit();
         }
     }
 

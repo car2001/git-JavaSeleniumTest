@@ -22,82 +22,12 @@ import java.util.concurrent.RecursiveTask;
 public class FormsPM {
     private static List<WebElement> listForm;
     private static String save = "__xmlview4--save-img";  ///
-    private static String edit= "__xmlview4--edit-img";
-    private static String version = "__xmlview4--newVersion-inner";
-    private static String versionHistory = "__xmlview4--versionHistory-img";
-    private static String num = "4";
     private static WebDriverWait wait;
-    private static String isAutomated = "//div[contains(@id,'--isAutomated-handle')]";
-    private static String addSecurityProfile = "//span[contains(@id,'--addSecurityProfile-inner')]";
-    private static String groupPermisos = "//span[ contains(@id,'__select') and @class='sapMSltArrow']";
-    private static String selectType  = "//span[contains(@id,'--typeSelect-') and @class='sapMSltArrow' ]";
-    private static String valueA = "//span[contains(@id,'--valueSelect-') and @class='sapMSltArrow']";
 
 
 
-    //PROCESS
-    public static void creteNewProcess(WebDriver driver, String process , Actions action, String INS, String SLA , JavascriptExecutor js) throws InterruptedException {
-        listForm = FormsControl.controlNew(driver,"proceso","");
-        listForm.get(2).click();
-        listForm.get(2).sendKeys(process);
-        listForm.get(3).click();
-        listForm.get(3).sendKeys(process);
-        listForm.get(4).click();
-        listForm.get(4).sendKeys(process);
-        Thread.sleep(1000);
-        driver.findElement(By.id("__xmlview4--isAutomated-handle")).click();
-        //SECURITY PROFILE
-        securityProfile(driver,action);
-        Thread.sleep(1000);
-        // INS
-        if(js.executeScript("let INS = document.getElementById('__xmlview4--itfInstanceNumbering-icon');return INS.clientHeight").hashCode() == 0){
-            driver.findElement(By.id("__xmlview4--itbAutomationProcess--header-overflow-text")).click();
-            driver.findElement(By.xpath("//li[@title = 'Creación de Instancias']")).click();
-        }else{
-            driver.findElement(By.id("__xmlview4--itfInstanceNumbering-icon")).click();
-        }
-        driver.findElement(By.id("__xmlview4--instanceNumbering-inner")).click();
-        driver.findElement(By.id("__xmlview4--instanceNumbering-inner")).sendKeys(INS);
-        //SLA
-        if(js.executeScript("let SLA = document.getElementById('__xmlview4--itfSLAConfiguration-icon');return SLA.clientHeight").hashCode() == 0){
-            driver.findElement(By.id("__xmlview4--itbAutomationProcess--header-overflow-text")).click();
-            driver.findElement(By.xpath("//li[@title = 'SLA']")).click();
-        }else{
-            driver.findElement(By.id("__xmlview4--itfSLAConfiguration-icon")).click();
-        }
-        driver.findElement(By.id("__xmlview4--selectSLAPROProperty-inner")).click();
-        driver.findElement(By.id("__xmlview4--selectSLAPROProperty-inner")).sendKeys(SLA);
-        driver.findElement(By.id("__xmlview4--selectSLAPROProperty-inner")).sendKeys(Keys.TAB);
-        driver.findElement(By.id("__xmlview4--numberOfDaysPRO-inner")).click();
-        driver.findElement(By.id("__xmlview4--numberOfDaysPRO-inner")).sendKeys("5");
-        driver.findElement(By.id(save)).click();
-    }
 
-    public static void securityProfile(WebDriver driver,Actions action){
-        //SECURITY PROFILE
-        WebElement btnSecurity =  driver.findElement(By.xpath(addSecurityProfile));
-        action.doubleClick(btnSecurity).perform();
-        //Permisos
-        List<WebElement> permisos = driver.findElements(By.xpath(groupPermisos));
-        permisos.get(0).click();
-        driver.findElement(By.xpath("//li[contains(@id,'__select') and contains(@class,'sapMSelectListItemBase sapMSelectListItem sapMSelectListItemBaseHoverable') and text()='Instance Creator']")).click();
-        permisos.get(1).click();
-        driver.findElements(By.xpath("//li[contains(@id,'__select') and contains(@class,'sapMSelectListItemBase sapMSelectListItem sapMSelectListItemBaseHoverable') and text()='Administrator']")).get(1).click();
-        //Tipo
-        List<WebElement> tipo = driver.findElements(By.xpath(selectType));
-        tipo.get(0).click();
-        String role = "//li[contains(@id,'--typeSelect-') and contains(@class,'sapMSelectListItemBase sapMSelectListItem sapMSelectListItemBaseHoverable') and text()='Role']";
-        driver.findElement(By.xpath(role)).click();
-        tipo.get(1).click();
-        driver.findElements(By.xpath(role)).get(1).click();
-        //Value
-        List<WebElement> value = driver.findElements(By.xpath(valueA));
-        value.get(0).click();
-        String superadmin = "//li[contains(@id,'--valueSelect-') and contains(@class,'sapMSelectListItemBase sapMSelectListItem sapMSelectListItemBaseHoverable') and text()='Superadmin']";
-        driver.findElement(By.xpath(superadmin)).click();
-        value.get(1).click();
-        driver.findElements(By.xpath(superadmin)).get(1).click();
-    }
+
 
     //Activity Form
     public static void createNewActivityForm(WebDriver driver , String nameAf){

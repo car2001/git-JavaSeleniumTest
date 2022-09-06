@@ -144,7 +144,7 @@ public class FormsRM {
     //Deployment Package
 
     public static void formDeploymentPackage(WebDriver driver , String DeploymentPackage,String Proyecto,String release){
-        listForm = FormsControl.controlNew(driver,"paquete de instalación","");
+        listForm = FormsControl.controlNewCC(driver,"paquete de instalación","Deployment Package");
         listForm.get(3).click();
         listForm.get(3).sendKeys(DeploymentPackage);
         listForm.get(4).click();
@@ -161,7 +161,7 @@ public class FormsRM {
     //Deployment Request
 
     public static void formDeploymentRequest(WebDriver driver , String DeploymentRequest,String Proyecto,String release) throws InterruptedException {
-        listForm = FormsControl.controlNew(driver,"solicitud de instalación","");
+        listForm = FormsControl.controlNewCC(driver,"solicitud de instalación","Deployment Request");
         listForm.get(3).click();
         listForm.get(3).sendKeys(DeploymentRequest);
         listForm.get(4).click();
@@ -179,8 +179,8 @@ public class FormsRM {
     //lIBERACION
     public static void formReleaseCC(WebDriver driver, AccessBranch accessBranches){
         basicControl = new BasicControl(driver);
-        listForm = FormsControl.controlNew(driver,"Liberación","");
-        driver.findElement(By.xpath("//span[contains(@id,'--cbDP-arrow')]")).click();
+        FormsControl.controlTitle(driver,"Liberación","Release");
+        driver.findElement(By.xpath("//span[contains(@id,'--cbDP-arrow') and @class='sapUiIcon sapUiIconMirrorInRTL sapUiIconPointer sapMInputBaseIcon']")).click();
         driver.findElement(By.xpath("//div[text()='DP_SELENIUM' and @class='sapMSLITitleOnly']")).click();
         basicControl.btnSave();
         driver.findElement(By.xpath("//bdi[text()='OK']")).click();
@@ -190,7 +190,7 @@ public class FormsRM {
     }
     public static  void formReleaseDP(WebDriver driver, AccessBranch accessBranches){
         basicControl = new BasicControl(driver);
-        listForm = FormsControl.controlNewCC(driver,"Liberación","");
+        FormsControl.controlTitle(driver,"Liberación","Release");
         driver.findElement(By.xpath("//span[contains(@id,'--cbDR-arrow') and @class='sapUiIcon sapUiIconMirrorInRTL sapUiIconPointer sapMInputBaseIcon']")).click();
         driver.findElement(By.xpath("//div[text()='DR_SELENIUM' and @class='sapMSLITitleOnly']")).click();
         basicControl.btnSave();

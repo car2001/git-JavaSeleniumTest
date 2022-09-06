@@ -13,6 +13,7 @@ public class ChargePopPup {
             WebElement popupCarga = driver.findElement(By.cssSelector("#sapUiBusyIndicator.sapUiUserSelectable"));
             wait.until(ExpectedConditions.visibilityOf(popupCarga));
             wait.until(ExpectedConditions.invisibilityOf(popupCarga));
+            Thread.sleep(1000);
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
@@ -25,6 +26,7 @@ public class ChargePopPup {
             WebElement popupCarga = driver.findElement(By.xpath("//div[@class='sapUiBlockLayer  sapUiLocalBusyIndicator sapUiLocalBusyIndicatorSizeMedium sapUiLocalBusyIndicatorFade' and contains(@id,'--resSplitMain-busyIndicator')]"));
             wait.until(ExpectedConditions.visibilityOf(popupCarga));
             wait.until(ExpectedConditions.invisibilityOf(popupCarga));
+            Thread.sleep(1000);
         }catch(Exception e){
             System.out.println(e.getMessage());
         }
@@ -36,6 +38,7 @@ public class ChargePopPup {
             WebElement popupCarga = driver.findElement(By.xpath("//div[contains(@id,'--detail-busyIndicator')]"));
             wait.until(ExpectedConditions.visibilityOf(popupCarga));
             wait.until(ExpectedConditions.invisibilityOf(popupCarga));
+            Thread.sleep(1000);
         }catch (Exception e){
             System.out.println(e.getMessage());
         }
@@ -46,6 +49,7 @@ public class ChargePopPup {
             WebElement popupCarga = driver.findElement(By.xpath("//div[contains(@id,'--mainTree-busyIndicator')]"));
             wait.until(ExpectedConditions.visibilityOf(popupCarga));
             wait.until(ExpectedConditions.invisibilityOf(popupCarga));
+            Thread.sleep(1000);
         }catch (Exception e){
 
         }

@@ -84,4 +84,77 @@ public class DynamicScroll {
         }
         return positionFound;
     }
+
+
+    public  String searchElementTable(String project, String user ,String state ,String release,String name){
+        WebElement scrollTable;
+        Boolean displayedScroll = false;
+        String xpos = "";
+
+        List<WebElement> webElementList = driver.findElements(By.xpath("//tr[contains(@id,'--tblComponentList-rows-row')]"));
+        List<String> textContentList = new ArrayList<>();
+
+        //Pasamos los nombres de los Elementos al nuevo array
+        for(int i = 0; i<= webElementList.size()-1;i=i+1){
+            String textContent = js.executeScript("let text = arguments[0].textContent; return(text)",webElementList.get(i)).toString();
+            textContentList.add(textContent);
+        }
+
+
+
+        try{
+            scrollTable = driver.findElement(By.xpath("//div[contains(@id,'--tblComponentList-vsb')]"));
+            displayedScroll = scrollTable.isDisplayed();
+        }catch (Exception e){
+            System.out.println("No se encontro scroll");
+        }
+
+        if(displayedScroll == true){
+            scrollTable = driver.findElement(By.xpath("//div[contains(@id,'--tblComponentList-vsb')]"));
+            int scrollHeight= js.executeScript("let scrollHeight = arguments[0].scrollHeight; return(scrollHeight)",scrollTable).hashCode();
+            int clientHeight = js.executeScript("let clientHeight = arguments[0].clientHeight; return(clientHeight)",scrollTable).hashCode();
+
+            int numVeces = scrollHeight/clientHeight;
+            int iterator = 0;
+
+
+            while (iterator<=numVeces+1){
+                xpos = busqueda(textContentList,project,user,state,release,name);
+                if(xpos != " "){
+                    break;
+                }else{
+                    iterator = iterator+1;
+                    js.executeScript("arguments[0].scroll(0,'"+clientHeight+"')",scrollTable);
+                    webElementList = driver.findElements(By.xpath("//tr[contains(@id,'--tblComponentList-rows-row')]"));
+                    textContentList.clear();
+                    for(int i = 0; i<= webElementList.size()-1;i=i+1){
+                        String textContent = js.executeScript("let text = arguments[0].textContent; return(text)",webElementList.get(i)).toString();
+                        textContentList.add(textContent);
+                    }
+                }
+            }
+        } else{
+            xpos = busqueda(textContentList,project,user,state,release,name);
+        }
+
+        return xpos;
+    }
+
+    public  String busqueda (List<String> contentList,String project, String user ,String state ,String release,String name){
+        String xpos = " ";
+        String content = " ";
+        for(int i = 0; i<= contentList.size()-1;i=i+1){
+            content = contentList.get(i);
+            if(content.contains(state) && content.contains(user) && content.contains(project) && content.contains(release)){
+                xpos = content.substring(0,content.indexOf(name));
+                break;
+            }else{
+                xpos = " ";
+            }
+        }
+        return  xpos;
+    }
+
+
+
 }
