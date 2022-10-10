@@ -21,7 +21,7 @@ public class CM_Risk_Profile {
     Asserts asserts;
     BasicControl basicControl;
 
-    final String componente = "Risk Profile";
+    final String componente = "Risk Profiles";
     final String newRiskProfile = "Risk Profile Selenium2";
     final String editRiskProfile = "Risk Profile Selenium Editado";
     final String versionMayor_RP = "Risk Profile Selenium version Mayor";

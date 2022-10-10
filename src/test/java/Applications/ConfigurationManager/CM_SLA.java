@@ -17,7 +17,7 @@ public class CM_SLA {
     private String chosen_browser = "Chrome";
     final String URL = "http://wedox.sytes.net/buplat_dev/";
 
-    final String componente = "SLA Definition";
+    final String componente = "SLA Definitions";
     final String newSLA = "SLA Selenium2";
     final String editSLA = "SLA Edit Selenium";
     final String versionMayor_Sla = "Sla Version Mayor Seleneium";

@@ -102,7 +102,7 @@
         </classes>
     </test>
     <!-- TC-Notification Profile -->
-   <test name="Notification Profile">
+    <test name="Notification Profile">
         <parameter name="notificationProfile" value="NP_WEDOX"></parameter>
         <parameter name="editNotificationProfile" value="NP_WEDOX_EDIT"></parameter>
         <parameter name="versionMayorNP" value="NP_WEDOX_MAYOR"></parameter>

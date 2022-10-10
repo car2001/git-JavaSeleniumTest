@@ -21,7 +21,7 @@ public class CM_Notification_Profile {
     Asserts asserts;
     BasicControl basicControl;
 
-    final String componente = "Notification Profile";
+    final String componente = "Notification Profiles";
     final String newNotification = "Notification Profile Selenium2";
     final String editNotification = "Notification Profile Selenium Editado";
     final String versionMayor_NP = "Notification Profile Selenium version Mayor";

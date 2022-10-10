@@ -19,7 +19,7 @@ public class CM_INS {
     Login login;
     Asserts asserts;
 
-    final String componente = "Instance Numbering Schema";
+    final String componente = "Instance Numbering Schemas";
     final String newINS = "INS Selenium2";
     final String editINS = "INS Selenium Editado";
     final String separator = "-";

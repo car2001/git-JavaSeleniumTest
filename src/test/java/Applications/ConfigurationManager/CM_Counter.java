@@ -18,8 +18,8 @@ public class CM_Counter {
     Login login;
     Asserts asserts;
 
-    final String componente = "Counter ";
-    final String newCounter = "Counter Selenium2";
+    final String componente = "Counters";
+    final String newCounter = "Counter Selenium";
     final String start = "100";
     final String increment = "1";
 

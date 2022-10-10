@@ -3,11 +3,11 @@
 <suite name="All Test Suite">
     <test verbose="2" preserve-order="true" name="Test-1">
         <classes>
-<!--            <class name="Applications.ReleaseManager.RM_Release">
+            <class name="Applications.ReleaseManager.RM_Release">
                 <methods>
                     <include name="crearRelease"/>
                 </methods>
-            </class>-->
+            </class>
             <class name="Applications.ReleaseManager.RM_ChangeContainer">
                 <methods>
                     <include name="activarChangeContainerTabla"/>
@@ -54,13 +54,12 @@
                     <include name="crearProceso"></include>
                 </methods>
             </class>
-
-<!--            <class name="Applications.CollaborationWorkspace.PrimerProceso">
+            <class name="Applications.CollaborationWorkspace.PrimerProceso">
                 <methods>
                     <include name="runProcessSi"></include>
                     <include name="runProcessNo"></include>
                 </methods>
-            </class>-->
+            </class>
         </classes>
     </test>
     <test name="Test-2">
@@ -75,14 +74,14 @@
                     <include name="releaseChangeContainer"/>
                 </methods>
             </class>
-<!--            <class name="Applications.CollaborationWorkspace.PrimerProceso">
+            <class name="Applications.CollaborationWorkspace.PrimerProceso">
                 <methods>
                     <include name="runProcessSiQA"></include>
                     <include name="runProcessNoQA"></include>
                     <include name="runProcessSiPROD"></include>
                     <include name="runProcessNoPROD"></include>
                 </methods>
-            </class>-->
+            </class>
         </classes>
     </test>
 </suite>
