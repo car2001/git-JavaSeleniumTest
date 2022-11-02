@@ -36,11 +36,11 @@ public class CM_Global_Settings {
     @Test
     public void checkHideAplicaciones(){
         loginApplication();
-        LoginApplications.loginCM(driver,"Global Settings");
+        LoginApplications.loginCM(driver);
         hideApps();
         loginApplication();
         findHiddenApps();
-        LoginApplications.loginCM(driver,"Global Settings");
+        LoginApplications.loginCM(driver);
         restoreApps();
     }
 

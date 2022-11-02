@@ -2,8 +2,10 @@ package HomePage;
 
 
 import Helpers.AccessBranch;
+import Helpers.BasicControl;
 import Helpers.ChargePopPup;
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -14,6 +16,8 @@ import java.time.Duration;
 public class LoginApplications {
     public static WebDriverWait wait;
     public static AccessBranch accessBranch;
+    public static BasicControl basicControl;
+    public static JavascriptExecutor js;
 
     public static void loginOSM(WebDriver driver){
         wait = new WebDriverWait(driver, Duration.ofSeconds(100));
@@ -25,27 +29,18 @@ public class LoginApplications {
         accessBranch.clickBranches(1);
     }
 
-    public static void loginCM(WebDriver driver,String componente){
+    public static void loginCM(WebDriver driver){
         wait = new WebDriverWait(driver, Duration.ofSeconds(100));
-        String routeCM = "//span[@class='sapMTextMaxLine sapMTextLineClamp' and normalize-space()='Configuration Manager']";
-        wait.until(ExpectedConditions.elementToBeClickable(By.xpath(routeCM)));
-        driver.findElement(By.xpath(routeCM)).click();
-        ChargePopPup.PopPupGeneral(driver,wait);
+        js = (JavascriptExecutor) driver;
+        basicControl = new BasicControl(driver);
+        basicControl.btnApplication("Configuration Manager");
+        wait.until(ExpectedConditions.elementToBeClickable(By.id("navListItem-navList-0-a")));
+        int tam = js.executeScript("let tam = document.getElementById('sap-ui-blocklayer-popup'); return(tam.clientHeight)").hashCode();
+        if(tam != 0){
+            ChargePopPup.PopPupGeneral(driver,wait);
+        }
         driver.findElement(By.xpath("//div[@title='Reusable Component']")).click();
         driver.findElement(By.xpath("//div[@title='Setting']")).click();
-        driver.findElement(By.xpath("//span[text()='"+componente+"']")).click();
-        ChargePopPup.PopPupGeneral(driver,wait);
-        String mas = "//span[(text()='Más' or text()='More') and @class='sapMSLITitle']";
-        try {
-            WebElement more = driver.findElement(By.xpath(mas));
-            Boolean moreDisplayed = more.isDisplayed();
-            while (moreDisplayed){
-                more.click();
-                moreDisplayed  = driver.findElement(By.xpath(mas)).isDisplayed();
-            }
-        }catch (Exception error){
-            System.out.println("No hay elemento más");
-        }
     }
 
     public static void loginRM(WebDriver driver, String componente){

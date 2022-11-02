@@ -14,94 +14,58 @@ import org.testng.annotations.*;
 
 
 public class CM_Form_UI {
-
     private WebDriver driver;
-    private final String chosen_browser = "Chrome";
 
-    SelectBrowser browser = new SelectBrowser(driver);
-    Login login;
+    SelectBrowser browser;
     Asserts asserts;
     BasicControl basicControl;
+    FormsFormUI formsFormUI;
 
     final String URL = "http://wedox.sytes.net/buplat_dev/";
     final String componente = "Form UI Configuration";
-    final String newFormUI = "Form UI Selenium2";
+    final String newFormUI = "Form UI Selenium";
     final String editFormUI = "Form UI Selenium Editado";
-    final String versionMayor_FormUI = "Form UI Selenium versionMayor";
-    final String versionMenor_FormUI = "Form UI Selenium versionMenor";
-    final String restoreVersion = "Form UI Restaurado Selenium";
 
-    @Parameters("url")
+    public CM_Form_UI(WebDriver driver){
+        this.driver = driver;
+        this.browser = new SelectBrowser(driver);
+        this.asserts = new Asserts(driver);
+        this.basicControl = new BasicControl(driver);
+        this.formsFormUI = new FormsFormUI(driver);
+    }
+
+
     @BeforeMethod
-    public void setup(@Optional(URL) String url) throws InterruptedException {
-        browser.chooseBrowser(chosen_browser);
-        driver = browser.getDriver();
-        asserts = new Asserts(driver);
-        basicControl = new BasicControl(driver);
-        login = new Login(driver);
-        login.loginPage();
-        LoginApplications.loginCM(driver,componente);
+    public void setup() throws InterruptedException {
+        basicControl.btn_More(componente);
     }
 
-    @Parameters("formUI")
+
     @Test
-    public void crear_FormUI(@Optional(newFormUI) String formUI){
-        FormsFormUI.formCreateFormUI(driver,formUI);
+    public void crear_FormUI(String formUI){
+        basicControl.btn_More(componente);
+        formsFormUI.formCreateFormUI(formUI);
         asserts.assertSave();
     }
 
-    @Parameters("formUI")
-    @Test
-    public void viewDependecies_FormUI(@Optional(newFormUI) String formUI){
-        driver.findElement(By.xpath("//div[text()='"+formUI+"']")).click();
-        basicControl.btnDependecies();
-        asserts.assertDependecies();
-    }
 
-    @Parameters({"formUI","formUI_edit"})
     @Test
-    public void editar_FormUI(@Optional(newFormUI) String formUI,@Optional(editFormUI) String formUI_edit) throws InterruptedException {
-        driver.findElement(By.xpath("//div[text()='"+formUI+"']")).click();
-        FormsFormUI.formEditFormUI(driver,formUI_edit);
-        asserts.assertSave();
-    }
-
-    @Parameters({"formUI_edit","versionMayorFormUI"})
-    @Test
-    public void versionMayor_FormUI(@Optional(editFormUI) String formUI_edit,@Optional(versionMayor_FormUI) String versionMayorFormUI) throws InterruptedException {
-        driver.findElement(By.xpath("//div[text()='"+formUI_edit+"']")).click();
-        FormsFormUI.MayorVersionFormUI(driver,versionMayorFormUI);
-        asserts.assertSave();
-    }
-
-    @Parameters({"versionMayorFormUI","versionMenorFormUI"})
-    @Test
-    public void versionMenor_FormUI(@Optional(versionMayor_FormUI) String versionMayorFormUI , @Optional(versionMenor_FormUI) String versionMenorFormUI) throws InterruptedException {
-        driver.findElement(By.xpath("//div[text()='"+versionMayorFormUI+"']")).click();
-        FormsFormUI.MenorVersionFormUI(driver,versionMenorFormUI);
-        asserts.assertSave();
-    }
-
-    @Parameters({"versionMenorFormUI","restore_Version"})
-    @Test
-    public void restoreVersion_FormUI(@Optional(versionMenor_FormUI) String versionMenorFormUI,@Optional(restoreVersion) String restore_Version)  throws InterruptedException{
-        driver.findElement(By.xpath("//div[text()='"+versionMenorFormUI+"']")).click();
-        FormsFormUI.restoreVersion_FormUI(driver,restore_Version);
+    public void editar_FormUI(String formUI,String formUI_edit) throws InterruptedException {
+        basicControl.btn_More(componente);
+        String xmlview = basicControl.getXmlview();
+        driver.findElement(By.xpath("//div[@id='"+xmlview+"--listObject']//div[text()='"+formUI+"']")).click();
+        formsFormUI.formEditFormUI(formUI_edit);
         asserts.assertSave();
     }
 
     @Parameters("delete_FormUI")
     @Test
-    public void eliminar_FormUI(@Optional(restoreVersion) String delete_FormUI){
+    public void eliminar_FormUI(@Optional(editFormUI) String delete_FormUI){
+        basicControl.btn_More(componente);
         FormsControl.controlDelete(driver,delete_FormUI);
         String xpathMessage = "//span[@class='sapMText sapUiSelectable sapMTextMaxWidth sapMMsgBoxText']";
         asserts.assertDelete(xpathMessage);
     }
 
-    @AfterMethod
-    public void tearDown(){
-        if (driver != null){
-            driver.quit();
-        }
-    }
+
 }

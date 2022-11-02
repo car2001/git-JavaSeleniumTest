@@ -20,84 +20,45 @@ public class CM_Risk_Profile {
     Login login;
     Asserts asserts;
     BasicControl basicControl;
+    FormsRiskProfile formsRiskProfile;
 
     final String componente = "Risk Profiles";
-    final String newRiskProfile = "Risk Profile Selenium2";
+    final String newRiskProfile = "Risk Profile Selenium";
     final String editRiskProfile = "Risk Profile Selenium Editado";
-    final String versionMayor_RP = "Risk Profile Selenium version Mayor";
-    final String versionMenor_RP = "Risk Profile Selenium version Menor";
-    final String restoreVersion = "Risk Profile Selenium version Restaurada";
 
-    @BeforeMethod
-    public void setUp(){
-        browser.chooseBrowser(chosen_browser);
-        driver = browser.getDriver();
-        asserts = new Asserts(driver);
-        basicControl = new BasicControl(driver);
-        login = new Login(driver);
-        login.loginPage();
-        LoginApplications.loginCM(driver,componente);
+    public CM_Risk_Profile(WebDriver driver){
+        this.driver = driver;
+        this.browser = new SelectBrowser(driver);
+        this.asserts = new Asserts(driver);
+        this.basicControl = new BasicControl(driver);
+        this.formsRiskProfile = new FormsRiskProfile(driver);
     }
 
     @Parameters("riskProfile")
     @Test
     public void crearRiskProfile(@Optional(newRiskProfile) String riskProfile){
-        FormsRiskProfile.formCreateRisk(driver,riskProfile);
+        basicControl.btn_More(componente);
+        formsRiskProfile.formCreateRisk(driver,riskProfile);
         asserts.assertSave();
-    }
-
-    @Parameters("riskProfile")
-    @Test
-    public void viewDependecies_RP(@Optional(newRiskProfile) String riskProfile){
-        driver.findElement(By.xpath("//div[text()='"+riskProfile+"']")).click();
-        basicControl.btnDependecies();
-        asserts.assertDependecies();
     }
 
     @Parameters({"riskProfile","edit_RiskProfile"})
     @Test
-    public void editRiskProfile(@Optional(newRiskProfile) String riskProfile, @Optional(editRiskProfile) String edit_RiskProfile) throws InterruptedException {
-        driver.findElement(By.xpath("//div[text()='"+riskProfile+"']")).click();
-        FormsRiskProfile.formEditRisk(driver,edit_RiskProfile);
-        asserts.assertSave();
-    }
-
-    @Parameters({"edit_RiskProfile","versionMayorRP"})
-    @Test
-    public void versionMayor_RP(@Optional(editRiskProfile) String edit_RiskProfile,@Optional(versionMayor_RP) String versionMayorRP) throws InterruptedException {
-        driver.findElement(By.xpath("//div[text()='"+edit_RiskProfile+"']")).click();
-        FormsRiskProfile.MayorVersionRisk(driver,versionMayorRP);
-        asserts.assertSave();
-    }
-
-    @Parameters({"versionMayorRP","versionMenorRP"})
-    @Test
-    public void versionMenor_RP(@Optional(versionMayor_RP) String versionMayorRP,@Optional(versionMenor_RP)String versionMenorRP) throws InterruptedException {
-        driver.findElement(By.xpath("//div[text()='"+versionMayorRP+"']")).click();
-        FormsRiskProfile.MenorVersionRisk(driver,versionMenorRP);
-        asserts.assertSave();
-    }
-
-    @Parameters({"versionMenorRP","restoreVersionRP"})
-    @Test
-    public void restoreVersion_RP(@Optional(versionMenor_RP) String versionMenorRP,@Optional(restoreVersion)String restoreVersionRP){
-        driver.findElement(By.xpath("//div[text()='"+versionMenorRP+"']")).click();
-        FormsRiskProfile.restoreVersionRisk(driver,restoreVersionRP);
+    public void editRiskProfile(String riskProfile,String edit_RiskProfile) throws InterruptedException {
+        basicControl.btn_More(componente);
+        String xmlview = basicControl.getXmlview();
+        driver.findElement(By.xpath("//div[@id='"+xmlview+"--listObject']//div[text()='"+riskProfile+"']")).click();
+        formsRiskProfile.formEditRisk(driver,edit_RiskProfile);
         asserts.assertSave();
     }
 
     @Parameters("delete_RP")
     @Test
-    public void eliminar_RP(@Optional(restoreVersion) String delete_RP){
+    public void eliminar_RP(@Optional(editRiskProfile) String delete_RP){
+        basicControl.btn_More(componente);
         FormsControl.controlDelete(driver,delete_RP);
         String xpathMessage = "//span[@class='sapMText sapUiSelectable sapMTextMaxWidth sapMMsgBoxText']";
         asserts.assertDelete(xpathMessage);
     }
 
-    @AfterMethod
-    public void tearDown(){
-        if (driver != null){
-            driver.quit();
-        }
-    }
 }

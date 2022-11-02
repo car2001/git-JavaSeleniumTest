@@ -19,31 +19,6 @@ public class FormsOSM {
 
     private static WebDriverWait wait;
 
-    //Company
-
-    public static void formCreateCompany(WebDriver driver,String company) {
-        FormsControl.controlNew(driver,"Empresa","");
-        listForm = driver.findElements(By.className("sapMInputBaseInner"));
-        listForm.get(2).sendKeys(company);
-        listForm.get(3).sendKeys(company);
-        listForm.get(4).sendKeys("Compañia Creada en Selenium");
-        listForm.get(5).sendKeys("123456");
-        driver.findElement(By.id(save)).click();
-    }
-
-    public static void formEditCompany(WebDriver driver, String company) throws InterruptedException {
-        listForm = FormsControl.controlEdit(driver,"Empresa","");
-        listForm.get(2).clear();
-        listForm.get(2).sendKeys(company);
-        listForm.get(3).clear();
-        listForm.get(3).sendKeys(company);
-        listForm.get(4).clear();
-        listForm.get(4).sendKeys("Compañia Editada en Selenium");
-        listForm.get(5).clear();
-        listForm.get(5).sendKeys("123456");
-        driver.findElement(By.id(save)).click();
-
-    }
 
     //Organizational Unit
     public static void formCreateOrganization(WebDriver driver, String organización) throws InterruptedException{

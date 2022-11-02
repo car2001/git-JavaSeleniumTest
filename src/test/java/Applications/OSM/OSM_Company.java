@@ -1,6 +1,8 @@
 package Applications.OSM;
 
+import Forms.ConfigurationManager.FormsCounter;
 import Forms.FormsOSM;
+import Forms.OSM.FormsCompany;
 import Helpers.*;
 import HomePage.Login;
 import HomePage.LoginApplications;
@@ -12,64 +14,50 @@ import org.testng.annotations.Test;
 
 
 public class OSM_Company {
+
     private WebDriver driver;
-    private String chosen_browser = "Chrome";
-
-    Login login;
-    DynamicScroll searchScrollElement;
-    AccessBranch accessBranch;
-    SelectBrowser browser = new SelectBrowser(driver);
-    Actions action;
-    JavascriptExecutor js;
-    Asserts asserts;
-    BasicControl basicControl;
-
-
-    String component = "Company";
-    String newCompany = "Company Selenium";
-    String editCompany = "Company Selenium Editado";
-
+    private Asserts asserts;
+    private BasicControl basicControl;
+    private DynamicScroll searchScrollElement;
+    private Actions action;
+    private String component = "Company";
     int exist = -1;
+    private FormsCompany formsCompany;
 
 
-    @BeforeMethod
-    public void setup(){
-        browser.chooseBrowser(chosen_browser);
-        driver = browser.getDriver();
-        js = (JavascriptExecutor) driver;
-        action = new Actions(driver);
-        searchScrollElement = new DynamicScroll(driver);
-        asserts = new Asserts(driver);
-        basicControl = new BasicControl(driver);
-        accessBranch = new AccessBranch(driver);
-        login = new Login(driver);
-        login.loginPage();
-        LoginApplications.loginOSM(driver);
+    public OSM_Company(WebDriver driver){
+        this.driver = driver;
+        this.action = new Actions(driver);
+        this.asserts = new Asserts(driver);
+        this.basicControl = new BasicControl(driver);
+        this.searchScrollElement = new DynamicScroll(driver);
+        this.formsCompany = new FormsCompany(driver);
     }
 
     @Test()
-    public void crearCompany(){
-        WebElement element = driver.findElement(By.xpath("//span[normalize-space()='Company']"));
+    public void crearCompany(String nameCompany){
+        WebElement element = driver.findElement(By.xpath("//span[normalize-space()='Companies']"));
         action.contextClick(element).perform();
-        driver.findElement(By.xpath("//div[normalize-space()='New " + component + "']")).click();
-        FormsOSM.formCreateCompany(driver,newCompany);
+        driver.findElement(By.xpath("//div[text()='New Company' or text()='Nueva Compañia']")).click();
+        formsCompany.formCreateCompany(nameCompany);
         asserts.assertSave();
     }
 
     @Test
-    public void doubleCheckCompany(){
-        WebElement element = driver.findElement(By.xpath("//span[normalize-space()='Company']"));
+    public void doubleCheckCompany(String nameCompany){
+        WebElement element = driver.findElement(By.xpath("//span[normalize-space()='Companies']"));
         action.contextClick(element).perform();
-        driver.findElement(By.xpath("//div[normalize-space()='New " + component + "']")).click();
-        FormsOSM.formCreateCompany(driver,newCompany);
+        driver.findElement(By.xpath("//div[text()='New Company' or text()='Nueva Compañia']")).click();
+        formsCompany.formCreateCompany(nameCompany);
         asserts.assertDoubleCheck("Company Already Exist");
     }
 
     @Test
-    public void viewCompanyDependencies(){
-        exist = searchScrollElement.elementSearch(newCompany);
+    public void viewCompanyDependencies(String nameCompany){
+        exist = searchScrollElement.elementSearch(nameCompany);
         if (exist != -1){
-            driver.findElement(By.xpath("//span[normalize-space()='"+newCompany+"']")).click();
+            String xmlview = basicControl.getXmlview();
+            driver.findElement(By.xpath("//div[@id='"+xmlview+"--mainTree-tableCtrlCnt']//span[text()='"+nameCompany+"']")).click();
             basicControl.btnDependecies();
             asserts.assertDependecies();
         }else{
@@ -79,11 +67,12 @@ public class OSM_Company {
 
 
     @Test
-    public void editarCompany() throws InterruptedException {
-        exist = searchScrollElement.elementSearch(newCompany);
+    public void editarCompany(String nameCompany , String editCompany) throws InterruptedException {
+        exist = searchScrollElement.elementSearch(nameCompany);
         if (exist != -1){
-            driver.findElement(By.xpath("//span[normalize-space()='"+newCompany+"']")).click();
-            FormsOSM.formEditCompany(driver,editCompany);
+            String xmlview = basicControl.getXmlview();
+            driver.findElement(By.xpath("//div[@id='"+xmlview+"--mainTree-tableCtrlCnt']//span[text()='"+nameCompany+"']")).click();
+            formsCompany.formEditCompany(editCompany);
             asserts.assertSave();
         }else{
             Assert.assertEquals("No hay Company","The Operation has been Completed Successfully.");
@@ -91,10 +80,10 @@ public class OSM_Company {
     }
 
     @Test
-    public void eliminarCompany()  {
-        exist = searchScrollElement.elementSearch(newCompany);
+    public void eliminarCompany(String nameCompany)  {
+        exist = searchScrollElement.elementSearch(nameCompany);
         if (exist != -1){
-            WebElement empresa = driver.findElement(By.xpath("//span[normalize-space()='"+newCompany+"']"));
+            WebElement empresa = driver.findElement(By.xpath("//span[normalize-space()='"+nameCompany+"']"));
             String xpathMessage = "//span[@class='sapMText sapUiSelectable sapMTextMaxWidth sapMMsgBoxText']";
             FormsControl.controlDelete(driver,action,empresa,"Company");
             asserts.assertDelete(xpathMessage);

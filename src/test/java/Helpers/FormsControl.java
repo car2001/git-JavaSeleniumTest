@@ -19,47 +19,16 @@ public class FormsControl {
     private static BasicControl basicControl;
 
     public static void controlTitle(WebDriver driver,String componente,String ingles){
-        wait = new WebDriverWait(driver, Duration.ofSeconds(50));
+        wait = new WebDriverWait(driver, Duration.ofSeconds(100));
         WebElement titleDetail = driver.findElement(By.xpath("//span[contains(@id,'--objFormTitle-inner') and (contains(text(),'"+componente+"') or contains(text(),'"+ingles+"') )]"));
         wait.until(ExpectedConditions.visibilityOf(titleDetail));
     }
 
-    public static List<WebElement> controlNewCC( WebDriver driver,String componente,String ingles){
-        controlTitle(driver,componente,ingles);
-        listForm = driver.findElements(By.className("sapMInputBaseInner"));
-        boolean focus = false;
-        while(focus == false){
-            listForm.get(3).click();
-            if(listForm.get(3).equals(driver.switchTo().activeElement())){
-                System.out.println("Element is focused");
-                focus = true;
-            }
-            else {
-                listForm = driver.findElements(By.className("sapMInputBaseInner"));
-                System.out.println("Element is no focused");
-                focus = false;
-            }
-        }
-        return listForm;
-    }
-
-
     public static List<WebElement> controlNew( WebDriver driver,String componente,String ingles){
+        basicControl = new BasicControl(driver);
         controlTitle(driver,componente,ingles);
-        listForm = driver.findElements(By.className("sapMInputBaseInner"));
-        boolean focus = false;
-        while(focus == false){
-            listForm.get(2).click();
-            if(listForm.get(2).equals(driver.switchTo().activeElement())){
-                System.out.println("Element is focused");
-                focus = true;
-            }
-            else {
-                listForm = driver.findElements(By.className("sapMInputBaseInner"));
-                System.out.println("Element is no focused");
-                focus = false;
-            }
-        }
+        listForm = basicControl.inputForms();
+        inputFocus(driver);
         return listForm;
     }
 
@@ -67,28 +36,29 @@ public class FormsControl {
         controlTitle(driver,componente,ingles);
         basicControl = new BasicControl(driver);
         basicControl.btnEdit();
-        listForm = driver.findElements(By.className("sapMInputBaseInner"));
-        WebElement disabled = listForm.get(2);
+        listForm = basicControl.inputForms();
+        WebElement disabled = listForm.get(0);
         while(disabled.isEnabled() == false){
             listForm = driver.findElements(By.className("sapMInputBaseInner"));
-            disabled = listForm.get(2);
+            disabled = listForm.get(0);
         }
+        inputFocus(driver);
+        return listForm;
+    }
+
+    public static void inputFocus(WebDriver driver){
         boolean focus = false;
         while(focus == false){
-            listForm.get(3).click();
-            if(listForm.get(3).equals(driver.switchTo().activeElement())){
-                System.out.println("Element is focused");
+            listForm.get(0).click();
+            if(listForm.get(0).equals(driver.switchTo().activeElement())){
                 focus = true;
             }
             else {
                 listForm = driver.findElements(By.className("sapMInputBaseInner"));
-                System.out.println("Element is no focused");
                 focus = false;
             }
         }
-        return listForm;
     }
-
 
     public static void controlDelete(WebDriver driver, Actions action , WebElement elemento,String componente){
         action.contextClick(elemento).perform();
@@ -98,14 +68,16 @@ public class FormsControl {
     }
 
     public static void controlDelete(WebDriver driver, String nameComponent){
-        driver.findElement(By.xpath("//div[text()='"+nameComponent+"']/parent::div/parent::div/following-sibling::button")).click();
+        basicControl = new BasicControl(driver);
+        String xmlview = basicControl.getXmlview();
+        driver.findElement(By.xpath("//div[@id='"+xmlview+"--listObject']//div[text()='"+nameComponent+"']/parent::div/parent::div/following-sibling::button")).click();
         driver.findElement(By.xpath("//bdi[normalize-space()='Sí' or normalize-space()='Yes']")).click();
         driver.findElement(By.xpath("//bdi[normalize-space()='OK']")).click();
     }
 
     public static void controlLook(WebDriver driver, String edit, JavascriptExecutor js) throws InterruptedException {
         basicControl = new BasicControl(driver);
-        wait = new WebDriverWait(driver, Duration.ofMillis(1000));
+        wait = new WebDriverWait(driver, Duration.ofSeconds(100));
         Thread.sleep(500);
         try {
             if(js.executeScript("let msg = document.querySelector('.sapMMsgStripMessage'); return(msg.textContent);").toString() != null){

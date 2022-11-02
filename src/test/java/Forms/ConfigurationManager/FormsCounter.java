@@ -9,25 +9,49 @@ import org.openqa.selenium.WebElement;
 import java.util.List;
 
 public class FormsCounter {
-    private static List<WebElement> listForm;
-    private static BasicControl basicControl;
+    private  WebDriver driver;
+    private  List<WebElement> listForm;
+    private  BasicControl basicControl;
 
-    public static void formCreateCounter(WebDriver driver, String Counter, String inicio , String incremento){
+    public FormsCounter(WebDriver driver){
+        this.driver = driver;
         basicControl = new BasicControl(driver);
+    }
+
+    public  void formCreateCounter(String Counter, String inicio , String incremento){
         basicControl.btnAdd();
-        listForm = FormsControl.controlNew(driver,"contador","Counter");
+        listForm = FormsControl.controlNew(driver,"Contador","Counter");
+        listForm.get(0).click();
+        listForm.get(0).sendKeys(Counter);
+        listForm.get(1).click();
+        listForm.get(1).sendKeys(Counter);
         listForm.get(2).click();
         listForm.get(2).sendKeys(Counter);
         listForm.get(3).click();
-        listForm.get(3).sendKeys(Counter);
+        listForm.get(3).sendKeys(inicio);
         listForm.get(4).click();
-        listForm.get(4).sendKeys(Counter);
-        listForm.get(6).click();
-        listForm.get(6).sendKeys(inicio);
-        listForm.get(7).click();
-        listForm.get(7).sendKeys(incremento);
+        listForm.get(4).sendKeys(incremento);
         basicControl.btnSave();
     }
 
+    public  void formEditCounter(String counterEdit, String inicio , String incremento) throws InterruptedException {
+        listForm = FormsControl.controlEdit(driver,"Contador","Counter");
+        listForm.get(0).click();
+        listForm.get(0).clear();
+        listForm.get(0).sendKeys(counterEdit);
+        listForm.get(1).click();
+        listForm.get(1).clear();
+        listForm.get(1).sendKeys(counterEdit);
+        listForm.get(2).click();
+        listForm.get(2).clear();
+        listForm.get(2).sendKeys(counterEdit);
+        listForm.get(3).click();
+        listForm.get(3).clear();
+        listForm.get(3).sendKeys(inicio);
+        listForm.get(4).click();
+        listForm.get(4).clear();
+        listForm.get(4).sendKeys(incremento);
+        basicControl.btnSave();
+    }
 
 }

@@ -13,92 +13,56 @@ import org.openqa.selenium.WebDriver;
 import org.testng.annotations.*;
 
 public class CM_Performer_Profile {
-
     private WebDriver driver;
-    private String chosen_browser = "Chrome";
 
-    SelectBrowser browser = new SelectBrowser(driver);
-    Login login;
+    SelectBrowser browser;
     Asserts asserts;
     BasicControl basicControl;
+    FormsPerformerProfile formsPerformerProfile;
 
     final String componente = "Performer Profiles";
-    final String newPerformer = "Performer Selenium2";
+    final String newPerformer = "Performer Selenium";
     final String editPerformer = "Performer Edit Selenium";
-    final String versionMayor_PP = "Performer Selenium Version Mayor";
-    final String versionMenor_PP = "Performer Selenium Version Menor";
-    final String restoreVersion_PP = "Performer Selenium Restaurado";
+
+    public CM_Performer_Profile(WebDriver driver){
+        this.driver = driver;
+        this.browser = new SelectBrowser(driver);
+        this.asserts = new Asserts(driver);
+        this.basicControl = new BasicControl(driver);
+        this.formsPerformerProfile = new FormsPerformerProfile(driver);
+    }
+
 
     @BeforeMethod
     public void SetUp(){
-        browser.chooseBrowser(chosen_browser);
-        driver = browser.getDriver();
-        asserts = new Asserts(driver);
-        basicControl = new BasicControl(driver);
-        login = new Login(driver);
-        login.loginPage();
-        LoginApplications.loginCM(driver,componente);
+        basicControl.btn_More(componente);
     }
 
     @Parameters("PP")
     @Test
     public void crearPerformerProfile(@Optional(newPerformer) String PP){
-        FormsPerformerProfile.formCreatePerformer(driver,PP);
+        basicControl.btn_More(componente);
+        formsPerformerProfile.formCreatePerformer(PP);
         asserts.assertSave();
-    }
-
-    @Parameters("PP")
-    @Test
-    public void viewDependecies_PP(@Optional(newPerformer) String PP){
-        driver.findElement(By.xpath("//div[text()='"+PP+"']")).click();
-        basicControl.btnDependecies();
-        asserts.assertDependecies();
     }
 
     @Parameters({"PP","PP_edit"})
     @Test
-    public void editarPerformerProfile(@Optional(newPerformer) String PP, @Optional(editPerformer) String PP_edit ) throws InterruptedException {
-        driver.findElement(By.xpath("//div[text()='"+PP+"']")).click();
-        FormsPerformerProfile.formEditPerformer(driver,PP_edit);
-        asserts.assertSave();
-    }
-
-    @Parameters({"PP_edit","versionMayorPP"})
-    @Test
-    public void versionMayor_PP(@Optional(editPerformer) String PP_edit, @Optional(versionMayor_PP) String versionMayorPP) throws InterruptedException {
-        driver.findElement(By.xpath("//div[text()='"+PP_edit+"']")).click();
-        FormsPerformerProfile.MayorVersionPerformer(driver,versionMayorPP);
-        asserts.assertSave();
-    }
-
-    @Parameters({"versionMayorPP","versionMenorPP"})
-    @Test
-    public void versionMenor_PP(@Optional(versionMayor_PP) String versionMayorPP, @Optional(versionMenor_PP) String versionMenorPP) throws InterruptedException {
-        driver.findElement(By.xpath("//div[text()='"+versionMayorPP+"']")).click();
-        FormsPerformerProfile.MenorVersionPerformer(driver,versionMenorPP);
-        asserts.assertSave();
-    }
-
-    @Parameters({"versionMenorPP","restore_Version"})
-    @Test
-    public void restoreVersion_PP(@Optional(versionMenor_PP) String versionMenorPP,@Optional(restoreVersion_PP) String restore_Version){
-        driver.findElement(By.xpath("//div[text()='"+versionMenorPP+"']")).click();
-        FormsPerformerProfile.restoreVersion_PP(driver,restore_Version);
+    public void editarPerformerProfile(String PP, String PP_edit ) throws InterruptedException {
+        basicControl.btn_More(componente);
+        String xmlview = basicControl.getXmlview();
+        driver.findElement(By.xpath("//div[@id='"+xmlview+"--listObject']//div[text()='"+PP+"']")).click();
+        formsPerformerProfile.formEditPerformer(PP_edit);
         asserts.assertSave();
     }
 
     @Parameters("delete_PP")
     @Test
-    public void eliminarPerformerProfile(@Optional(restoreVersion_PP) String delete_PP){
+    public void eliminarPerformerProfile(@Optional(editPerformer) String delete_PP){
+        basicControl.btn_More(componente);
         FormsControl.controlDelete(driver,delete_PP);
         String xpathMessage = "//span[@class='sapMText sapUiSelectable sapMTextMaxWidth sapMMsgBoxText']";
         asserts.assertDelete(xpathMessage);
     }
 
-    @AfterMethod
-    public void tearDown(){
-        if(driver != null){
-            driver.quit();
-        }
-    }
 }

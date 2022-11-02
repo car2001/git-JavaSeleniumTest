@@ -144,7 +144,7 @@ public class FormsRM {
     //Deployment Package
 
     public static void formDeploymentPackage(WebDriver driver , String DeploymentPackage,String Proyecto,String release){
-        listForm = FormsControl.controlNewCC(driver,"paquete de instalación","Deployment Package");
+        listForm = FormsControl.controlNew(driver,"paquete de instalación","Deployment Package");
         listForm.get(3).click();
         listForm.get(3).sendKeys(DeploymentPackage);
         listForm.get(4).click();
@@ -161,7 +161,7 @@ public class FormsRM {
     //Deployment Request
 
     public static void formDeploymentRequest(WebDriver driver , String DeploymentRequest,String Proyecto,String release) throws InterruptedException {
-        listForm = FormsControl.controlNewCC(driver,"solicitud de instalación","Deployment Request");
+        listForm = FormsControl.controlNew(driver,"solicitud de instalación","Deployment Request");
         listForm.get(3).click();
         listForm.get(3).sendKeys(DeploymentRequest);
         listForm.get(4).click();
