@@ -1,15 +1,10 @@
 package Applications.OSM;
 
-import Forms.ConfigurationManager.FormsCounter;
-import Forms.FormsOSM;
 import Forms.OSM.FormsCompany;
 import Helpers.*;
-import HomePage.Login;
-import HomePage.LoginApplications;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
 import org.testng.Assert;
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 
@@ -20,7 +15,6 @@ public class OSM_Company {
     private BasicControl basicControl;
     private DynamicScroll searchScrollElement;
     private Actions action;
-    private String component = "Company";
     int exist = -1;
     private FormsCompany formsCompany;
 
@@ -34,7 +28,7 @@ public class OSM_Company {
         this.formsCompany = new FormsCompany(driver);
     }
 
-    @Test()
+    @Test
     public void crearCompany(String nameCompany){
         WebElement element = driver.findElement(By.xpath("//span[normalize-space()='Companies']"));
         action.contextClick(element).perform();
@@ -45,6 +39,7 @@ public class OSM_Company {
 
     @Test
     public void doubleCheckCompany(String nameCompany){
+        searchScrollElement.elementSearch("Companies");
         WebElement element = driver.findElement(By.xpath("//span[normalize-space()='Companies']"));
         action.contextClick(element).perform();
         driver.findElement(By.xpath("//div[text()='New Company' or text()='Nueva Compañia']")).click();

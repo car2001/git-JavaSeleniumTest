@@ -1,67 +1,50 @@
 package Applications.OSM;
 
+import Forms.OSM.FormsLocation;
 import Helpers.*;
-import Forms.FormsOSM;
-import HomePage.Login;
-import HomePage.LoginApplications;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
 import org.testng.Assert;
 import org.testng.annotations.*;
 
-import java.util.List;
-
 
 public class OSM_Location {
 
     private WebDriver driver;
-    private String chosen_browser = "Chrome";
-
-    Login login;
-    DynamicScroll searchScrollElement;
-    AccessBranch accessBranch;
-    SelectBrowser browser = new SelectBrowser(driver);
-    Actions action;
-    JavascriptExecutor js;
-    Asserts asserts;
-    BasicControl basicControl;
-
-    String company = "Company Selenium";                    //Compañia
-    String location = "Location";                           // Componente a Buscar
-    String newLocation = "Location Selenium";               // Location Creado
-    String editLocation = "Location Selenium Editado";      // Location Editado
-    int exist = -1;                                         // Posición del componente Buscado
+    private DynamicScroll searchScrollElement;
+    private AccessBranch accessBranch;
+    private Actions action;
+    private JavascriptExecutor js;
+    private Asserts asserts;
+    private BasicControl basicControl;
+    private int exist = -1;
+    private FormsLocation formsLocation;
 
 
-
-    @BeforeMethod
-    public void setup(){
-        browser.chooseBrowser(chosen_browser);
-        driver = browser.getDriver();
-        js = (JavascriptExecutor) driver;
-        action = new Actions(driver);
-        searchScrollElement = new DynamicScroll(driver);
-        asserts = new Asserts(driver);
-        basicControl = new BasicControl(driver);
-        accessBranch = new AccessBranch(driver);
-        login = new Login(driver);
-        login.loginPage();
-        LoginApplications.loginOSM(driver);
+    public OSM_Location(WebDriver driver){
+        this.driver = driver;
+        this.action = new Actions(driver);
+        this.searchScrollElement = new DynamicScroll(driver);
+        this.accessBranch = new AccessBranch(driver);
+        this.js = (JavascriptExecutor) driver;
+        this.asserts = new Asserts(driver);
+        this.basicControl = new BasicControl(driver);
+        this.formsLocation = new FormsLocation(driver);
     }
+
 
     @Test()
-    public void crearLocation() throws InterruptedException {
+    public void crearLocation(String company, String location)  {
         exist = searchScrollElement.elementSearch(company);
         if(exist != -1){
             accessBranch.clickBranches(exist);
-            exist = searchScrollElement.elementSearch(location);
+            exist = searchScrollElement.elementSearch("Locations");
             if(exist !=-1){
-                WebElement elementLocation = driver.findElement(By.xpath("//span[normalize-space()='"+location+"']"));
+                WebElement elementLocation = driver.findElement(By.xpath("//span[normalize-space()='Locations']"));
                 action.contextClick(elementLocation).perform();
-                driver.findElement(By.xpath("//div[normalize-space()='New "+location+"']")).click();
-                FormsOSM.formCreateLocation(driver,"Location Selenium");
-                String message = driver.findElement(By.className("sapMMsgStripMessage")).getAttribute("textContent");
-                Assert.assertEquals(message,"The Operation has been Completed Successfully."+ "\n");
+                driver.findElement(By.xpath("//div[normalize-space()='New Location' or normalize-space()='Nueva Ubicación']")).click();
+                formsLocation.formCreateLocation(location);
+                asserts.assertSave();
             }else{
                 Assert.assertEquals("No hay Location","The Operation has been Completed Successfully.");
             }
@@ -70,19 +53,22 @@ public class OSM_Location {
         }
     }
 
-    @Test(priority = 1)
-    public void doubleCheckLocation() throws InterruptedException {
+    @Test
+    public void doubleCheckLocation(String company,String location)  {
         exist = searchScrollElement.elementSearch(company);
         if(exist != -1){
-            accessBranch.clickBranches(exist);
-            exist = searchScrollElement.elementSearch(location);
+            exist = searchScrollElement.elementSearch("Locations");
             if(exist !=-1){
-                WebElement elementLocation = driver.findElement(By.xpath("//span[normalize-space()='"+location+"']"));
+                WebElement elementLocation = driver.findElement(By.xpath("//span[normalize-space()='Locations']"));
                 action.contextClick(elementLocation).perform();
-                driver.findElement(By.xpath("//div[normalize-space()='New "+location+"']")).click();
-                //Llenando Formulario
-                FormsOSM.formCreateLocation(driver,"Location Selenium");
-                asserts.assertDoubleCheck("Location  Already Exist");
+                driver.findElement(By.xpath("//div[normalize-space()='New Location' or normalize-space()='Nueva Ubicación']")).click();
+                formsLocation.formCreateLocation(location);
+                String idioma = basicControl.getLanguage();
+                if(idioma.equals("en")){
+                    asserts.assertDoubleCheck("Location Already Exist");
+                }else{
+                    asserts.assertDoubleCheck("La ubicación ya existe.");
+                }
             }else{
                 Assert.assertEquals("No hay Location","The Operation has been Completed Successfully.");
             }
@@ -91,150 +77,61 @@ public class OSM_Location {
         }
     }
 
-    @Test(priority = 2)
-    public void viewLocationDependencies(){
+    @Test
+    public void viewLocationDependencies(String company,String location){
         exist = searchScrollElement.elementSearch(company);
         if(exist != -1){
-            accessBranch.clickBranches(exist);
-            exist = searchScrollElement.elementSearch(location);
-            if(exist !=-1){
+            exist = searchScrollElement.elementSearch("Locations");
+            if(exist != -1){
                 accessBranch.clickBranches(exist);
-                exist = searchScrollElement.elementSearch(newLocation);
-                if(exist !=-1){
-                    driver.findElement(By.xpath("//span[normalize-space()='"+newLocation+"']")).click();
+                exist = searchScrollElement.elementSearch(location);
+                if(exist != -1){
+                    driver.findElement(By.xpath("//span[text()='"+location+"']")).click();
                     basicControl.btnDependecies();
                     asserts.assertDependecies();
-                }else{
-                    Assert.assertEquals("No hay"+ newLocation,"The Operation has been Completed Successfully.");
                 }
-            }else{
-                Assert.assertEquals("No hay Location","The Operation has been Completed Successfully.");
             }
-        }else{
-            Assert.assertEquals("No hay Company","The Operation has been Completed Successfully.");
         }
+
     }
 
-    @Test(priority = 3)
-    public void editarLocation() throws InterruptedException {
+    @Test
+    public void editarLocation(String company , String location, String editLocation) throws InterruptedException {
         exist = searchScrollElement.elementSearch(company);
         if(exist != -1){
-            accessBranch.clickBranches(exist);
-            exist = searchScrollElement.elementSearch(location);
-            if(exist !=-1){
-                accessBranch.clickBranches(exist);
-                exist = searchScrollElement.elementSearch(newLocation);
-                if(exist !=-1){
-                    driver.findElement(By.xpath("//span[normalize-space()='"+newLocation+"']")).click();
-                    //Llenando Formulario
-                    FormsOSM.formEditLocation(driver,editLocation);
-                    String message = driver.findElement(By.className("sapMMsgStripMessage")).getAttribute("textContent");
-                    Assert.assertEquals(message,"The Operation has been Completed Successfully."+ "\n");
-                }else{
-                    Assert.assertEquals("No hay "+ newLocation,"The Operation has been Completed Successfully.");
-                }
-            }else{
-                Assert.assertEquals("No hay Location","The Operation has been Completed Successfully.");
-            }
-        }else{
-            Assert.assertEquals("No hay Company","The Operation has been Completed Successfully.");
-        }
-    }
-
-    @Test(priority = 4)
-    public void eliminarLocation() throws InterruptedException {
-        exist = searchScrollElement.elementSearch(company);
-        if(exist != -1){
-            accessBranch.clickBranches(exist);
-            exist = searchScrollElement.elementSearch(location);
-            if(exist !=-1){
-                accessBranch.clickBranches(exist);
-                exist = searchScrollElement.elementSearch(editLocation);
-                if(exist !=-1){
-                    WebElement elementLocation = driver.findElement(By.xpath("//span[normalize-space()='"+editLocation+"']"));
-                    action.contextClick(elementLocation).perform();
-                    driver.findElement(By.xpath("//div[normalize-space()='Delete "+location+"']")).click();
-                    driver.findElement(By.xpath("//bdi[normalize-space()='Si']")).click();
-                    Thread.sleep(500);
-                    String message = driver.findElement(By.xpath("//span[@class='sapMText sapUiSelectable sapMTextMaxWidth sapMMsgBoxText']")).getText();
-                    if(message.equals("The Operation has been Completed Successfully.")){
-                        driver.findElement(By.xpath("//bdi[normalize-space()='OK']")).click();
-                    }else{
-                        driver.findElement(By.xpath("//bdi[normalize-space()='Cerrar']")).click();
-                    }
-                }else{
-                    Assert.assertEquals("No hay "+editLocation,"The Operation has been Completed Successfully.");
-                }
-            }else{
-                Assert.assertEquals("No hay Location","The Operation has been Completed Successfully.");
-            }
-        }else{
-            Assert.assertEquals("No hay Company","The Operation has been Completed Successfully.");
-        }
-    }
-
-    @Test(priority = 5)
-    public void create_Location_on_Location() throws InterruptedException {
-        String parentLocation = "Location Selenium Padre";
-        String childLocation = "Location Selenium Hijo 1.2.1";
-        exist = searchScrollElement.elementSearch(company);
-        if(exist != -1){
-            accessBranch.clickBranches(exist);
-            exist = searchScrollElement.elementSearch(location);
-            if(exist !=-1){
-                accessBranch.clickBranches(exist);
-                WebElement elementLocation = driver.findElement(By.xpath("//span[normalize-space()='"+location+"']"));
-                action.contextClick(elementLocation).perform();
-                driver.findElement(By.xpath("//div[normalize-space()='New "+location+"']")).click();
-                //Llenando Formulario Padre
-                FormsOSM.formCreateLocation(driver,parentLocation);
-                String message = driver.findElement(By.className("sapMMsgStripMessage")).getAttribute("textContent");
-                Assert.assertEquals(message,"The Operation has been Completed Successfully."+ "\n");
-                Thread.sleep(300);
-                exist = searchScrollElement.elementSearch(parentLocation);
+            exist = searchScrollElement.elementSearch("Locations");
+            if(exist != -1){
+                exist = searchScrollElement.elementSearch(location);
                 if(exist != -1){
+                    driver.findElement(By.xpath("//span[text()='"+location+"']")).click();
+                    formsLocation.formEditLocation(editLocation);
+                    asserts.assertSave();
+                    exist = searchScrollElement.elementSearch("Locations");
                     accessBranch.clickBranches(exist);
-                    exist = searchScrollElement.elementSearch(location);
-                    if (exist !=-1){
-                        Boolean existScroll = driver.findElement(By.id("__xmlview4--mainTree-vsb")).isDisplayed();
-                        if(existScroll){
-                            WebElement scrollBar = driver.findElement(By.id("__xmlview4--mainTree-vsb"));
-                            int scrollTop = js.executeScript("let barra = document.getElementById('__xmlview4--mainTree-vsb');return(barra.scrollTop)").hashCode();
-                            js.executeScript("arguments[0].scroll(0,'"+(scrollTop+100)+"')",scrollBar);
-                        }
-                        List<WebElement> locationList = driver.findElements(By.xpath("//span[normalize-space()='"+location+"']"));
-                        action.contextClick(locationList.get(1)).perform();
-                        driver.findElement(By.xpath("//div[normalize-space()='New "+location+"']")).click();
-                        Thread.sleep(800);
-                        //Llenando Formulario Hijo
-                        FormsOSM.formCreateLocation(driver,childLocation);
-                        message = driver.findElement(By.className("sapMMsgStripMessage")).getAttribute("textContent");
-                        Assert.assertEquals(message,"The Operation has been Completed Successfully."+ "\n");
-                    }else{
-                        Assert.assertEquals("No hay Location 2","The Operation has been Completed Successfully.");
-                    }
-                }else{
-                    Assert.assertEquals("No hay "+parentLocation,"The Operation has been Completed Successfully.");
                 }
-            }else{
-                Assert.assertEquals("No hay Location","The Operation has been Completed Successfully.");
             }
-        }else{
-            Assert.assertEquals("No hay Company","The Operation has been Completed Successfully.");
         }
     }
 
-    @AfterMethod
-    public void tearDown(){
-        if (driver != null){
-            driver.quit();
+    @Test
+    public void eliminarLocation(String company , String location) {
+        exist = searchScrollElement.elementSearch(company);
+        if(exist != -1){
+            exist = searchScrollElement.elementSearch("Locations");
+            if(exist != -1){
+                accessBranch.clickBranches(exist);
+                exist = searchScrollElement.elementSearch(location);
+                if(exist != -1){
+                    WebElement elementLocation = driver.findElement(By.xpath("//span[text()='"+location+"']"));
+                    String xpathMessage = "//span[@class='sapMText sapUiSelectable sapMTextMaxWidth sapMMsgBoxText']";
+                    FormsControl.controlDelete(driver,action,elementLocation,"Location");
+                    asserts.assertDelete(xpathMessage);
+                }
+            }
         }
     }
 
-    @AfterClass
-    public static void tearDownAfterClass(){
-        System.out.println("Terminaron los test");
-    }
+
 
 
 }

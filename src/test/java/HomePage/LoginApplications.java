@@ -43,14 +43,14 @@ public class LoginApplications {
         driver.findElement(By.xpath("//div[@title='Setting']")).click();
     }
 
-    public static void loginRM(WebDriver driver, String componente){
+    public static void loginRM(WebDriver driver,String componente){
         wait = new WebDriverWait(driver,Duration.ofSeconds(100));
         accessBranch = new AccessBranch(driver);
         String routeRM = "//span[@class='sapMTextMaxLine sapMTextLineClamp' and normalize-space()='Release Manager']";
         wait.until(ExpectedConditions.elementToBeClickable(By.xpath(routeRM)));
         driver.findElement(By.xpath(routeRM)).click();
         wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//span[contains(@id,'--mainTree-rows-row0-treeicon')]")));
-        if(componente.equals("Project")){
+/*        if(componente.equals("Project")){
             accessBranch.clickBranches(0);
         }else if(componente.equals("Change Container")){
             accessBranch.clickBranches(1);
@@ -58,7 +58,7 @@ public class LoginApplications {
             accessBranch.clickBranches(2);
         }else if(componente.equals("Deployment Request")){
             accessBranch.clickBranches(3);
-        }
+        }*/
     }
 
     public static void loginPM(WebDriver driver){

@@ -1,20 +1,12 @@
 package Applications.OSM;
 
-import Helpers.AccessBranch;
-import Helpers.Asserts;
-import Helpers.DynamicScroll;
-import Forms.FormsOSM;
-import Helpers.SelectBrowser;
-import HomePage.Login;
-import HomePage.LoginApplications;
+import Forms.OSM.FormsPosition;
+import Helpers.*;
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
-import org.testng.Assert;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 /**
@@ -23,56 +15,45 @@ import org.testng.annotations.Test;
  */
 
 public class OSM_Position {
+
     private WebDriver driver;
-    private String chosen_browser = "Chrome";
+    private DynamicScroll searchScrollElement;
+    private AccessBranch accessBranch;
+    private Actions action;
+    private JavascriptExecutor js;
+    private Asserts asserts;
+    private BasicControl basicControl;
+    private int exist = -1;
+    private FormsPosition formsPosition;
 
-    Login login;
-    DynamicScroll searchScrollElement;
-    SelectBrowser browser = new SelectBrowser(driver);
-    Actions action;
-    AccessBranch accessBranch;
-    Asserts asserts;
 
-    String company = "Company Selenium";
-    String unit = "Organizational Unit";
-    String new_Unit = "Organizational Unit Selenium";
-    String position = "Position";
-    String newPosition = "Gerente de Calidad";
-    String editPosition = "Gerente de Calidad Selenium";
-    int exist = -1;
-
-    @BeforeMethod
-    public void setup() throws InterruptedException {
-        browser.chooseBrowser(chosen_browser);
-        driver = browser.getDriver();
-        action = new Actions(driver);
-        searchScrollElement = new DynamicScroll(driver);
-        accessBranch = new AccessBranch(driver);
-        login = new Login(driver);
-        asserts = new Asserts(driver);
-        login.loginPage();
-        LoginApplications.loginOSM(driver);
+    public OSM_Position(WebDriver driver){
+        this.driver = driver;
+        this.action = new Actions(driver);
+        this.searchScrollElement = new DynamicScroll(driver);
+        this.accessBranch = new AccessBranch(driver);
+        this.js = (JavascriptExecutor) driver;
+        this.asserts = new Asserts(driver);
+        this.basicControl = new BasicControl(driver);
+        this.formsPosition = new FormsPosition(driver);
     }
 
-    @Test(priority = 0)
-    public void crearPosition() throws InterruptedException {
+    @Test
+    public void crearPosition(String company,String orgUnit,String position)  {
         exist = searchScrollElement.elementSearch(company);
         if( exist != -1){
-            accessBranch.clickBranches(exist);
-            exist = searchScrollElement.elementSearch(unit);
+            exist = searchScrollElement.elementSearch("Organizational Units");
             if(exist != -1){
                 accessBranch.clickBranches(exist);
-                exist = searchScrollElement.elementSearch(new_Unit);
+                exist = searchScrollElement.elementSearch(orgUnit);
                 if(exist != -1){
                     accessBranch.clickBranches(exist);
-                    exist = searchScrollElement.elementSearch(position);
+                    exist = searchScrollElement.elementSearch("Positions");
                     if(exist != -1){
-                        WebElement elementPosition = driver.findElement(By.xpath("//span[normalize-space()='"+position+"']"));
+                        WebElement elementPosition = driver.findElement(By.xpath("//span[normalize-space()='Positions']"));
                         action.contextClick(elementPosition).perform();
-                        driver.findElement(By.xpath("//div[normalize-space()='New "+position+"']")).click();
-                        Thread.sleep(500);
-                        //LLenando Formulario
-                        FormsOSM.formCreatePosition(driver,newPosition);
+                        driver.findElement(By.xpath("//div[normalize-space()='New Position' or normalize-space()='Nueva Posición' ]")).click();
+                        formsPosition.formCreatePosition(position);
                         asserts.assertSave();
                     }else{
                         asserts.assertSave();
@@ -88,26 +69,27 @@ public class OSM_Position {
         }
     }
 
-    @Test(priority = 1)
-    public void doubleCheckPosition() throws InterruptedException {
+    @Test
+    public void doubleCheckPosition(String company,String orgUnit,String position){
         exist = searchScrollElement.elementSearch(company);
         if( exist != -1){
-            accessBranch.clickBranches(exist);
-            exist = searchScrollElement.elementSearch(unit);
+            exist = searchScrollElement.elementSearch("Organizational Units");
             if(exist != -1){
-                accessBranch.clickBranches(exist);
-                exist = searchScrollElement.elementSearch(new_Unit);
+                exist = searchScrollElement.elementSearch(orgUnit);
                 if(exist != -1){
-                    accessBranch.clickBranches(exist);
-                    exist = searchScrollElement.elementSearch(position);
+                    exist = searchScrollElement.elementSearch("Positions");
                     if(exist != -1){
-                        WebElement elementPosition = driver.findElement(By.xpath("//span[normalize-space()='"+position+"']"));
+                        WebElement elementPosition = driver.findElement(By.xpath("//span[normalize-space()='Positions']"));
                         action.contextClick(elementPosition).perform();
-                        driver.findElement(By.xpath("//div[normalize-space()='New "+position+"']")).click();
-                        Thread.sleep(700);
-                        //LLenando Formulario
-                        FormsOSM.formCreatePosition(driver,newPosition);
-                        asserts.assertDoubleCheck("Position Already Exist");
+                        driver.findElement(By.xpath("//div[normalize-space()='New Position' or normalize-space()='Nueva Posición' ]")).click();
+                        formsPosition.formCreatePosition(position);
+                        String idioma = basicControl.getLanguage();
+                        if(idioma.equals("en")){
+                            asserts.assertDoubleCheck("Position Already Exist");
+                        }else{
+                            asserts.assertDoubleCheck("La posición ya existe.");
+                        }
+
                     }else{
                         asserts.assertSave();
                     }
@@ -122,29 +104,22 @@ public class OSM_Position {
         }
     }
 
-    @Test(priority = 2)
-    public void viewPositionDependencies() throws InterruptedException{
+    @Test
+    public void viewPositionDependencies(String company,String orgUnit,String position) {
         exist = searchScrollElement.elementSearch(company);
         if(exist !=-1){
-            accessBranch.clickBranches(exist);
-            exist = searchScrollElement.elementSearch(unit);
+            exist = searchScrollElement.elementSearch("Organizational Units");
             if(exist != -1){
-                accessBranch.clickBranches(exist);
-                exist = searchScrollElement.elementSearch(new_Unit);
+                exist = searchScrollElement.elementSearch(orgUnit);
                 if(exist != -1){
-                    accessBranch.clickBranches(exist);
-                    exist = searchScrollElement.elementSearch(position);
+                    exist = searchScrollElement.elementSearch("Positions");
                     if(exist !=-1){
                         accessBranch.clickBranches(exist);
-                        exist = searchScrollElement.elementSearch(newPosition);
+                        exist = searchScrollElement.elementSearch(position);
                         if(exist !=-1){
-                            driver.findElement(By.xpath("//span[normalize-space()='"+newPosition+"']")).click();
-                            Thread.sleep(500);
-                            driver.findElement(By.id("__xmlview4--viewDependencies-img")).click();
-                            Thread.sleep(1200);
-                            String message = driver.findElement(By.id("__xmlview4--dependenciesTableTitle-inner")).getText();
-                            Assert.assertEquals(message,"Dependencies List");
-                            Thread.sleep(500);
+                            driver.findElement(By.xpath("//span[normalize-space()='"+position+"']")).click();
+                            basicControl.btnDependecies();
+                            asserts.assertDependecies();
                         }else{
                             asserts.assertSave();
                         }
@@ -163,34 +138,28 @@ public class OSM_Position {
     }
 
     @Test(priority = 3)
-    public void editarPosition() throws InterruptedException {
+    public void editarPosition(String company,String orgUnit,String position,String editPosition) throws InterruptedException {
         exist = searchScrollElement.elementSearch(company);
         if(exist !=-1){
-            accessBranch.clickBranches(exist);
-            exist = searchScrollElement.elementSearch(unit);
+            exist = searchScrollElement.elementSearch("Organizational Units");
             if(exist != -1){
-                accessBranch.clickBranches(exist);
-                exist = searchScrollElement.elementSearch(new_Unit);
+                exist = searchScrollElement.elementSearch(orgUnit);
                 if(exist != -1){
-                    accessBranch.clickBranches(exist);
-                    exist = searchScrollElement.elementSearch(position);
+                    exist = searchScrollElement.elementSearch("Positions");
                     if(exist != -1){
-                        accessBranch.clickBranches(exist);
-                        exist = searchScrollElement.elementSearch(newPosition);
+                        exist = searchScrollElement.elementSearch(position);
                         if(exist !=-1){
-                            driver.findElement(By.xpath("//span[normalize-space()='"+newPosition+"']")).click();
-                            Thread.sleep(500);
-                            //Llenando Formulario
-                            FormsOSM.formEditPosition(driver,editPosition);
-                            Thread.sleep(200);
+                            driver.findElement(By.xpath("//span[normalize-space()='"+position+"']")).click();
+                            formsPosition.formEditPosition(editPosition);
+                            asserts.assertSave();
                         }else{
-                            System.out.println("No hay " + newPosition);
+                            System.out.println("No hay " + position);
                         }
                     }else{
                         System.out.println("No hay position");
                     }
                 }else{
-                    System.out.println("No hay" + new_Unit);
+                    System.out.println("No hay" + orgUnit);
                 }
             }else{
                 System.out.println("No hay Organizational Unit");
@@ -201,43 +170,33 @@ public class OSM_Position {
     }
 
     @Test(priority = 4)
-    public void eliminarPosition() throws InterruptedException {
+    public void eliminarPosition(String company,String orgUnit,String position){
         exist = searchScrollElement.elementSearch(company);
         if(exist !=-1){
-            accessBranch.clickBranches(exist);
-            exist = searchScrollElement.elementSearch(unit);
+            exist = searchScrollElement.elementSearch("Organizational Units");
             if(exist != -1){
-                accessBranch.clickBranches(exist);
-                exist = searchScrollElement.elementSearch(new_Unit);
+                exist = searchScrollElement.elementSearch(orgUnit);
                 if(exist != -1){
-                    accessBranch.clickBranches(exist);
-                    exist = searchScrollElement.elementSearch(position);
+                    exist = searchScrollElement.elementSearch("Positions");
                     if(exist !=-1){
-                        accessBranch.clickBranches(exist);
-                        exist = searchScrollElement.elementSearch(editPosition);
+                        exist = searchScrollElement.elementSearch(position);
                         if(exist !=-1){
-                            WebElement elementNewPosition =driver.findElement(By.xpath("//span[normalize-space()='"+editPosition+"']"));
-                            action.contextClick(elementNewPosition).perform();
-                            driver.findElement(By.xpath("//div[normalize-space()='Delete "+position+"']")).click();
-                            Thread.sleep(1000);
-                            driver.findElement(By.xpath("//bdi[normalize-space()='Si']")).click();
-                            Thread.sleep(1000);
-
-                            String message = driver.findElement(By.xpath("//span[@class='sapMText sapUiSelectable sapMTextMaxWidth sapMMsgBoxText']")).getText();
-                            Thread.sleep(1000);
-                            if(message.equals("The Operation has been Completed Successfully.")){
-                                driver.findElement(By.xpath("//bdi[normalize-space()='OK']")).click();
-                            }else{
-                                driver.findElement(By.xpath("//bdi[normalize-space()='Cerrar']")).click();
-                            }
+                            WebElement elementPosition = driver.findElement(By.xpath("//span[text()='"+position+"']"));
+                            String xpathMessage = "//span[@class='sapMText sapUiSelectable sapMTextMaxWidth sapMMsgBoxText']";
+                            FormsControl.controlDelete(driver,action,elementPosition,"Position");
+                            asserts.assertDelete(xpathMessage);
+                            exist = searchScrollElement.elementSearch(orgUnit);
+                            accessBranch.clickBranches(exist);
+                            exist = searchScrollElement.elementSearch("Organizational Units");
+                            accessBranch.clickBranches(exist);
                         }else{
-                            System.out.println("No hay " + newPosition);
+                            System.out.println("No hay " + position);
                         }
                     }else{
                         System.out.println("No hay position");
                     }
                 }else{
-                    System.out.println("No hay" + new_Unit);
+                    System.out.println("No hay" + orgUnit);
                 }
             }else{
                 System.out.println("No hay Organizational Unit");
@@ -247,16 +206,6 @@ public class OSM_Position {
         }
     }
 
-    @AfterMethod
-    public void tearDown(){
-        if (driver != null){
-            driver.quit();
-        }
-    }
 
-    @AfterClass
-    public static void tearDownAfterClass(){
-        System.out.println("Terminaron los test");
-    }
 
 }

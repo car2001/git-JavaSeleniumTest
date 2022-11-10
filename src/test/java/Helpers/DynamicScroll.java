@@ -51,7 +51,7 @@ public class DynamicScroll {
                 int numVeces,iterator;
 
                 numVeces = scrollHeight/clientHeight; // Numero de veces para repetir el bucle
-                iterator = 0;
+                iterator = -1;
                 // Verificamos
                 while (iterator<=numVeces+1){
                     if(nameElement.lastIndexOf(element) != -1){
@@ -115,7 +115,7 @@ public class DynamicScroll {
             int clientHeight = js.executeScript("let clientHeight = arguments[0].clientHeight; return(clientHeight)",scrollTable).hashCode();
 
             int numVeces = scrollHeight/clientHeight;
-            int iterator = 0;
+            int iterator = -1;
 
 
             while (iterator<=numVeces+1){
@@ -155,6 +155,74 @@ public class DynamicScroll {
         return  xpos;
     }
 
+    public  int searchElementTableOSM(String externalPart, String user){
+        WebElement scrollTable;
+        Boolean displayedScroll = false;
+        int xpos = -1;
+
+        List<WebElement> webElementList = driver.findElements(By.xpath("//tr[contains(@id,'--tblComponentList-rows-row')]"));
+        List<String> textContentList = new ArrayList<>();
+
+        //Pasamos los nombres de los Elementos al nuevo array
+        for(int i = 0; i<= webElementList.size()-1;i=i+1){
+            String textContent = js.executeScript("let text = arguments[0].textContent; return(text)",webElementList.get(i)).toString();
+            textContentList.add(textContent);
+        }
+
+
+
+        try{
+            scrollTable = driver.findElement(By.xpath("//div[contains(@id,'--tblComponentList-vsb')]"));
+            displayedScroll = scrollTable.isDisplayed();
+        }catch (Exception e){
+            System.out.println("No se encontro scroll");
+        }
+
+        if(displayedScroll == true){
+            scrollTable = driver.findElement(By.xpath("//div[contains(@id,'--tblComponentList-vsb')]"));
+            int scrollHeight= js.executeScript("let scrollHeight = arguments[0].scrollHeight; return(scrollHeight)",scrollTable).hashCode();
+            int clientHeight = js.executeScript("let clientHeight = arguments[0].clientHeight; return(clientHeight)",scrollTable).hashCode();
+
+            int numVeces = scrollHeight/clientHeight;
+            int iterator = -1;
+
+
+            while (iterator<=numVeces+1){
+                xpos = busquedaTable(textContentList,externalPart,user);
+                if(xpos != -1){
+                    break;
+                }else{
+                    iterator = iterator+1;
+                    js.executeScript("arguments[0].scroll(0,'"+clientHeight+"')",scrollTable);
+                    webElementList = driver.findElements(By.xpath("//tr[contains(@id,'--tblComponentList-rows-row')]"));
+                    textContentList.clear();
+                    for(int i = 0; i<= webElementList.size()-1;i=i+1){
+                        String textContent = js.executeScript("let text = arguments[0].textContent; return(text)",webElementList.get(i)).toString();
+                        textContentList.add(textContent);
+                    }
+                }
+            }
+        } else{
+            xpos = busquedaTable(textContentList,externalPart,user);
+        }
+
+        return xpos;
+    }
+
+    public  int busquedaTable (List<String> contentList,String externalPar, String user){
+        int xpos = -1;
+        String content = " ";
+        for(int i = 0; i<= contentList.size()-1;i=i+1){
+            content = contentList.get(i);
+            if(content.contains(externalPar) && content.contains(user)){
+                xpos = i;
+                break;
+            }else{
+                xpos = -1;
+            }
+        }
+        return  xpos;
+    }
 
 
 }

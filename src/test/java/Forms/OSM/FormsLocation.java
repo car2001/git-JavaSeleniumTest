@@ -18,7 +18,7 @@ public class FormsLocation {
         basicControl = new BasicControl(driver);
     }
 
-    public void formCreateLocation(String location) throws InterruptedException {
+    public void formCreateLocation(String location){
         listForm = FormsControl.controlNew(driver,"Ubicación","Location");
         listForm.get(0).click();
         listForm.get(0).sendKeys(location);
@@ -30,14 +30,16 @@ public class FormsLocation {
     }
 
     public void formEditLocation(String location) throws InterruptedException {
-        listForm = FormsControl.controlNew(driver,"Ubicación","Location");
-        listForm = driver.findElements(By.className("sapMInputBaseInner"));
+        listForm = FormsControl.controlEdit(driver,"Ubicación","Location");
+        listForm.get(0).clear();
+        listForm.get(0).click();
+        listForm.get(0).sendKeys(location);
+        listForm.get(1).clear();
+        listForm.get(1).click();
+        listForm.get(1).sendKeys(location);
         listForm.get(2).clear();
-        listForm.get(2).sendKeys(location);
-        listForm.get(3).clear();
-        listForm.get(3).sendKeys(location);
-        listForm.get(4).clear();
-        listForm.get(4).sendKeys("Location es" + location);
+        listForm.get(2).click();
+        listForm.get(2).sendKeys("Location es" + location);
         basicControl.btnSave();
     }
 

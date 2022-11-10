@@ -68,9 +68,9 @@ public class TestCM {
         ins.crearINS("INS-1","-","INS","CM-1");
         sla.crear_SLA("SLA-1");
         formUI.crear_FormUI("FormUI-1");
-        performerProfile.crearPerformerProfile("Performer-01");
-        notificationProfile.crearNotification("Notification-01");
-        riskProfile.crearRiskProfile("Risk-01");
+        performerProfile.crearPerformerProfile("Performer-1");
+        notificationProfile.crearNotification("Notification-1");
+        riskProfile.crearRiskProfile("Risk-1");
     }
 
     public void editarComponentesCounter() throws InterruptedException {
@@ -78,9 +78,9 @@ public class TestCM {
         ins.editarINS("INS-1","INS-20","-");
         sla.editar_SLA("SLA-1","SLA-20");
         formUI.editar_FormUI("FormUI-1","FormUI-20");
-        performerProfile.editarPerformerProfile("Performer-01","Performer-20");
-        notificationProfile.editarNotification("Notification-01","Notification-20");
-        riskProfile.editRiskProfile("Risk-01","Risk-20");
+        performerProfile.editarPerformerProfile("Performer-1","Performer-20");
+        notificationProfile.editarNotification("Notification-1","Notification-20");
+        riskProfile.editRiskProfile("Risk-1","Risk-20");
     }
 
     public void eliminarComponentesCounter(){

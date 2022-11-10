@@ -1,13 +1,13 @@
 package Applications.ReleaseManager;
 
 import Forms.FormsRM;
-import Helpers.Asserts;
-import Helpers.DynamicScroll;
-import Helpers.FormsControl;
-import Helpers.SelectBrowser;
+import Forms.OSM.FormsLocation;
+import Forms.ReleaseManager.FormsProject;
+import Helpers.*;
 import HomePage.Login;
 import HomePage.LoginApplications;
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
@@ -19,36 +19,36 @@ import org.testng.annotations.Test;
 import static HomePage.LoginApplications.accessBranch;
 
 public class RM_Project {
+
     private WebDriver driver;
-    private final String chosen_browser = "Chrome";
+    private DynamicScroll searchScrollElement;
+    private AccessBranch accessBranch;
+    private Actions action;
+    private JavascriptExecutor js;
+    private Asserts asserts;
+    private BasicControl basicControl;
+    private int exist = -1;
+    private FormsProject formsProject;
 
-
-    Actions action;
-    SelectBrowser browser = new SelectBrowser(driver);
-    Login login;
-    DynamicScroll searchScrollElement;
-    Asserts asserts;
 
     String componente = "Project";
     String newProject = "Proyecto Selenium2";
     String editProject = "Proyecto Selenium Editado";
-    int exist = -1;
 
 
-
-    @BeforeMethod
-    public void setUp(){
-        browser.chooseBrowser(chosen_browser);
-        driver = browser.getDriver();
-        login = new Login(driver);
-        action = new Actions(driver);
-        asserts = new Asserts(driver);
-        searchScrollElement = new DynamicScroll(driver);
-        login.loginPage();
-        LoginApplications.loginRM(driver, componente);
+    public  RM_Project(WebDriver driver){
+        this.driver = driver;
+        this.action = new Actions(driver);
+        this.searchScrollElement = new DynamicScroll(driver);
+        this.accessBranch = new AccessBranch(driver);
+        this.js = (JavascriptExecutor) driver;
+        this.asserts = new Asserts(driver);
+        this.basicControl = new BasicControl(driver);
+        this.formsProject = new FormsProject(driver);
     }
 
-    @Test
+
+/*    @Test
     public void crearProyecto() {
         WebElement proyecto = driver.findElement(By.id("__xmlview4--mainTree-rows-row0-treeicon"));
         action.contextClick(proyecto).perform();
@@ -120,5 +120,5 @@ public class RM_Project {
             FormsControl.controlDelete(driver,action,btnEditProject,componente);
             asserts.assertDelete(xpathMessage);
         }else{Assert.assertEquals("No hay "+proyecto, "Si hay Proyecto");}
-    }
+    }*/
 }

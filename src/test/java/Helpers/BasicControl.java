@@ -24,6 +24,11 @@ public class BasicControl {
         this.action = new Actions(driver);
     }
 
+    public String getLanguage(){
+        String idioma = driver.findElement(By.xpath("//html")).getAttribute("lang");
+        return idioma;
+    }
+
     //Logo
     public void logo(){
         driver.findElement(By.xpath("//img[@src='./public/images/buplat_logo_blanco.png']")).click();

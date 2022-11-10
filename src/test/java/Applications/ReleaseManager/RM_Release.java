@@ -51,7 +51,7 @@ public class RM_Release  {
         LoginApplications.loginRM(driver,"Project");
     }
 
-    @Test
+  /*  @Test
     public void crearRelease(){
         crearProyecto(project);
         exist = searchScrollElement.elementSearch(project);
@@ -140,8 +140,9 @@ public class RM_Release  {
         if(driver != null){
             driver.quit();
         }
-    }
+    }*/
 
+/*
     public void crearProyecto(String proyecto){
         WebElement despleProyecto = driver.findElement(By.id("__xmlview4--mainTree-rows-row0-treeicon"));
         action.contextClick(despleProyecto).perform();
@@ -149,6 +150,7 @@ public class RM_Release  {
         FormsRM.formCreateProject(driver, proyecto);
         asserts.assertSave();
     }
+*/
 
 
 }

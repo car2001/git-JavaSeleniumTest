@@ -1,9 +1,7 @@
 package Applications.OSM;
 
-import Forms.FormsOSM;
+import Forms.OSM.FormsOrgUnit;
 import Helpers.*;
-import HomePage.Login;
-import HomePage.LoginApplications;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
@@ -12,59 +10,43 @@ import org.openqa.selenium.interactions.Actions;
 import org.testng.Assert;
 import org.testng.annotations.*;
 
-import java.util.List;
-
 /**
  *
  * @author Carlos Alberto
  */
 public class OSM_Organizational_Unit {
+
     private WebDriver driver;
-    private String chosen_browser = "Chrome";
+    private DynamicScroll searchScrollElement;
+    private AccessBranch accessBranch;
+    private Actions action;
+    private JavascriptExecutor js;
+    private Asserts asserts;
+    private BasicControl basicControl;
+    private int exist = -1;
+    private FormsOrgUnit formsOrgUnit;
 
-    Login login;
-    DynamicScroll searchScrollElement;
-    SelectBrowser browser = new SelectBrowser(driver);
-    AccessBranch accessBranch;
-    Actions action;
-    JavascriptExecutor js;
-    Asserts asserts;
-    BasicControl basicControl;
-
-    String company = "Company Selenium";
-    String elemen_unit = "Organizational Unit";
-    String elemen_org = "Organizational Unit Selenium";
-    String elemen_org_edit = "Organizational Unit Selenium 1.0.1";
-    int exist ;
-
-    @BeforeMethod
-    public void setUp() throws InterruptedException {
-        browser.chooseBrowser(chosen_browser);
-        driver = browser.getDriver();
-        action = new Actions(driver);
-        js = (JavascriptExecutor) driver;
-        accessBranch = new AccessBranch(driver);
-        asserts = new Asserts(driver);
-        basicControl = new BasicControl(driver);
-        searchScrollElement = new DynamicScroll(driver);
-        login = new Login(driver);
-        login.loginPage();
-        LoginApplications.loginOSM(driver);
+    public OSM_Organizational_Unit(WebDriver driver){
+        this.driver = driver;
+        this.action = new Actions(driver);
+        this.searchScrollElement = new DynamicScroll(driver);
+        this.accessBranch = new AccessBranch(driver);
+        this.js = (JavascriptExecutor) driver;
+        this.asserts = new Asserts(driver);
+        this.basicControl = new BasicControl(driver);
+        this.formsOrgUnit = new FormsOrgUnit(driver);
     }
 
     @Test
-    public void crearOrgani_Unit() throws InterruptedException {
+    public void crearOrgani_Unit(String company, String orgUnit) {
         exist = searchScrollElement.elementSearch(company);
         if(exist != -1){
-            accessBranch.clickBranches(exist);
-            exist = searchScrollElement.elementSearch(elemen_unit);
+            exist = searchScrollElement.elementSearch("Organizational Units");
             if(exist!=-1){
-                WebElement element = driver.findElement(By.xpath("//span[normalize-space()='"+elemen_unit+"']"));
+                WebElement element = driver.findElement(By.xpath("//span[normalize-space()='Organizational Units']"));
                 action.contextClick(element).perform();
-                driver.findElement(By.xpath("//div[normalize-space()='New "+elemen_unit+"']")).click();
-                Thread.sleep(500);
-                //Llenando Formulario
-                FormsOSM.formCreateOrganization(driver,elemen_org);
+                driver.findElement(By.xpath("//div[normalize-space()='New Organizational Unit' or normalize-space()='Nueva Unidad Organizacional']")).click();
+                formsOrgUnit.formCreateOrganization(orgUnit);
                 asserts.assertSave();
             }else{
                 Assert.assertEquals("No hay Organizational Unit", "The Operation has been Completed Successfully.");
@@ -75,19 +57,21 @@ public class OSM_Organizational_Unit {
     }
 
     @Test(priority = 1)
-    public void doubleCheckOrgani_Unit() throws InterruptedException {
+    public void doubleCheckOrgani_Unit(String company, String orgUnit)  {
         exist = searchScrollElement.elementSearch(company);
         if(exist != -1){
-            accessBranch.clickBranches(exist);
-            exist = searchScrollElement.elementSearch(elemen_unit);
+            exist = searchScrollElement.elementSearch("Organizational Units");
             if(exist!=-1){
-                WebElement element = driver.findElement(By.xpath("//span[normalize-space()='"+elemen_unit+"']"));
+                WebElement element = driver.findElement(By.xpath("//span[normalize-space()='Organizational Units']"));
                 action.contextClick(element).perform();
-                driver.findElement(By.xpath("//div[normalize-space()='New "+elemen_unit+"']")).click();
-                Thread.sleep(500);
-                //Llenando Formulario
-                FormsOSM.formCreateOrganization(driver,elemen_org);
-                asserts.assertDoubleCheck("Organizational Unit Already Exist");
+                driver.findElement(By.xpath("//div[normalize-space()='New Organizational Unit' or normalize-space()='Nueva Unidad Organizacional']")).click();
+                formsOrgUnit.formCreateOrganization(orgUnit);
+                String idioma = basicControl.getLanguage();
+                if(idioma.equals("en")){
+                    asserts.assertDoubleCheck("Organizational Unit Already Exist");
+                }else{
+                    asserts.assertDoubleCheck("La unidad organizacional ya existe.");
+                }
             }else{
                 Assert.assertEquals("No hay Organizational Unit", "Organizational Unit Already Exist");
             }
@@ -98,24 +82,19 @@ public class OSM_Organizational_Unit {
 
 
     @Test(priority = 2)
-    public void viewOrgani_UnitDependencies() throws InterruptedException {
+    public void viewOrgani_UnitDependencies(String company,String orgUnit){
         exist = searchScrollElement.elementSearch(company);
         if(exist != -1){
-            accessBranch.clickBranches(exist);
-            exist = searchScrollElement.elementSearch(elemen_unit);
+            exist = searchScrollElement.elementSearch("Organizational Units");
             if(exist!=-1){
                 accessBranch.clickBranches(exist);
-                exist = searchScrollElement.elementSearch(elemen_org);
+                exist = searchScrollElement.elementSearch(orgUnit);
                 if(exist !=1){
-                    driver.findElement(By.xpath("//span[normalize-space()='"+elemen_org+"']")).click();
-                    Thread.sleep(200);
-                    driver.findElement(By.id("__xmlview4--viewDependencies-img")).click();
-                    Thread.sleep(1200);
-                    String message = driver.findElement(By.id("__xmlview4--dependenciesTableTitle-inner")).getText();
-                    Assert.assertEquals(message,"Dependencies List");
-                    Thread.sleep(500);
+                    driver.findElement(By.xpath("//span[normalize-space()='"+orgUnit+"']")).click();
+                    basicControl.btnDependecies();
+                    asserts.assertDependecies();
                 }else{
-                    Assert.assertEquals("No hay Sub" +elemen_org,"Dependencies List");
+                    Assert.assertEquals("No hay Sub" +orgUnit,"Dependencies List");
                 }
             }else{
                 Assert.assertEquals("No hay Organizational Unit","Dependencies List");
@@ -126,129 +105,53 @@ public class OSM_Organizational_Unit {
     }
 
     @Test(priority = 3)
-    public void editarOrgani_Unit() throws InterruptedException {
+    public void editarOrgani_Unit(String company , String orgUnit, String editOrgUnit) throws InterruptedException {
         exist = searchScrollElement.elementSearch(company);
         if(exist != -1){
-            accessBranch.clickBranches(exist);
-            exist = searchScrollElement.elementSearch(elemen_unit);
+            exist = searchScrollElement.elementSearch("Organizational Units");
             if(exist!=-1){
-                accessBranch.clickBranches(exist);
-                exist = searchScrollElement.elementSearch(elemen_org);
+                exist = searchScrollElement.elementSearch(orgUnit);
                 if(exist !=1){
-                    driver.findElement(By.xpath("//span[normalize-space()='"+elemen_org+"']")).click();
-                    Thread.sleep(1000);
-                    FormsOSM.formEditOrganization(driver,elemen_org_edit);
+                    driver.findElement(By.xpath("//span[normalize-space()='"+orgUnit+"']")).click();
+                    formsOrgUnit.formEditOrganization(editOrgUnit);
+                    asserts.assertSave();
+                    exist = searchScrollElement.elementSearch("Organizational Units");
+                    accessBranch.clickBranches(exist);
                 }else{
-                    System.out.println("No hay Sub" +elemen_org );
+                    System.out.println("No hay Sub" +orgUnit );
                 }
             }else{
                 System.out.println("No hay Organizational Unit");
             }
         }else{
-            js.executeScript("alert('"+" No se encontro la compañia "+company+"')");
-            Thread.sleep(500);
+            Assert.assertEquals("No se encontro la compañia "+ company,"Dependencies List");
         }
     }
 
     @Test(priority = 4)
-    public void eliminarOrgani_Unit() throws InterruptedException {
+    public void eliminarOrgani_Unit(String company , String orgUnit){
         exist = searchScrollElement.elementSearch(company);
         if(exist != -1){
-            accessBranch.clickBranches(exist);
-            exist = searchScrollElement.elementSearch(elemen_unit);
+            exist = searchScrollElement.elementSearch("Organizational Units");
             if(exist!=-1){
                 accessBranch.clickBranches(exist);
-                exist = searchScrollElement.elementSearch(elemen_org_edit);
+                exist = searchScrollElement.elementSearch(orgUnit);
                 if(exist != -1){
-                    WebElement org_delete = driver.findElement(By.xpath("//span[normalize-space()='"+elemen_org_edit+"']"));
-                    action.contextClick(org_delete).perform();
-                    driver.findElement(By.xpath("//div[normalize-space()='Delete "+elemen_unit+"']")).click();
-                    Thread.sleep(1000);
-                    driver.findElement(By.xpath("//bdi[normalize-space()='Si']")).click();
-                    Thread.sleep(1000);
-
-                    String message = driver.findElement(By.xpath("//span[@class='sapMText sapUiSelectable sapMTextMaxWidth sapMMsgBoxText']")).getText();
-                    Thread.sleep(1000);
-                    if(message.equals("The Operation has been Completed Successfully.")){
-                        driver.findElement(By.xpath("//bdi[normalize-space()='OK']")).click();
-                    }else{
-                        driver.findElement(By.xpath("//bdi[normalize-space()='Cerrar']")).click();
-                    }
+                    WebElement org_Unit = driver.findElement(By.xpath("//span[normalize-space()='"+orgUnit+"']"));
+                    String xpathMessage = "//span[@class='sapMText sapUiSelectable sapMTextMaxWidth sapMMsgBoxText']";
+                    FormsControl.controlDelete(driver,action,org_Unit,"Organizational Unit");
+                    asserts.assertDelete(xpathMessage);
                 }else{
-                    System.out.println("No hay" +elemen_org_edit );
+                    System.out.println("No hay" +orgUnit );
                 }
             }else{
                 System.out.println("No hay componente Organizational Unit");
             }
         }else{
-            js.executeScript("alert('"+" No se encontro la compañia "+company+"')");
-            Thread.sleep(500);
+            Assert.assertEquals("No se encontro la compañia "+ company,"Dependencies List");
         }
     }
 
-    @Test(enabled = false)
-    public void crearOrgani_Unit_on_OrganiUnit() throws InterruptedException {
-        String parentUnit = "Organizational Unit Selenium Padre";
-        String childUnit = "Organizational Unit Selenium Hijo";
-        exist = searchScrollElement.elementSearch(company);
-        if(exist != -1){
-            accessBranch.clickBranches(exist);
-            exist = searchScrollElement.elementSearch(elemen_unit);
-            if(exist!=-1){
-                accessBranch.clickBranches(exist);
-                WebElement element = driver.findElement(By.xpath("//span[normalize-space()='Organizational Unit']"));
-                action.contextClick(element).perform();
-                driver.findElement(By.xpath("//div[normalize-space()='New "+elemen_unit+"']")).click();
-                Thread.sleep(2000);
-                FormsOSM.formCreateOrganization(driver,parentUnit);
-                String message = driver.findElement(By.className("sapMMsgStripMessage")).getAttribute("textContent");
-                Assert.assertEquals(message,"The Operation has been Completed Successfully."+ "\n");
-                Thread.sleep(300);
-                exist = searchScrollElement.elementSearch(parentUnit);
-                if(exist != -1){
-                    accessBranch.clickBranches(exist);
-                    exist = searchScrollElement.elementSearch(elemen_unit);
-                    if (exist !=-1){
-                        Boolean existScroll = driver.findElement(By.id("__xmlview4--mainTree-vsb")).isDisplayed();
-                        if(existScroll){
-                            WebElement scrollBar = driver.findElement(By.id("__xmlview4--mainTree-vsb"));
-                            int scrollTop = js.executeScript("let barra = document.getElementById('__xmlview4--mainTree-vsb');return(barra.scrollTop)").hashCode();
-                            js.executeScript("arguments[0].scroll(0,'"+(scrollTop+100)+"')",scrollBar);
-                        }
-                        List<WebElement> locationList = driver.findElements(By.xpath("//span[normalize-space()='"+elemen_unit+"']"));
-                        action.contextClick(locationList.get(1)).perform();
-                        driver.findElement(By.xpath("//div[normalize-space()='New "+elemen_unit+"']")).click();
-                        Thread.sleep(500);
-                        //Llenando Formulario
-                        FormsOSM.formCreateOrganization(driver,childUnit);
-                        message = driver.findElement(By.className("sapMMsgStripMessage")).getAttribute("textContent");
-                        Assert.assertEquals(message,"The Operation has been Completed Successfully."+ "\n");
-                    }else{
-                        System.out.println("No hay Organizational Unit2");
-                    }
-                }else{
-                    System.out.println("No hay " + parentUnit);
-                }
 
-            }else{
-                System.out.println("No hay Organizational Unit");
-            }
-        }else{
-            js.executeScript("alert('"+" No se encontro la compañia "+company+"')");
-            Thread.sleep(500);
-        }
-    }
-
-    @AfterMethod
-    public void tearDown()  {
-        if (driver != null){
-            //driver.quit();
-        }
-    }
-
-    @AfterClass
-    public static void tearDownAfterClass(){
-        System.out.println("Terminaron los test");
-    }
 
 }
