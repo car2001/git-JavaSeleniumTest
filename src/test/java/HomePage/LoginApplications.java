@@ -49,7 +49,7 @@ public class LoginApplications {
         String routeRM = "//span[@class='sapMTextMaxLine sapMTextLineClamp' and normalize-space()='Release Manager']";
         wait.until(ExpectedConditions.elementToBeClickable(By.xpath(routeRM)));
         driver.findElement(By.xpath(routeRM)).click();
-        wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//span[contains(@id,'--mainTree-rows-row0-treeicon')]")));
+        ChargePopPup.PopPupGeneral(driver,wait);
 /*        if(componente.equals("Project")){
             accessBranch.clickBranches(0);
         }else if(componente.equals("Change Container")){

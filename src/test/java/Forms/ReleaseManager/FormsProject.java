@@ -33,7 +33,7 @@ public class FormsProject {
         this.selectListItem = new SelectListItem(driver);
     }
 
-    public void createProject(WebDriver driver, String proyecto) throws InterruptedException {
+    public void createProject(String proyecto) throws InterruptedException {
         listForm = FormsControl.controlNew(driver, "Proyecto", "Project");
         Thread.sleep(500);
         listForm.get(0).click();

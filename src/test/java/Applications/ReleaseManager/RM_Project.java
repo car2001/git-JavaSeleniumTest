@@ -29,12 +29,7 @@ public class RM_Project {
     private BasicControl basicControl;
     private int exist = -1;
     private FormsProject formsProject;
-
-
-    String componente = "Project";
-    String newProject = "Proyecto Selenium2";
-    String editProject = "Proyecto Selenium Editado";
-
+    private RM_Release rmRelease;
 
     public  RM_Project(WebDriver driver){
         this.driver = driver;
@@ -45,19 +40,24 @@ public class RM_Project {
         this.asserts = new Asserts(driver);
         this.basicControl = new BasicControl(driver);
         this.formsProject = new FormsProject(driver);
+        this.rmRelease = new RM_Release(driver);
     }
 
-
-/*    @Test
-    public void crearProyecto() {
-        WebElement proyecto = driver.findElement(By.id("__xmlview4--mainTree-rows-row0-treeicon"));
-        action.contextClick(proyecto).perform();
-        driver.findElement(By.xpath("//div[normalize-space()='New " + componente + "']")).click();
-        FormsRM.formCreateProject(driver, newProject);
-        asserts.assertSave();
+    @Test
+    public void crearProyecto(String proyecto,String release) throws InterruptedException {
+        exist = searchScrollElement.elementSearch("xd");
+        if(exist != -1){
+            accessBranch.clickBranches(exist);
+            WebElement elementProject = driver.findElement(By.xpath("//span[text()='Projects']"));
+            action.contextClick(elementProject).perform();
+            driver.findElement(By.xpath("//div[text()='New Project' or text()='Nuevo Proyecto']")).click();
+            formsProject.createProject(proyecto);
+            asserts.assertSave();
+            rmRelease.crearRelease(proyecto,release);
+        }
     }
 
-    @Test(priority = 1)
+/*    @Test(priority = 1)
     public void verifyRelease() {
         String stateRelease = estadoRelease(newProject);
         Assert.assertEquals(stateRelease, "Si hay Release");

@@ -1,13 +1,13 @@
 package Applications.ReleaseManager;
 
 import Forms.FormsRM;
-import Helpers.AccessBranch;
-import Helpers.Asserts;
-import Helpers.DynamicScroll;
-import Helpers.SelectBrowser;
+import Forms.ReleaseManager.FormsProject;
+import Forms.ReleaseManager.FormsRelease;
+import Helpers.*;
 import HomePage.Login;
 import HomePage.LoginApplications;
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
@@ -20,58 +20,52 @@ import org.testng.annotations.Test;
 
 import java.time.Duration;
 
-public class RM_Release  {
+public class RM_Release {
     private WebDriver driver;
-    private final String chosen_browser = "Chrome";
+    private DynamicScroll searchScrollElement;
+    private AccessBranch accessBranch;
+    private Actions action;
+    private JavascriptExecutor js;
+    private Asserts asserts;
+    private BasicControl basicControl;
+    private int exist = -1;
+    private FormsRelease formsRelease;
 
-    Actions action;
-    SelectBrowser browser = new SelectBrowser(driver);
-    Login login;
-    AccessBranch accessBranch;
-    DynamicScroll searchScrollElement;
-    Asserts asserts;
-
-    String component = "Release";
-    String project = "Proyecto Release Selenium";
-    String newRelease = "Release Selenium";
-    String editRelease = "Release Selenium Editado";
-    int exist = -1;
-
-
-    @BeforeMethod
-    public void setUp(){
-        browser.chooseBrowser(chosen_browser);
-        driver = browser.getDriver();
-        action = new Actions(driver);
-        asserts = new Asserts(driver);
-        accessBranch = new AccessBranch(driver);
-        searchScrollElement = new DynamicScroll(driver);
-        login = new Login(driver);
-        login.loginPage();
-        LoginApplications.loginRM(driver,"Project");
+    public RM_Release(WebDriver driver) {
+        this.driver = driver;
+        this.action = new Actions(driver);
+        this.searchScrollElement = new DynamicScroll(driver);
+        this.accessBranch = new AccessBranch(driver);
+        this.js = (JavascriptExecutor) driver;
+        this.asserts = new Asserts(driver);
+        this.basicControl = new BasicControl(driver);
+        this.formsRelease = new FormsRelease(driver);
     }
 
-  /*  @Test
-    public void crearRelease(){
-        crearProyecto(project);
+
+    @Test
+    public void crearRelease(String project,String release) throws InterruptedException {
         exist = searchScrollElement.elementSearch(project);
-        if(exist != -1){
+        if (exist != -1) {
             accessBranch.clickBranches(exist);
-            exist= searchScrollElement.elementSearch(component);
-            if(exist != -1){
-                WebElement release = driver.findElement(By.xpath("//span[normalize-space()='Release']"));
-                action.contextClick(release).perform();
-                driver.findElement(By.xpath("//div[normalize-space()='New " + component + "']")).click();
-                FormsRM.formCreateRelease(driver,newRelease);
+            exist = searchScrollElement.elementSearch("Releases");
+            if (exist != -1) {
+                WebElement elementRelease = driver.findElement(By.xpath("//span[normalize-space()='Releases']"));
+                action.contextClick(elementRelease).perform();
+                driver.findElement(By.xpath("//div[text()='New Release' or text()='Nueva Liberación']")).click();
+                formsRelease.createRelease(release);
                 asserts.assertSave();
-            }else{
-                Assert.assertEquals("No hay Release","Si hay Release");
+            } else {
+                Assert.assertEquals("No hay Release", "Si hay Release");
             }
-        }else{
-            Assert.assertEquals("No hay Proyecto","Si hay Proyecto");
+        } else {
+            Assert.assertEquals("No hay Proyecto", "Si hay Proyecto");
         }
     }
+}
 
+
+/*
     @Test
     public void editarRelease() throws InterruptedException {
         exist = searchScrollElement.elementSearch(project);
@@ -140,7 +134,9 @@ public class RM_Release  {
         if(driver != null){
             driver.quit();
         }
-    }*/
+    }
+
+*/
 
 /*
     public void crearProyecto(String proyecto){
@@ -153,4 +149,4 @@ public class RM_Release  {
 */
 
 
-}
+
