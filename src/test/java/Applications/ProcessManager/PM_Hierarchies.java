@@ -59,7 +59,7 @@ public class PM_Hierarchies {
         int xpos = searchScrollElement.elementSearch(nameLevel);
         if(xpos != -1){
             WebElement hierarchie = driver.findElement(By.xpath("//span[text()='"+nameLevel+"']"));
-            FormsControl.controlDelete(driver,action,hierarchie,"Level");
+            FormsControl.controlDelete(driver,action,hierarchie,"Level","Nivel");
         }else{
             Assert.assertEquals("No se encontro la jerarquia","NO");
         }

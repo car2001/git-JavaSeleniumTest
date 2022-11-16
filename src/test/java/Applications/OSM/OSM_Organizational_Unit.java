@@ -66,12 +66,7 @@ public class OSM_Organizational_Unit {
                 action.contextClick(element).perform();
                 driver.findElement(By.xpath("//div[normalize-space()='New Organizational Unit' or normalize-space()='Nueva Unidad Organizacional']")).click();
                 formsOrgUnit.formCreateOrganization(orgUnit);
-                String idioma = basicControl.getLanguage();
-                if(idioma.equals("en")){
-                    asserts.assertDoubleCheck("Organizational Unit Already Exist");
-                }else{
-                    asserts.assertDoubleCheck("La unidad organizacional ya existe.");
-                }
+                asserts.assertDoubleCheck("Organizational Unit Already Exist","La unidad organizacional ya existe.");
             }else{
                 Assert.assertEquals("No hay Organizational Unit", "Organizational Unit Already Exist");
             }
@@ -139,7 +134,7 @@ public class OSM_Organizational_Unit {
                 if(exist != -1){
                     WebElement org_Unit = driver.findElement(By.xpath("//span[normalize-space()='"+orgUnit+"']"));
                     String xpathMessage = "//span[@class='sapMText sapUiSelectable sapMTextMaxWidth sapMMsgBoxText']";
-                    FormsControl.controlDelete(driver,action,org_Unit,"Organizational Unit");
+                    FormsControl.controlDelete(driver,action,org_Unit,"Organizational Unit","Unidad Organizacional");
                     asserts.assertDelete(xpathMessage);
                 }else{
                     System.out.println("No hay" +orgUnit );

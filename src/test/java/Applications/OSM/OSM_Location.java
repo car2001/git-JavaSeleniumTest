@@ -63,12 +63,8 @@ public class OSM_Location {
                 action.contextClick(elementLocation).perform();
                 driver.findElement(By.xpath("//div[normalize-space()='New Location' or normalize-space()='Nueva Ubicación']")).click();
                 formsLocation.formCreateLocation(location);
-                String idioma = basicControl.getLanguage();
-                if(idioma.equals("en")){
-                    asserts.assertDoubleCheck("Location Already Exist");
-                }else{
-                    asserts.assertDoubleCheck("La ubicación ya existe.");
-                }
+                asserts.assertDoubleCheck("Location Already Exist","La ubicación ya existe.");
+
             }else{
                 Assert.assertEquals("No hay Location","The Operation has been Completed Successfully.");
             }
@@ -124,7 +120,7 @@ public class OSM_Location {
                 if(exist != -1){
                     WebElement elementLocation = driver.findElement(By.xpath("//span[text()='"+location+"']"));
                     String xpathMessage = "//span[@class='sapMText sapUiSelectable sapMTextMaxWidth sapMMsgBoxText']";
-                    FormsControl.controlDelete(driver,action,elementLocation,"Location");
+                    FormsControl.controlDelete(driver,action,elementLocation,"Location","Ubicación");
                     asserts.assertDelete(xpathMessage);
                 }
             }

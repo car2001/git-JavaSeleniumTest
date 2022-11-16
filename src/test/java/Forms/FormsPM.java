@@ -24,11 +24,6 @@ public class FormsPM {
     private static String save = "__xmlview4--save-img";  ///
     private static WebDriverWait wait;
 
-
-
-
-
-
     //Activity Form
     public static void createNewActivityForm(WebDriver driver , String nameAf){
         listForm = FormsControl.controlNew(driver,"formulario de actividad","");

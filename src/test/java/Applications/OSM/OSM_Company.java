@@ -32,7 +32,7 @@ public class OSM_Company {
     public void crearCompany(String nameCompany){
         WebElement element = driver.findElement(By.xpath("//span[normalize-space()='Companies']"));
         action.contextClick(element).perform();
-        driver.findElement(By.xpath("//div[text()='New Company' or text()='Nueva Compañia']")).click();
+        driver.findElement(By.xpath("//div[text()='New Company' or text()='Nueva Compañía']")).click();
         formsCompany.formCreateCompany(nameCompany);
         asserts.assertSave();
     }
@@ -42,9 +42,9 @@ public class OSM_Company {
         searchScrollElement.elementSearch("Companies");
         WebElement element = driver.findElement(By.xpath("//span[normalize-space()='Companies']"));
         action.contextClick(element).perform();
-        driver.findElement(By.xpath("//div[text()='New Company' or text()='Nueva Compañia']")).click();
+        driver.findElement(By.xpath("//div[text()='New Company' or text()='Nueva Compañía']")).click();
         formsCompany.formCreateCompany(nameCompany);
-        asserts.assertDoubleCheck("Company Already Exist");
+        asserts.assertDoubleCheck("Company Already Exist","La empresa ya existe.");
     }
 
     @Test
@@ -80,7 +80,7 @@ public class OSM_Company {
         if (exist != -1){
             WebElement empresa = driver.findElement(By.xpath("//span[normalize-space()='"+nameCompany+"']"));
             String xpathMessage = "//span[@class='sapMText sapUiSelectable sapMTextMaxWidth sapMMsgBoxText']";
-            FormsControl.controlDelete(driver,action,empresa,"Company");
+            FormsControl.controlDelete(driver,action,empresa,"Company","Compañía");
             asserts.assertDelete(xpathMessage);
         }else{
             Assert.assertEquals("No hay Company","The Operation has been Completed Successfully.");

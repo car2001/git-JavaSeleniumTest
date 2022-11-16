@@ -58,7 +58,7 @@ public class Asserts {
         if(message.contains("Dependencies")){
             Assert.assertEquals(message,"Dependencies List");
         }else {
-            Assert.assertEquals(message,"Lista de dependencias");
+            Assert.assertEquals(message,"Lista de Dependencias");
         }
     }
 
@@ -71,9 +71,14 @@ public class Asserts {
         }
     }
 
-    public void assertDoubleCheck(String expected){
+    public void assertDoubleCheck(String expected,String esperado){
         String message = driver.findElement(By.className("sapMMsgStripMessage")).getAttribute("textContent");
-        Assert.assertEquals(message,expected);
+        String idioma = basicControl.getLanguage();
+        if(idioma.equals("en")){
+            Assert.assertEquals(message,expected);
+        }else{
+            Assert.assertEquals(message,esperado);
+        }
         basicControl.btn_MsgStrigMessage();
         basicControl.btnCancel();
     }

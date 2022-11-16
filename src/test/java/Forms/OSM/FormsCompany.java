@@ -19,7 +19,7 @@ public class FormsCompany {
     }
 
     public void formCreateCompany(String company) {
-        listForm = FormsControl.controlNew(driver,"Empresa","Company");
+        listForm = FormsControl.controlNew(driver,"Compañia","Company");
         listForm.get(0).click();
         listForm.get(0).sendKeys(company);
         listForm.get(1).click();
@@ -32,7 +32,7 @@ public class FormsCompany {
     }
 
     public void formEditCompany(String company) throws InterruptedException {
-        listForm = FormsControl.controlEdit(driver,"Empresa","Company");
+        listForm = FormsControl.controlEdit(driver,"Compañia","Company");
         listForm.get(0).click();
         listForm.get(0).clear();
         listForm.get(0).sendKeys(company);

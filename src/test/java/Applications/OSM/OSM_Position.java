@@ -83,13 +83,7 @@ public class OSM_Position {
                         action.contextClick(elementPosition).perform();
                         driver.findElement(By.xpath("//div[normalize-space()='New Position' or normalize-space()='Nueva Posición' ]")).click();
                         formsPosition.formCreatePosition(position);
-                        String idioma = basicControl.getLanguage();
-                        if(idioma.equals("en")){
-                            asserts.assertDoubleCheck("Position Already Exist");
-                        }else{
-                            asserts.assertDoubleCheck("La posición ya existe.");
-                        }
-
+                        asserts.assertDoubleCheck("Position Already Exist","La posición ya existe.");
                     }else{
                         asserts.assertSave();
                     }
@@ -183,7 +177,7 @@ public class OSM_Position {
                         if(exist !=-1){
                             WebElement elementPosition = driver.findElement(By.xpath("//span[text()='"+position+"']"));
                             String xpathMessage = "//span[@class='sapMText sapUiSelectable sapMTextMaxWidth sapMMsgBoxText']";
-                            FormsControl.controlDelete(driver,action,elementPosition,"Position");
+                            FormsControl.controlDelete(driver,action,elementPosition,"Position","Position");
                             asserts.assertDelete(xpathMessage);
                             exist = searchScrollElement.elementSearch(orgUnit);
                             accessBranch.clickBranches(exist);
