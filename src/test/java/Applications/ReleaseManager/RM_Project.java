@@ -31,7 +31,7 @@ public class RM_Project {
     private FormsProject formsProject;
     private RM_Release rmRelease;
 
-    public  RM_Project(WebDriver driver){
+    public RM_Project(WebDriver driver) {
         this.driver = driver;
         this.action = new Actions(driver);
         this.searchScrollElement = new DynamicScroll(driver);
@@ -44,66 +44,75 @@ public class RM_Project {
     }
 
     @Test
-    public void crearProyecto(String proyecto,String release) throws InterruptedException {
-        exist = searchScrollElement.elementSearch("xd");
-        if(exist != -1){
+    public void crearProyectoYRelease(String proyecto) throws InterruptedException {
+        exist = searchScrollElement.elementSearch("Projects");
+        if (exist != -1) {
             accessBranch.clickBranches(exist);
             WebElement elementProject = driver.findElement(By.xpath("//span[text()='Projects']"));
             action.contextClick(elementProject).perform();
             driver.findElement(By.xpath("//div[text()='New Project' or text()='Nuevo Proyecto']")).click();
             formsProject.createProject(proyecto);
             asserts.assertSave();
-            rmRelease.crearRelease(proyecto,release);
+        } else {
+            Assert.assertEquals("No hay Projects", "Si hay Projects");
         }
     }
 
-/*    @Test(priority = 1)
-    public void verifyRelease() {
-        String stateRelease = estadoRelease(newProject);
-        Assert.assertEquals(stateRelease, "Si hay Release");
-    }
 
-    @Test(priority = 2)
-    public void editarProyecto() throws InterruptedException {
-        exist= searchScrollElement.elementSearch(newProject);
-        if(exist !=-1){
-            driver.findElement(By.xpath("//span[normalize-space()='"+newProject+"']")).click();
-            FormsRM.formEditProject(driver,editProject);
-            asserts.assertSave();
-        }else{ Assert.assertEquals("No hay "+newProject, "Si hay Proyecto");}
-    }
-
-
-    @Test(priority = 3)
-    public void eliminarProyecto(){
-        metodoEliminarProyecto(editProject);
-    }
-
-    @Test(priority = 4)
-    public void crearProyectoSinRelease(){
-        String projectWithoutRelease = "Proyecto Sin Release Selenium";
-        WebElement proyecto = driver.findElement(By.id("__xmlview4--mainTree-rows-row0-treeicon"));
-        action.contextClick(proyecto).perform();
-        driver.findElement(By.xpath("//div[normalize-space()='New "+componente+"']")).click();
-        FormsRM.formCreateProjectWithoutRelease(driver,projectWithoutRelease);
-        asserts.assertSave();
-        String stateRelease = estadoRelease(projectWithoutRelease);
-        Assert.assertEquals(stateRelease,"No hay Release");
-        metodoEliminarProyecto(projectWithoutRelease);
-    }
-
-    @AfterMethod
-    public void tearDown(){
-        if (driver != null){
-            //driver.quit();
-        }
-    }
-
-    public String estadoRelease(String proyecto){
+    @Test
+    public void editarProyecto(String proyecto, String editProject) throws InterruptedException {
         exist= searchScrollElement.elementSearch(proyecto);
         if(exist !=-1){
+            driver.findElement(By.xpath("//span[normalize-space()='"+proyecto+"']")).click();
+            formsProject.editProject(editProject);
+            asserts.assertSave();
+        }else{
+            Assert.assertEquals("No hay "+proyecto, "Si hay Proyecto");
+        }
+    }
+
+
+    @Test
+    public void eliminarProyecto(String proyecto){
+        exist= searchScrollElement.elementSearch(proyecto);
+        if(exist !=-1){
+            WebElement btnEditProject = driver.findElement(By.xpath("//span[normalize-space()='"+proyecto+"']"));
+            String xpathMessage = "//span[@class='sapMText sapUiSelectable sapMTextMaxWidth sapMMsgBoxText']";
+            FormsControl.controlDelete(driver,action,btnEditProject,"Project","Proyecto");
+            asserts.assertDelete(xpathMessage);
+        }else{
+            Assert.assertEquals("No hay "+proyecto, "Si hay Proyecto");
+        }
+    }
+
+    @Test
+    public void crearProyectoSinRelease(String proyecto) throws InterruptedException {
+        exist = searchScrollElement.elementSearch("Projects");
+        if (exist != -1) {
             accessBranch.clickBranches(exist);
-            exist=searchScrollElement.elementSearch("Release");
+            WebElement elementProject = driver.findElement(By.xpath("//span[text()='Projects']"));
+            action.contextClick(elementProject).perform();
+            driver.findElement(By.xpath("//div[text()='New Project' or text()='Nuevo Proyecto']")).click();
+            formsProject.createProjectWithoutRelease(proyecto);
+            asserts.assertSave();
+            String stateRelease = estadoRelease(proyecto);
+            Assert.assertEquals(stateRelease,"No hay Release");
+            eliminarProyecto(proyecto);
+        } else {
+            Assert.assertEquals("No hay Projects", "Si hay Projects");
+        }
+
+
+
+
+    }
+
+
+
+    private String estadoRelease(String proyecto){
+        exist= searchScrollElement.elementSearch(proyecto);
+        if(exist !=-1){
+            exist=searchScrollElement.elementSearch("Releases");
             if(exist !=-1){
                  return "Si hay Release" ;
             }else{
@@ -112,13 +121,5 @@ public class RM_Project {
         }else{return "No hay Proyecto" ;}
     }
 
-    public void metodoEliminarProyecto(String proyecto){
-        exist= searchScrollElement.elementSearch(proyecto);
-        if(exist !=-1){
-            WebElement btnEditProject = driver.findElement(By.xpath("//span[normalize-space()='"+proyecto+"']"));
-            String xpathMessage = "//span[@class='sapMText sapUiSelectable sapMTextMaxWidth sapMMsgBoxText']";
-            FormsControl.controlDelete(driver,action,btnEditProject,componente);
-            asserts.assertDelete(xpathMessage);
-        }else{Assert.assertEquals("No hay "+proyecto, "Si hay Proyecto");}
-    }*/
+
 }

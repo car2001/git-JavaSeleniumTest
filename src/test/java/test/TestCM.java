@@ -73,29 +73,6 @@ public class TestCM {
         riskProfile.crearRiskProfile("Risk-1");
     }
 
-
-    public static void main(String[] args) {
-
-        String Aprobado = "a";
-        String Observado = "o";
-        String negado = "n";
-
-        String AF = "a" ;
-        String AA = "a";
-        String AC = "a";
-        String AR = "o";
-
-        if(AF.equals("o") || AA.equals("o") || AC.equals("o") || AR.equals("o")){
-            System.out.println("Observado");
-        }else{
-            if(AF.equals("a") && AA.equals("a") && AC.equals("a") && AR.equals("a")){
-                System.out.println("Aprobado");
-            }else{
-                System.out.println("Negado");
-            }
-        }
-    }
-
     public void editarComponentesCounter() throws InterruptedException {
         counter.editarCounter("CM-1","CM-20","1", "14");
         ins.editarINS("INS-1","INS-20","-");

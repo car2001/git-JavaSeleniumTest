@@ -58,6 +58,7 @@ public class FormsRelease {
     }
 
     public void editRelease(String release) throws InterruptedException {
+        listForm = FormsControl.controlEdit(driver,"Liberación","Release");
         listForm.get(0).click();
         listForm.get(0).clear();
         listForm.get(0).sendKeys(release);
@@ -75,6 +76,7 @@ public class FormsRelease {
         driver.findElement(By.xpath(endDate)).click();
 
         listForm.get(5).click();
+        listForm.get(5).clear();
         listForm.get(5).sendKeys("ID "+ release);
 
         basicControl.btnSave();

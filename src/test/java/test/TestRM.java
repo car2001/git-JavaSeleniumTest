@@ -24,6 +24,7 @@ public class TestRM {
     private BasicControl basicControl;
     private RM_Project rmProject;
     private RM_ChangeContainer rmChangeContainer;
+    private RM_Release rmRelease;
 
     @BeforeTest
     public void setup(){
@@ -37,6 +38,7 @@ public class TestRM {
         accessBranch = new AccessBranch(driver);
         rmProject = new RM_Project(driver);
         rmChangeContainer = new RM_ChangeContainer(driver);
+        rmRelease = new RM_Release(driver);
         //Iniciamos Sesión
         login.loginPage();
         LoginApplications.loginRM(driver,"xd");
@@ -45,12 +47,30 @@ public class TestRM {
     @Test
     public void testReleaseManager() throws InterruptedException {
         lifeCycleProject();
+        //lifeCycleRelease();
+        lifeCycleChangeContainer();
     }
 
     public void lifeCycleProject() throws InterruptedException {
-        rmProject.crearProyecto("Proyecto-1","Release-1");
-        rmChangeContainer.crearChangeContainerArbol("CC-WE1", "Proyecto-1", "Release-1", login.getUser());
+        rmProject.crearProyectoYRelease("Proyecto-1");
+        rmProject.editarProyecto("Proyecto-1","Proyecto-20");
+        rmProject.eliminarProyecto("Proyecto-20");
+        accessBranch.clickBranches(searchScrollElement.elementSearch("Projects"));
+    }
 
+    public void lifeCycleRelease() throws InterruptedException {
+        rmProject.crearProyectoYRelease("Proyecto-1");
+        rmRelease.crearRelease("Proyecto-1","Release-1");
+        rmRelease.editarRelease("Proyecto-1","Release-1","Release-20");
+        rmRelease.eliminarRelease("Proyecto-1","Release-20");
+        accessBranch.clickBranches(searchScrollElement.elementSearch("Projects"));
+    }
+
+    public void lifeCycleChangeContainer() throws InterruptedException {
+        rmProject.crearProyectoYRelease("Proyecto-1");
+        rmRelease.crearRelease("Proyecto-1","Release-1");
+        accessBranch.clickBranches(searchScrollElement.elementSearch("Projects"));
+        rmChangeContainer.crearChangeContainerArbol("CC-WE1", "Proyecto-1", "Release-1", login.getUser());
     }
 
 

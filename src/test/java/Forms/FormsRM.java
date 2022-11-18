@@ -24,66 +24,9 @@ public class FormsRM {
 
     //Release
 
-    public static void formCreateRelease(WebDriver driver,String release){
-           listForm = FormsControl.controlNew(driver,"liberación","");
-        listForm.get(2).sendKeys(release);
-        listForm.get(3).sendKeys(release);
-        listForm.get(4).sendKeys("Release Creado en Selenium");
-        driver.findElement(By.id("__xmlview4--ReleaseStartDate-icon")).click();
-        LocalDate date = LocalDate.now();
-        List<WebElement> Day = driver.findElements(By.xpath("//span[normalize-space()='"+date.getDayOfMonth()+"']"));
-        Day.get(2).click();
-        driver.findElement(By.id("__xmlview4--ReleaseEndDate-icon")).click();
-        driver.findElement(By.id("__xmlview4--ReleaseEndDate-cal--Head-B2")).click();
-        driver.findElement(By.xpath("//div[text()='"+(date.getYear()+5)+"']")).click();
-        Day = driver.findElements(By.xpath("//span[normalize-space()='"+date.getDayOfMonth()+"']"));
-        Day.get(3).click();
-        listForm.get(8).sendKeys("Release Selenium");
-        driver.findElement(By.id("__xmlview4--selectReleaseState-label")).click();
-        List<WebElement> stateRelease =  driver.findElements(By.xpath("//li[text()='Open']"));
-        stateRelease.get(1).click();
-        driver.findElement(By.id(save)).click();
-    }
 
-    public static void formEditRelease(WebDriver driver,String release) throws InterruptedException {
-        listForm = FormsControl.controlEdit(driver,"liberacion","");
-        listForm.get(2).clear();
-        listForm.get(2).sendKeys(release);
-        listForm.get(3).clear();
-        listForm.get(3).sendKeys(release);
-        driver.findElement(By.id("__xmlview4--ReleaseStartDate-icon")).click();
-        LocalDate date = LocalDate.now();
-        List<WebElement> Day = driver.findElements(By.xpath("//span[normalize-space()='"+date.getDayOfMonth()+"']"));
-        Day.get(0).click();
-        driver.findElement(By.id("__xmlview4--ReleaseEndDate-icon")).click();
-        driver.findElement(By.id("__xmlview4--ReleaseEndDate-cal--Head-B2")).click();
-        driver.findElement(By.xpath("//div[text()='"+(date.getYear()+5)+"']")).click();
-        Day = driver.findElements(By.xpath("//span[normalize-space()='"+date.getDayOfMonth()+"']"));
-        Day.get(1).click();
-        listForm.get(8).clear();
-        listForm.get(8).sendKeys("Release Selenium");
-        driver.findElement(By.id(save)).click();
-    }
 
-    // Change Container
 
-    public static void formCreateChangeContainer(WebDriver driver,String ChangeContainer,String Proyecto,String release,String user) throws InterruptedException {
-        listForm = FormsControl.controlNew(driver,"contenedor de cambios","");
-        listForm.get(2).click();
-        listForm.get(2).sendKeys(ChangeContainer);
-        listForm.get(3).click();
-        listForm.get(3).sendKeys(ChangeContainer);
-        listForm.get(4).click();
-        listForm.get(4).sendKeys( ChangeContainer);
-        List<WebElement> listComboBox = driver.findElements(By.className("sapMSltLabel"));
-        listComboBox.get(0).click();
-        driver.findElement(By.xpath("//li[text()='"+Proyecto+"']")).click();
-        listComboBox.get(1).click();
-        driver.findElement(By.xpath("//li[text()='"+release+"']")).click();
-        listComboBox.get(2).click();
-        driver.findElement(By.xpath("//li[text()='"+user+"']")).click();
-        driver.findElement(By.id(save)).click();
-    }
 
     //Deployment Package
 

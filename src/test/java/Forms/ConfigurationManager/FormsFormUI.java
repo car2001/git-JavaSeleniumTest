@@ -26,7 +26,6 @@ public class FormsFormUI {
     }
 
     public void formCreateFormUI(String UI){
-        basicControl = new BasicControl(driver);
         basicControl.btnAdd();
         listForm = FormsControl.controlNew(driver,"UI","UI");
         listForm.get(0).click();

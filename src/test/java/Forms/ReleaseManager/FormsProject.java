@@ -61,7 +61,7 @@ public class FormsProject {
 
 
     public void editProject(String proyecto) throws InterruptedException {
-        listForm = FormsControl.controlNew(driver, "Proyecto", "Project");
+        listForm = FormsControl.controlEdit(driver, "Proyecto", "Project");
         Thread.sleep(500);
         listForm.get(0).click();
         listForm.get(0).clear();

@@ -35,6 +35,7 @@ public class FormsControl {
     public static List<WebElement> controlEdit(WebDriver driver,String componente,String ingles) throws InterruptedException{
         controlTitle(driver,componente,ingles);
         basicControl = new BasicControl(driver);
+        Thread.sleep(1500);
         basicControl.btnEdit();
         listForm = basicControl.inputForms();
         WebElement disabled = listForm.get(0);

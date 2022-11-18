@@ -22,9 +22,8 @@ public class LoginApplications {
     public static void loginOSM(WebDriver driver){
         wait = new WebDriverWait(driver, Duration.ofSeconds(100));
         accessBranch = new AccessBranch(driver);
-        String routeOSM = "//span[@class='sapMTextMaxLine sapMTextLineClamp' and normalize-space()='Organizational Structure Manager']";
-        wait.until(ExpectedConditions.elementToBeClickable(By.xpath(routeOSM)));
-        driver.findElement(By.xpath(routeOSM)).click();
+        basicControl = new BasicControl(driver);
+        basicControl.btnApplication("Organizational Structure Manager");
         accessBranch.clickBranches(0);
         accessBranch.clickBranches(1);
     }
@@ -46,27 +45,16 @@ public class LoginApplications {
     public static void loginRM(WebDriver driver,String componente){
         wait = new WebDriverWait(driver,Duration.ofSeconds(100));
         accessBranch = new AccessBranch(driver);
-        String routeRM = "//span[@class='sapMTextMaxLine sapMTextLineClamp' and normalize-space()='Release Manager']";
-        wait.until(ExpectedConditions.elementToBeClickable(By.xpath(routeRM)));
-        driver.findElement(By.xpath(routeRM)).click();
+        basicControl = new BasicControl(driver);
+        basicControl.btnApplication("Release Manager");
         ChargePopPup.PopPupGeneral(driver,wait);
-/*        if(componente.equals("Project")){
-            accessBranch.clickBranches(0);
-        }else if(componente.equals("Change Container")){
-            accessBranch.clickBranches(1);
-        }else if (componente.equals("Deployment Package")){
-            accessBranch.clickBranches(2);
-        }else if(componente.equals("Deployment Request")){
-            accessBranch.clickBranches(3);
-        }*/
     }
 
-    public static void loginPM(WebDriver driver){
-        wait = new WebDriverWait(driver,Duration.ofSeconds(100));
+    public static void loginPM(WebDriver driver) {
+        wait = new WebDriverWait(driver, Duration.ofSeconds(100));
         accessBranch = new AccessBranch(driver);
-        String routePM = "//span[@class='sapMTextMaxLine sapMTextLineClamp' and normalize-space()='Process Manager']";
-        wait.until(ExpectedConditions.elementToBeClickable(By.xpath(routePM)));
-        driver.findElement(By.xpath(routePM)).click();
+        basicControl = new BasicControl(driver);
+        basicControl.btnApplication("Process Manager");
         //Esperamos las cargas
         ChargePopPup.PopPupGeneral(driver,wait);
         ChargePopPup.PopPupGeneral(driver,wait);
@@ -75,9 +63,8 @@ public class LoginApplications {
 
     public static void loginColl(WebDriver driver, String proceso){
         wait = new WebDriverWait(driver,Duration.ofSeconds(100));
-        String routePM = "//span[@class='sapMTextMaxLine sapMTextLineClamp' and normalize-space()='Collaboration Workspace']";
-        wait.until(ExpectedConditions.elementToBeClickable(By.xpath(routePM)));
-        driver.findElement(By.xpath(routePM)).click();
+        basicControl = new BasicControl(driver);
+        basicControl.btnApplication("Collaboration Workspace");
         ChargePopPup.PopPupGeneral(driver,wait);
         driver.findElement(By.id("navListItem-navList-2")).click();
         ChargePopPup.PopPupGeneral(driver,wait);
@@ -85,6 +72,20 @@ public class LoginApplications {
         driver.findElement(By.xpath("//bdi[text()='Sí']")).click();
         ChargePopPup.PopPupGeneral(driver,wait);
         ChargePopPup.PopPupGeneral(driver,wait);
+    }
+
+    public static void loginSM(WebDriver driver){
+        wait = new WebDriverWait(driver, Duration.ofSeconds(100));
+        js = (JavascriptExecutor) driver;
+        basicControl = new BasicControl(driver);
+        basicControl.btnApplication("Security Manager");
+        wait.until(ExpectedConditions.elementToBeClickable(By.id("navListItem-navList-0-a")));
+        int tam = js.executeScript("let tam = document.getElementById('sap-ui-blocklayer-popup'); return(tam.clientHeight)").hashCode();
+        if(tam != 0){
+            ChargePopPup.PopPupGeneral(driver,wait);
+        }
+        driver.findElement(By.xpath("//div[@title='Object Management']")).click();
+        driver.findElement(By.xpath("//div[@title='User & Role Management']")).click();
     }
 
 }

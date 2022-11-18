@@ -44,7 +44,7 @@ public class RM_Release {
 
 
     @Test
-    public void crearRelease(String project,String release) throws InterruptedException {
+    public void crearRelease(String project, String release) throws InterruptedException {
         exist = searchScrollElement.elementSearch(project);
         if (exist != -1) {
             accessBranch.clickBranches(exist);
@@ -62,91 +62,61 @@ public class RM_Release {
             Assert.assertEquals("No hay Proyecto", "Si hay Proyecto");
         }
     }
+
+
+    @Test
+    public void editarRelease(String project, String release,String editRelease) throws InterruptedException {
+        exist = searchScrollElement.elementSearch(project);
+        if(exist != -1){
+            exist= searchScrollElement.elementSearch("Releases");
+            if(exist != -1){
+                accessBranch.clickBranches(exist);
+                exist=searchScrollElement.elementSearch(release);
+                if(exist !=-1){
+                    driver.findElement(By.xpath("//span[normalize-space()='"+release+"']")).click();
+                    formsRelease.editRelease(editRelease);
+                    asserts.assertSave();
+                }else{
+                    Assert.assertEquals("No hay " + release,"Si hay Release");
+                }
+            }else{
+                Assert.assertEquals("No hay Releases","Si hay Release");
+            }
+        }else{
+            Assert.assertEquals("No hay Proyecto","Si hay Proyecto");
+        }
+    }
+
+
+    @Test
+    public void eliminarRelease(String project, String release){
+        exist = searchScrollElement.elementSearch(project);
+        if(exist != -1){
+            exist= searchScrollElement.elementSearch("Releases");
+            if(exist != -1){
+                exist=searchScrollElement.elementSearch(release);
+                if(exist !=-1){
+                    WebElement elementRelease = driver.findElement(By.xpath("//span[normalize-space()='"+release+"']"));
+                    String xpathMessage = "//span[@class='sapMText sapUiSelectable sapMTextMaxWidth sapMMsgBoxText']";
+                    FormsControl.controlDelete(driver,action,elementRelease,"Release","Liberación");
+                    asserts.assertDelete(xpathMessage);
+                }else{
+                    Assert.assertEquals("No hay " + release,"Si hay Release");
+                }
+            }else{
+                Assert.assertEquals("No hay Release","Si hay Release");
+            }
+        }else{
+            Assert.assertEquals("No hay Proyecto","Si hay Proyecto");
+        }
+    }
+
+
+
+
 }
 
 
-/*
-    @Test
-    public void editarRelease() throws InterruptedException {
-        exist = searchScrollElement.elementSearch(project);
-        if(exist != -1){
-            accessBranch.clickBranches(exist);
-            exist= searchScrollElement.elementSearch(component);
-            if(exist != -1){
-                accessBranch.clickBranches(exist);
-                exist=searchScrollElement.elementSearch(newRelease);
-                if(exist !=-1){
-                    driver.findElement(By.xpath("//span[normalize-space()='"+newRelease+"']")).click();
-                    FormsRM.formEditRelease(driver,editRelease);
-                    asserts.assertSave();
-                    accessBranch.clickBranches(0);
-                }else{
-                    Assert.assertEquals("No hay " + newRelease,"Si hay Release");
-                }
-            }else{
-                Assert.assertEquals("No hay Release","Si hay Release");
-            }
-        }else{
-            Assert.assertEquals("No hay Proyecto","Si hay Proyecto");
-        }
-    }
-
-    @Test
-    public void eliminarRelease(){
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
-        exist = searchScrollElement.elementSearch(project);
-        if(exist != -1){
-            accessBranch.clickBranches(exist);
-            exist= searchScrollElement.elementSearch(component);
-            if(exist != -1){
-                accessBranch.clickBranches(exist);
-                exist=searchScrollElement.elementSearch(editRelease);
-                if(exist !=-1){
-                    WebElement release = driver.findElement(By.xpath("//span[normalize-space()='"+editRelease+"']"));
-                    action.contextClick(release).perform();
-                    driver.findElement(By.xpath("//div[normalize-space()='Delete "+component+"']")).click();
-                    driver.findElement(By.xpath("//bdi[normalize-space()='Sí']")).click();
-                    String xpathMessage = "//span[@class='sapMText sapUiSelectable sapMTextMaxWidth sapMMsgBoxText']";
-                    driver.findElement(By.xpath("//bdi[normalize-space()='OK']")).click();
-                    asserts.assertDelete(xpathMessage);
-                    //-------espera que el pop-up de eliminar desaparezca
-                    WebElement popUp = driver.findElement(By.id("sap-ui-blocklayer-popup"));
-                    wait.until(ExpectedConditions.invisibilityOf(popUp));
-                    //--------------------------
-                    WebElement spanProject = driver.findElement(By.xpath("//span[normalize-space()='"+project+"']"));
-                    action.contextClick(spanProject).perform();
-                    driver.findElement(By.xpath("//div[normalize-space()='Delete Project']")).click();
-                    driver.findElement(By.xpath("//bdi[normalize-space()='Sí'][last()]")).click();
-                    driver.findElement(By.xpath("//bdi[normalize-space()='OK'][last()]")).click();
-                }else{
-                    Assert.assertEquals("No hay " + newRelease,"Si hay Release");
-                }
-            }else{
-                Assert.assertEquals("No hay Release","Si hay Release");
-            }
-        }else{
-            Assert.assertEquals("No hay Proyecto","Si hay Proyecto");
-        }
-    }
-
-    @AfterMethod
-    public void tearDown(){
-        if(driver != null){
-            driver.quit();
-        }
-    }
-
-*/
-
-/*
-    public void crearProyecto(String proyecto){
-        WebElement despleProyecto = driver.findElement(By.id("__xmlview4--mainTree-rows-row0-treeicon"));
-        action.contextClick(despleProyecto).perform();
-        driver.findElement(By.xpath("//div[normalize-space()='New Project']")).click();
-        FormsRM.formCreateProject(driver, proyecto);
-        asserts.assertSave();
-    }
-*/
 
 
 
