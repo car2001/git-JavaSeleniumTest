@@ -14,15 +14,13 @@ import org.testng.annotations.*;
 
 public class CM_Notification_Profile {
     private WebDriver driver;
-
-    SelectBrowser browser = new SelectBrowser(driver);
-    Asserts asserts;
-    BasicControl basicControl;
-    FormsNotificationProfile formsNotificationProfile;
+    private SelectBrowser browser = new SelectBrowser(driver);
+    private Asserts asserts;
+    private BasicControl basicControl;
+    private FormsNotificationProfile formsNotificationProfile;
 
     final String componente = "Notification Profiles";
-    final String newNotification = "Notification Profile Selenium";
-    final String editNotification = "Notification Profile Selenium Editado";
+
 
     public CM_Notification_Profile(WebDriver driver){
         this.driver = driver;
@@ -33,14 +31,9 @@ public class CM_Notification_Profile {
 
     }
 
-    @BeforeMethod
-    public void setUp(){
-        basicControl.btn_More(componente);
-    }
-
 
     @Test
-    public void crearNotification(@Optional(newNotification)String notificationProfile){
+    public void crearNotification(String notificationProfile){
         basicControl.btn_More(componente);
         formsNotificationProfile.formCreateNotification(driver,notificationProfile);
         asserts.assertSave();
@@ -58,7 +51,7 @@ public class CM_Notification_Profile {
 
 
     @Test
-    public void eliminarNotification(@Optional(editNotification)String delete_NP){
+    public void eliminarNotification(String delete_NP){
         basicControl.btn_More(componente);
         FormsControl.controlDelete(driver,delete_NP);
         String xpathMessage = "//span[@class='sapMText sapUiSelectable sapMTextMaxWidth sapMMsgBoxText']";

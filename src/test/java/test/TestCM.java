@@ -1,7 +1,6 @@
 package test;
 
 import Applications.ConfigurationManager.*;
-import Forms.ConfigurationManager.FormsCounter;
 import Helpers.Asserts;
 import Helpers.BasicControl;
 import Helpers.DynamicScroll;
@@ -34,6 +33,7 @@ public class TestCM {
     private CM_Risk_Profile riskProfile;
 
 
+
     @BeforeTest
     public void setup(){
         browser.chooseBrowser(chosen_browser);
@@ -56,14 +56,17 @@ public class TestCM {
     }
 
 
+
     @Test
     public void testConfigurationManager() throws InterruptedException {
-        crearComponetesCounter();
-        editarComponentesCounter();
-        eliminarComponentesCounter();
+        crearComponetesCM();
+        editarComponentesCM();
+        versionMayorComponentesCM();
+        versionMenorComponentesCM();
+        eliminarComponentesCM();
     }
 
-    public void crearComponetesCounter() throws InterruptedException {
+    public void crearComponetesCM() throws InterruptedException {
         counter.crearCounter("CM-1","1","5");
         ins.crearINS("INS-1","-","INS","CM-1");
         sla.crear_SLA("SLA-1");
@@ -73,7 +76,7 @@ public class TestCM {
         riskProfile.crearRiskProfile("Risk-1");
     }
 
-    public void editarComponentesCounter() throws InterruptedException {
+    public void editarComponentesCM() throws InterruptedException {
         counter.editarCounter("CM-1","CM-20","1", "14");
         ins.editarINS("INS-1","INS-20","-");
         sla.editar_SLA("SLA-1","SLA-20");
@@ -83,10 +86,18 @@ public class TestCM {
         riskProfile.editRiskProfile("Risk-1","Risk-20");
     }
 
-    public void eliminarComponentesCounter(){
+    public void versionMayorComponentesCM() throws InterruptedException {
+        sla.versionMayor_SLA("SLA-20","SLA-20 VMa");
+    }
+
+    public void versionMenorComponentesCM() throws InterruptedException {
+        sla.versionMenor_SLA("SLA-20 VMa","SLA-20 VMe");
+    }
+
+    public void eliminarComponentesCM(){
         ins.eliminarINS("INS-20");
         counter.eliminarCounter("CM-20");
-        sla.eliminar_SLA("SLA-20");
+        sla.eliminar_SLA("SLA-20 VMe");
         formUI.eliminar_FormUI("FormUI-20");
         performerProfile.eliminarPerformerProfile("Performer-20");
         notificationProfile.eliminarNotification("Notification-20");

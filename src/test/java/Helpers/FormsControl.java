@@ -40,7 +40,37 @@ public class FormsControl {
         listForm = basicControl.inputForms();
         WebElement disabled = listForm.get(0);
         while(disabled.isEnabled() == false){
-            listForm = driver.findElements(By.className("sapMInputBaseInner"));
+            listForm = basicControl.inputForms();
+            disabled = listForm.get(0);
+        }
+        inputFocus(driver);
+        return listForm;
+    }
+
+    public static List<WebElement> controlNewVersionMayor( WebDriver driver,String componente,String ingles) throws InterruptedException {
+        basicControl = new BasicControl(driver);
+        controlTitle(driver,componente,ingles);
+        Thread.sleep(1500);
+        basicControl.btnNewVersion("mayor");
+        listForm = basicControl.inputForms();
+        WebElement disabled = listForm.get(0);
+        while(disabled.isEnabled() == false){
+            listForm = basicControl.inputForms();
+            disabled = listForm.get(0);
+        }
+        inputFocus(driver);
+        return listForm;
+    }
+
+    public static List<WebElement> controlNewVersionMenor( WebDriver driver,String componente,String ingles) throws InterruptedException {
+        basicControl = new BasicControl(driver);
+        controlTitle(driver,componente,ingles);
+        Thread.sleep(1500);
+        basicControl.btnNewVersion("menor");
+        listForm = basicControl.inputForms();
+        WebElement disabled = listForm.get(0);
+        while(disabled.isEnabled() == false){
+            listForm = basicControl.inputForms();
             disabled = listForm.get(0);
         }
         inputFocus(driver);
@@ -55,7 +85,7 @@ public class FormsControl {
                 focus = true;
             }
             else {
-                listForm = driver.findElements(By.className("sapMInputBaseInner"));
+                listForm = basicControl.inputForms();
                 focus = false;
             }
         }

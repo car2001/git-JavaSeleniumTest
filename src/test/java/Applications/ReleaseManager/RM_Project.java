@@ -1,22 +1,14 @@
 package Applications.ReleaseManager;
 
-import Forms.FormsRM;
-import Forms.OSM.FormsLocation;
 import Forms.ReleaseManager.FormsProject;
 import Helpers.*;
-import HomePage.Login;
-import HomePage.LoginApplications;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.testng.Assert;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
-
-import static HomePage.LoginApplications.accessBranch;
 
 public class RM_Project {
 
@@ -44,7 +36,7 @@ public class RM_Project {
     }
 
     @Test
-    public void crearProyectoYRelease(String proyecto) throws InterruptedException {
+    public void crearProyectoConRelease(String proyecto) throws InterruptedException {
         exist = searchScrollElement.elementSearch("Projects");
         if (exist != -1) {
             accessBranch.clickBranches(exist);
@@ -101,10 +93,6 @@ public class RM_Project {
         } else {
             Assert.assertEquals("No hay Projects", "Si hay Projects");
         }
-
-
-
-
     }
 
 

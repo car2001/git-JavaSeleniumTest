@@ -1,11 +1,7 @@
 package Applications.ReleaseManager;
 
-import Forms.FormsRM;
 import Forms.ReleaseManager.FormsChangeContainer;
-import Forms.ReleaseManager.FormsProject;
 import Helpers.*;
-import HomePage.Login;
-import HomePage.LoginApplications;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
@@ -13,13 +9,11 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.BeforeMethod;
+import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import java.time.Duration;
 import java.util.List;
-
 
 public class RM_ChangeContainer {
     private WebDriver driver;
@@ -31,11 +25,8 @@ public class RM_ChangeContainer {
     private BasicControl basicControl;
     private int exist = -1;
     private FormsChangeContainer formsChangeContainer;
+    private WebDriverWait wait;
 
-    String componente = "Change Containers";
-    String newChangeContainer = "CC_SELENIUM";
-    String project = "Proyecto Release Selenium";
-    String release = "Release Selenium";
     String DR = "DR_SELENIUM";
     String DP = "DP_SELENIUM";
     String urlQA = "http://wedox.sytes.net/buplat_QA/";
@@ -51,6 +42,7 @@ public class RM_ChangeContainer {
         this.asserts = new Asserts(driver);
         this.basicControl = new BasicControl(driver);
         this.formsChangeContainer = new FormsChangeContainer(driver);
+        this.wait = new WebDriverWait(driver, Duration.ofSeconds(10));
     }
 
     @Test
@@ -62,10 +54,50 @@ public class RM_ChangeContainer {
             action.contextClick(btnOpen).perform();
             Thread.sleep(1000);
             driver.findElement(By.xpath("//div[text()='New Change Container' or text()='Nuevo Contenedor de Cambios']")).click();
-            formsChangeContainer.createChangeContainer(changeContainer, project, user, release);
+            formsChangeContainer.createChangeContainer(changeContainer, project,release,user);
             asserts.assertSave();
         }
     }
+
+
+    public void editarChangeContainerTabla(String project,String editCC,String user,String release,String nameCC) throws InterruptedException {
+        driver.findElement(By.xpath("//span[text()='Open']")).click();
+        ChargePopPup.PopPupGeneral(driver,wait);
+        WebElement titulo = driver.findElement(By.xpath("//span[text()='Lista de Contenedor de Cambios' or text()='Change Container List']"));
+        wait.until(ExpectedConditions.visibilityOf(titulo));
+        List<WebElement> buttons = driver.findElements(By.xpath("//span[@class ='sapMBtnInner sapMBtnHoverable sapMFocusable sapMBtnIconFirst sapMBtnDefault']"));
+        String xpos = searchScrollElement.searchElementTable(project,user,"Open",release,nameCC);
+        if(xpos != " "){
+            driver.findElement(By.xpath("//tr//span[text()='"+xpos+"']")).click();
+            action.moveToElement(buttons.get(1)).click().perform();
+            formsChangeContainer.editChangeContainer(editCC);
+            ChargePopPup.PopPupGeneral(driver,wait);
+            asserts.assertSave();
+        }else{
+            Assert.assertEquals("No se encontro el CC","Si hay CC");
+        }
+
+    }
+
+
+
+    public void eliminarChangeContainerTabla(String project,String user,String release,String nameCC) throws InterruptedException {
+        WebElement titulo = driver.findElement(By.xpath("//span[text()='Lista de Contenedor de Cambios' or text()='Change Container List']"));
+        wait.until(ExpectedConditions.visibilityOf(titulo));
+        String xpos = searchScrollElement.searchElementTable(project,user,"Open",release,nameCC);
+        if(xpos != ""){
+            driver.findElement(By.xpath("//tr//span[text()='"+xpos+"']")).click();
+            driver.findElement(By.xpath("//button[@title='Borrar' or @title='Delete']")).click();
+            driver.findElement(By.xpath("//bdi[normalize-space()='Sí' or normalize-space()='Yes']")).click();
+            asserts.assertSave();
+        }else{
+            Assert.assertEquals("No se encontro el CC","Si hay CC");
+        }
+
+    }
+
+
+
 }
 
 
@@ -86,19 +118,7 @@ public class RM_ChangeContainer {
 //        asserts.assertSave();
 //
 //    }
-//
-//
-//    public void editarChangeContainerTabla(){
-//        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-//        driver.findElement(By.xpath("//span[text()='Open']")).click();
-//        WebElement titulo = driver.findElement(By.xpath("//span[text()='Lista de contenedor de cambios']"));
-//        wait.until(ExpectedConditions.visibilityOf(titulo));
-//        List<WebElement> buttons = driver.findElements(By.xpath("//span[@class ='sapMBtnInner sapMBtnHoverable sapMFocusable sapMBtnIconFirst sapMBtnDefault']"));
-//        driver.findElement(By.xpath("//span[text()='01']")).click();
-//        action.moveToElement(buttons.get(1)).click().perform();
-//
-//        //Aún falta terminar porque nos concentramos en un caso End2End.
-//    }
+
 //
 //    @Test
 //    public void activarChangeContainerTabla() throws InterruptedException {
@@ -255,20 +275,5 @@ public class RM_ChangeContainer {
 //            driver.findElement(By.xpath("//span[text()='"+xd+"']")).click();
 //        }
 //    }
-//
-//
-//
-//
-//
-//
-//
-//    @AfterMethod
-//    public void tearDown(){
-//        if (driver != null){
-//            //driver.quit();
-//        }
-//    }
-//
-//}
 //
 

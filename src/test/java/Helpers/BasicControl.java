@@ -116,7 +116,7 @@ public class BasicControl {
         }else{
             driver.findElement(By.xpath("//bdi[contains(@id,'--minorVersionRB-label-bdi') or text()='Minor Version']")).click();
         }
-        driver.findElement(By.xpath("//bdi[contains(@id,'-BDI-content') and ( text()='Crear versión' or text()='Create Version')]")).click();
+        driver.findElement(By.xpath("//bdi[contains(@id,'-BDI-content') and ( text()='Crear Versión' or text()='Create Version')]")).click();
 
     }
 

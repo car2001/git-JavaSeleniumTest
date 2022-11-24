@@ -83,4 +83,16 @@ public class Asserts {
         basicControl.btnCancel();
     }
 
+    public void assertVersionMayor(String versionActual , String versionMayor){
+        Float numVersionActual = Float.valueOf(versionActual);
+        Float numVersionMayor = Float.valueOf(versionMayor);
+        Assert.assertEquals(numVersionActual + 1, numVersionMayor);
+    }
+
+
+    public void assertVersionMenor(String versionActual , String versionMenor){
+        Float numVersionActual = Float.valueOf(versionActual);
+        Float numVersionMenor = Float.valueOf(versionMenor);
+        Assert.assertEquals(Float.parseFloat(String.format("%.1f", numVersionActual+0.1)), numVersionMenor);
+    }
 }

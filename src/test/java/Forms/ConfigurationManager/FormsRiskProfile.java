@@ -66,4 +66,67 @@ public class FormsRiskProfile {
     }
 
 
+/*    public static void MayorVersionRisk(WebDriver driver,String risk){
+        WebDriverWait wait = new WebDriverWait(driver,Duration.ofSeconds(5));
+        wait.until(ExpectedConditions.elementToBeClickable(By.id(version)));
+        driver.findElement(By.id(version)).click();
+        wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//bdi[text()='Major Version']")));
+        driver.findElement(By.xpath("//bdi[text()='Major Version']")).click();
+        driver.findElement(By.xpath("//bdi[text()='Create Version']")).click();
+        wait.until(ExpectedConditions.elementToBeClickable(By.id(save)));
+        listForm = driver.findElements(By.className("sapMInputBaseInner"));
+        listForm.get(2).clear();
+        listForm.get(2).sendKeys(risk);
+        listForm.get(3).clear();
+        listForm.get(3).sendKeys(risk);
+        listForm.get(4).clear();
+        listForm.get(4).sendKeys("Descripción " + risk);
+        listForm.get(6).sendKeys("Version Mayor");
+        driver.findElement(By.id("__xmlview5--typeRisk-arrow")).click();
+        driver.findElement(By.id("__item4-__xmlview5--typeRisk-0")).click();
+        driver.findElement(By.id(save)).click();
+    }
+
+    public static void MenorVersionRisk(WebDriver driver,String risk){
+        WebDriverWait wait = new WebDriverWait(driver,Duration.ofSeconds(5));
+        wait.until(ExpectedConditions.elementToBeClickable(By.id(version)));
+        driver.findElement(By.id(version)).click();
+        wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//bdi[text()='Minor Version']")));
+        driver.findElement(By.xpath("//bdi[text()='Minor Version']")).click();
+        driver.findElement(By.xpath("//bdi[text()='Create Version']")).click();
+        wait.until(ExpectedConditions.elementToBeClickable(By.id(save)));
+        listForm = driver.findElements(By.className("sapMInputBaseInner"));
+        listForm.get(2).clear();
+        listForm.get(2).sendKeys(risk);
+        listForm.get(3).clear();
+        listForm.get(3).sendKeys(risk);
+        listForm.get(4).clear();
+        listForm.get(4).sendKeys("Descripción " + risk);
+        listForm.get(6).sendKeys("Version Menor");
+        driver.findElement(By.id(save)).click();
+    }
+
+    public static void restoreVersionRisk(WebDriver driver,String risk){
+        WebDriverWait wait = new WebDriverWait(driver,Duration.ofSeconds(5));
+        wait.until(ExpectedConditions.elementToBeClickable(By.id(versionHistory)));
+        driver.findElement(By.id(versionHistory)).click();
+        String btn_xpath = "//span[@class='sapMBtnInner sapMBtnHoverable sapMFocusable sapMBtnIconFirst sapMBtnDefault']/parent::button[@class='sapMBtnBase sapMBtn']";
+        wait.until(ExpectedConditions.elementToBeClickable(By.xpath(btn_xpath)));
+        List<WebElement> btn_restore = driver.findElements(By.xpath(btn_xpath));
+        btn_restore.get(1).click();
+        wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//bdi[text()='Minor Version']")));
+        driver.findElement(By.xpath("//bdi[text()='Minor Version']")).click();
+        driver.findElement(By.xpath("//bdi[text()='Create Version']")).click();
+        wait.until(ExpectedConditions.elementToBeClickable(By.id(save)));
+        listForm = driver.findElements(By.className("sapMInputBaseInner"));
+        listForm.get(2).clear();
+        listForm.get(2).sendKeys(risk);
+        listForm.get(3).clear();
+        listForm.get(3).sendKeys(risk);
+        listForm.get(4).clear();
+        listForm.get(4).sendKeys("Descripción " + risk);
+        listForm.get(6).sendKeys("Version restore");
+        driver.findElement(By.id(save)).click();
+    }*/
+
 }

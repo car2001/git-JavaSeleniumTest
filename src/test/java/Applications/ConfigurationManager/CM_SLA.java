@@ -13,18 +13,12 @@ import org.openqa.selenium.WebDriver;
 import org.testng.annotations.*;
 
 public class CM_SLA {
+
     private WebDriver driver;
-    final String URL = "http://wedox.sytes.net/buplat_dev/";
-
-    final String componente = "SLA Definitions";
-    final String newSLA = "SLA Selenium";
-    final String editSLA = "SLA Edit Selenium";
-
-
-    Login login;
-    Asserts asserts;
-    BasicControl basicControl;
-    FormsSLA formsSLA;
+    private final String componente = "SLA Definitions";
+    private Asserts asserts;
+    private BasicControl basicControl;
+    private FormsSLA formsSLA;
 
     public CM_SLA(WebDriver driver){
         this.driver = driver;
@@ -34,21 +28,14 @@ public class CM_SLA {
         this.formsSLA = new FormsSLA(driver);
     }
 
-    @BeforeMethod
-    public void setUp() {
-        basicControl.btn_More(componente);
-    }
 
-    @Parameters("SLA")
-    @Test()
-    public void crear_SLA(@Optional(newSLA) String SLA) throws InterruptedException {
+    public void crear_SLA(String SLA) throws InterruptedException {
         basicControl.btn_More(componente);
         formsSLA.formCreateSLA(driver, SLA);
         asserts.assertSave();
     }
 
-    @Parameters({"SLA","SLA_edit"})
-    @Test(priority = 2)
+
     public void editar_SLA(String SLA, String SLA_edit) throws InterruptedException{
         basicControl.btn_More(componente);
         String xmlview = basicControl.getXmlview();
@@ -57,10 +44,38 @@ public class CM_SLA {
         asserts.assertSave();
     }
 
+    public void versionMayor_SLA(String SLA, String vMayorSLA) throws InterruptedException {
+        basicControl.btn_More(componente);
+        String xmlview = basicControl.getXmlview();
+        driver.findElement(By.xpath("//div[@id='"+xmlview+"--listObject']//div[text()='"+SLA+"']")).click();
+        formsSLA.MayorVersionSLA(vMayorSLA);
+        asserts.assertSave();
+    }
 
-    @Parameters("delete_SLA")
-    @Test(priority = 6)
-    public void eliminar_SLA(@Optional(editSLA) String delete_SLA){
+
+    @Test
+    public void versionMenor_SLA(String SLA, String vMenorSLA) throws InterruptedException {
+        basicControl.btn_More(componente);
+        String xmlview = basicControl.getXmlview();
+        driver.findElement(By.xpath("//div[@id='"+xmlview+"--listObject']//div[text()='"+SLA+"']")).click();
+        formsSLA.MenorVersionSLA(vMenorSLA);
+        asserts.assertSave();
+    }
+
+
+/*
+    @Test
+    public void restoreVersion_SLA(){
+        driver.findElement(By.xpath("//div[text()='"+versionMenor_Sla+"']")).click();
+        FormsCM.restoreVersion_SLA(driver,restoreVersion);
+        String message = driver.findElement(By.className("sapMMsgStripMessage")).getAttribute("textContent");
+        Assert.assertEquals(message,"The Operation has been Completed Successfully."+ "\n");
+    }
+*/
+
+
+    @Test
+    public void eliminar_SLA(String delete_SLA){
         basicControl.btn_More(componente);
         FormsControl.controlDelete(driver,delete_SLA);
         String xpathMessage = "//span[@class='sapMText sapUiSelectable sapMTextMaxWidth sapMMsgBoxText']";
