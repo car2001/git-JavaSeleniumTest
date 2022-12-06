@@ -15,11 +15,11 @@ public class CM_Counter {
 
     private WebDriver driver;
 
-    Asserts asserts;
-    BasicControl basicControl;
-    FormsCounter formsCounter;
+    private Asserts asserts;
+    private BasicControl basicControl;
+    private FormsCounter formsCounter;
 
-    final String componente = "Counters";
+    private final String componente = "Counters";
 
     public CM_Counter(WebDriver driver){
         this.driver = driver;

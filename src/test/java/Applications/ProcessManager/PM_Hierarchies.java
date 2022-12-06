@@ -16,36 +16,22 @@ import org.testng.annotations.Test;
 public class PM_Hierarchies {
 
     private WebDriver driver;
-    private final String chosen_browser = "Chrome";
-
-    Actions action;
-    SelectBrowser browser = new SelectBrowser(driver);
-    Login login;
-    AccessBranch accessBranch;
-    DynamicScroll searchScrollElement;
-    Asserts asserts;
-
-    String component = "Process Hierarchies";
-    String nameLevel = "Jerarquia Selenium2";
+    private Actions action;
+    private DynamicScroll searchScrollElement;
+    private Asserts asserts;
+    private String component = "Process Hierarchies";
 
 
-
-    @BeforeMethod
-    public void setUp() throws InterruptedException {
-        browser.chooseBrowser(chosen_browser);
-        driver = browser.getDriver();
-        action = new Actions(driver);
-        asserts = new Asserts(driver);
-        accessBranch = new AccessBranch(driver);
-        searchScrollElement = new DynamicScroll(driver);
-        login = new Login(driver);
-        login.loginPage();
-        LoginApplications.loginPM(driver);
+    public PM_Hierarchies(WebDriver driver){
+        this.driver = driver;
+        this.action = new Actions(driver);
+        this.asserts = new Asserts(driver);
+        this.searchScrollElement = new DynamicScroll(driver);
     }
 
 
     @Test
-    public void crearHierarchies() throws InterruptedException {
+    public void crearHierarchies(String nameLevel) throws InterruptedException {
         WebElement hierarchies = driver.findElement(By.xpath("//span[text()='"+component+"']"));
         action.contextClick(hierarchies).perform();
         driver.findElement(By.xpath("//div[normalize-space()='New Level']")).click();
@@ -55,7 +41,7 @@ public class PM_Hierarchies {
     }
 
     @Test
-    public void eliminarHierarchies(){
+    public void eliminarHierarchies(String nameLevel){
         int xpos = searchScrollElement.elementSearch(nameLevel);
         if(xpos != -1){
             WebElement hierarchie = driver.findElement(By.xpath("//span[text()='"+nameLevel+"']"));

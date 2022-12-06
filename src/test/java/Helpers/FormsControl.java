@@ -77,7 +77,23 @@ public class FormsControl {
         return listForm;
     }
 
-    public static void inputFocus(WebDriver driver){
+    public static List<WebElement> controlRestoreVersion( WebDriver driver,String version,String componente,String ingles) throws InterruptedException {
+        basicControl = new BasicControl(driver);
+        controlTitle(driver,componente,ingles);
+        Thread.sleep(1500);
+        basicControl.btnVersionHistory(1,version);
+        listForm = basicControl.inputForms();
+        WebElement disabled = listForm.get(0);
+        while(disabled.isEnabled() == false){
+            listForm = basicControl.inputForms();
+            disabled = listForm.get(0);
+        }
+        inputFocus(driver);
+        return listForm;
+    }
+
+
+    private static void inputFocus(WebDriver driver){
         boolean focus = false;
         while(focus == false){
             listForm.get(0).click();

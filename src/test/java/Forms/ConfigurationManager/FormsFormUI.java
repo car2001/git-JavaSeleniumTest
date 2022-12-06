@@ -1,5 +1,6 @@
 package Forms.ConfigurationManager;
 
+import Helpers.Asserts;
 import Helpers.BasicControl;
 import Helpers.FormsControl;
 import org.openqa.selenium.By;
@@ -16,6 +17,8 @@ public class FormsFormUI {
     private String comment;
     private String attachment;
     private String instructions;
+    private String inputVersion;
+    private Asserts asserts;
 
     public FormsFormUI(WebDriver driver){
         this.driver = driver;
@@ -23,6 +26,8 @@ public class FormsFormUI {
         this.comment = "//div[contains(@id,'--comments-switch')]";
         this.attachment = "//div[contains(@id,'--attachments-switch')]";
         this.instructions = "//div[contains(@id,'--instructions-switch')]";
+        this.inputVersion = "//input[contains(@id,'--txtVersion-inner')]";
+        this.asserts = new Asserts(driver);
     }
 
     public void formCreateFormUI(String UI){
@@ -55,68 +60,87 @@ public class FormsFormUI {
         basicControl.btnSave();
     }
 
-/*
-    public static void MayorVersionFormUI(WebDriver driver,String mayor){
-        WebDriverWait wait = new WebDriverWait(driver,Duration.ofSeconds(5));
-        wait.until(ExpectedConditions.elementToBeClickable(By.id(version)));
-        driver.findElement(By.id(version)).click();
-        wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//bdi[text()='Major Version']")));
-        driver.findElement(By.xpath("//bdi[text()='Major Version']")).click();
-        driver.findElement(By.xpath("//bdi[text()='Create Version']")).click();
-        wait.until(ExpectedConditions.elementToBeClickable(By.id(save)));
-        listForm = driver.findElements(By.className("sapMInputBaseInner"));
+
+    public void MayorVersionFormUI(String vMayorFormUI) throws InterruptedException {
+        listForm = FormsControl.controlNewVersionMayor(driver, "UI", "UI");
+
+        listForm.get(0).click();
+        listForm.get(0).clear();
+        listForm.get(0).sendKeys(vMayorFormUI);
+
+        listForm.get(1).click();
+        listForm.get(1).clear();
+        listForm.get(1).sendKeys(vMayorFormUI);
+
+        listForm.get(2).click();
         listForm.get(2).clear();
-        listForm.get(2).sendKeys(mayor);
-        listForm.get(3).clear();
-        listForm.get(3).sendKeys(mayor);
-        listForm.get(4).clear();
-        listForm.get(4).sendKeys("Descripción "+ mayor);
-        listForm.get(6).sendKeys("Version Mayor");
-        driver.findElement(By.id(save)).click();
+        listForm.get(2).sendKeys("Descripción "+ vMayorFormUI);
+
+        String versionActual = driver.findElement(By.xpath(inputVersion)).getAttribute("value");
+
+        listForm.get(3).click();
+        listForm.get(3).sendKeys("Version Mayor");
+        basicControl.btnSave();
+
+        Thread.sleep(1500);
+        String versionMayor = driver.findElement(By.xpath(inputVersion)).getAttribute("value");
+        asserts.assertVersionMayor(versionActual,versionMayor);
     }
 
-    public static void MenorVersionFormUI(WebDriver driver,String menor){
-        WebDriverWait wait = new WebDriverWait(driver,Duration.ofSeconds(5));
-        wait.until(ExpectedConditions.elementToBeClickable(By.id(version)));
-        driver.findElement(By.id(version)).click();
-        wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//bdi[text()='Minor Version']")));
-        driver.findElement(By.xpath("//bdi[text()='Minor Version']")).click();
-        driver.findElement(By.xpath("//bdi[text()='Create Version']")).click();
-        wait.until(ExpectedConditions.elementToBeClickable(By.id(save)));
-        listForm = driver.findElements(By.className("sapMInputBaseInner"));
+
+    public void MenorVersionFormUI(String vMenorFormUI) throws InterruptedException {
+        listForm = FormsControl.controlNewVersionMenor(driver, "UI", "UI");
+
+        listForm.get(0).click();
+        listForm.get(0).clear();
+        listForm.get(0).sendKeys(vMenorFormUI);
+
+        listForm.get(1).click();
+        listForm.get(1).clear();
+        listForm.get(1).sendKeys(vMenorFormUI);
+
+        listForm.get(2).click();
         listForm.get(2).clear();
-        listForm.get(2).sendKeys(menor);
-        listForm.get(3).clear();
-        listForm.get(3).sendKeys(menor);
-        listForm.get(4).clear();
-        listForm.get(4).sendKeys("Descripción "+ menor);
-        listForm.get(6).sendKeys("Version Menor");
-        driver.findElement(By.id(save)).click();
+        listForm.get(2).sendKeys("Descripción "+ vMenorFormUI);
+
+        String versionActual = driver.findElement(By.xpath(inputVersion)).getAttribute("value");
+
+        listForm.get(3).click();
+        listForm.get(3).sendKeys("Version Menor");
+
+        basicControl.btnSave();
+
+        Thread.sleep(1500);
+        String versionMenor = driver.findElement(By.xpath(inputVersion)).getAttribute("value");
+        asserts.assertVersionMenor(versionActual,versionMenor);
     }
 
-    public static void restoreVersion_FormUI(WebDriver driver,String restore){
-        WebDriverWait wait = new WebDriverWait(driver,Duration.ofSeconds(5));
-        wait.until(ExpectedConditions.elementToBeClickable(By.id(versionHistory)));
-        driver.findElement(By.id(versionHistory)).click();
-        String btn_xpath = "//span[@class='sapMBtnInner sapMBtnHoverable sapMFocusable sapMBtnIconFirst sapMBtnDefault']/parent::button[@class='sapMBtnBase sapMBtn']";
-        wait.until(ExpectedConditions.elementToBeClickable(By.xpath(btn_xpath)));
-        List<WebElement> btn_restore = driver.findElements(By.xpath(btn_xpath));
-        btn_restore.get(1).click();
-        wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//bdi[text()='Minor Version']")));
-        driver.findElement(By.xpath("//bdi[text()='Minor Version']")).click();
-        driver.findElement(By.xpath("//bdi[text()='Create Version']")).click();
-        wait.until(ExpectedConditions.elementToBeClickable(By.id(save)));
-        listForm = driver.findElements(By.className("sapMInputBaseInner"));
+
+    public void restoreVersion_FormUI(String restore,String versionActual) throws InterruptedException {
+        listForm = FormsControl.controlRestoreVersion(driver, "mayor", "UI", "UI");
+
+        listForm.get(0).click();
+        listForm.get(0).clear();
+        listForm.get(0).sendKeys(restore);
+
+        listForm.get(1).click();
+        listForm.get(1).clear();
+        listForm.get(1).sendKeys(restore);
+
+        listForm.get(2).click();
         listForm.get(2).clear();
-        listForm.get(2).sendKeys(restore);
-        listForm.get(3).clear();
-        listForm.get(3).sendKeys(restore);
-        listForm.get(4).clear();
-        listForm.get(4).sendKeys("Descripción "+ restore);
-        listForm.get(6).sendKeys("Version restore");
-        driver.findElement(By.id(save)).click();
+        listForm.get(2).sendKeys("Descripción " + restore);
+
+        listForm.get(3).click();
+        listForm.get(3).sendKeys("Version restore");
+
+        basicControl.btnSave();
+
+        Thread.sleep(1500);
+        String versionMayor = driver.findElement(By.xpath(inputVersion)).getAttribute("value");
+        asserts.assertVersionMayor(versionActual,versionMayor);
     }
-*/
+
 
 
 }

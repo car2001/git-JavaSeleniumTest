@@ -6,8 +6,6 @@ import Helpers.Asserts;
 import Helpers.BasicControl;
 import Helpers.FormsControl;
 import Helpers.SelectBrowser;
-import HomePage.Login;
-import HomePage.LoginApplications;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.testng.annotations.*;
@@ -19,7 +17,7 @@ public class CM_Notification_Profile {
     private BasicControl basicControl;
     private FormsNotificationProfile formsNotificationProfile;
 
-    final String componente = "Notification Profiles";
+    private final String componente = "Notification Profiles";
 
 
     public CM_Notification_Profile(WebDriver driver){
@@ -35,7 +33,7 @@ public class CM_Notification_Profile {
     @Test
     public void crearNotification(String notificationProfile){
         basicControl.btn_More(componente);
-        formsNotificationProfile.formCreateNotification(driver,notificationProfile);
+        formsNotificationProfile.formCreateNotification(notificationProfile);
         asserts.assertSave();
     }
 
@@ -45,7 +43,35 @@ public class CM_Notification_Profile {
         basicControl.btn_More(componente);
         String xmlview = basicControl.getXmlview();
         driver.findElement(By.xpath("//div[@id='"+xmlview+"--listObject']//div[text()='"+notificationProfile+"']")).click();
-        formsNotificationProfile.formEditNotification(driver,editNotificationProfile);
+        formsNotificationProfile.formEditNotification(editNotificationProfile);
+        asserts.assertSave();
+    }
+
+    @Test
+    public void versionMayor_NP(String notificationProfile,String vMayorNotificationProfile) throws InterruptedException {
+        basicControl.btn_More(componente);
+        String xmlview = basicControl.getXmlview();
+        driver.findElement(By.xpath("//div[@id='"+xmlview+"--listObject']//div[text()='"+notificationProfile+"']")).click();
+        formsNotificationProfile.MayorVersionNotification(vMayorNotificationProfile);
+        asserts.assertSave();
+    }
+
+    @Test
+    public void versionMenor_NP(String notificationProfile,String vMenorNotificationProfile) throws InterruptedException {
+        basicControl.btn_More(componente);
+        String xmlview = basicControl.getXmlview();
+        driver.findElement(By.xpath("//div[@id='"+xmlview+"--listObject']//div[text()='"+notificationProfile+"']")).click();
+        formsNotificationProfile.MenorVersionNotification(vMenorNotificationProfile);
+        asserts.assertSave();
+    }
+
+    @Test
+    public void restoreVersion_NP(String notificationProfile,String vRestoreNotificationProfile) throws InterruptedException {
+        basicControl.btn_More(componente);
+        String xmlview = basicControl.getXmlview();
+        driver.findElement(By.xpath("//div[@id='" + xmlview + "--listObject']//div[text()='" + notificationProfile + "']")).click();
+        String versionActual = driver.findElement(By.xpath("//input[contains(@id,'--txtVersion-inner')]")).getAttribute("value");
+        formsNotificationProfile.restoreVersion_NP(vRestoreNotificationProfile,versionActual);
         asserts.assertSave();
     }
 

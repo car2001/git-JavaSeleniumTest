@@ -16,14 +16,8 @@ public class TestCM {
 
     private WebDriver driver;
     private String chosen_browser = "Chrome";
-
     private Login login;
-    private DynamicScroll searchScrollElement;
     private SelectBrowser browser = new SelectBrowser(driver);
-    private Actions action;
-    private JavascriptExecutor js;
-    private Asserts asserts;
-    private BasicControl basicControl;
     private CM_Counter counter;
     private CM_INS ins;
     private CM_SLA sla;
@@ -33,16 +27,11 @@ public class TestCM {
     private CM_Risk_Profile riskProfile;
 
 
-
     @BeforeTest
     public void setup(){
         browser.chooseBrowser(chosen_browser);
         driver = browser.getDriver();
         login = new Login(driver);
-        asserts = new Asserts(driver);
-        js = (JavascriptExecutor) driver;
-        basicControl = new BasicControl(driver);
-        searchScrollElement = new DynamicScroll(driver);
         counter = new CM_Counter(driver);
         ins = new CM_INS(driver);
         sla = new CM_SLA(driver);
@@ -63,6 +52,7 @@ public class TestCM {
         editarComponentesCM();
         versionMayorComponentesCM();
         versionMenorComponentesCM();
+        restoreVersionComponentesCM();
         eliminarComponentesCM();
     }
 
@@ -88,20 +78,36 @@ public class TestCM {
 
     public void versionMayorComponentesCM() throws InterruptedException {
         sla.versionMayor_SLA("SLA-20","SLA-20 VMa");
+        formUI.versionMayor_FormUI("FormUI-20","FormUI-20 VMa");
+        performerProfile.versionMayor_PP("Performer-20","Performer-20 VMa");
+        notificationProfile.versionMayor_NP("Notification-20","Notification-20 VMa");
+        riskProfile.versionMayor_RP("Risk-20","Risk-20 VMa");
     }
 
     public void versionMenorComponentesCM() throws InterruptedException {
         sla.versionMenor_SLA("SLA-20 VMa","SLA-20 VMe");
+        formUI.versionMenor_FormUI("FormUI-20 VMa","FormUI-20 VMe");
+        performerProfile.versionMenor_PP("Performer-20 VMa","Performer-20 VMe");
+        notificationProfile.versionMenor_NP("Notification-20 VMa","Notification-20 VMe");
+        riskProfile.versionMenor_RP("Risk-20 VMa","Risk-20 VMe");
+    }
+
+    public void restoreVersionComponentesCM() throws InterruptedException {
+        sla.restoreVersion_SLA("SLA-20 VMe","SLA-20 vR");
+        formUI.versionRestore_FormUI("FormUI-20 VMe","FormUI-20 vR");
+        performerProfile.restoreVersion_PP("Performer-20 VMe","Performer-20 vR");
+        notificationProfile.restoreVersion_NP("Notification-20 VMe","Notification-20 vR");
+        riskProfile.restoreVersion_RP("Risk-20 VMe","Risk-20 vR");
     }
 
     public void eliminarComponentesCM(){
         ins.eliminarINS("INS-20");
         counter.eliminarCounter("CM-20");
-        sla.eliminar_SLA("SLA-20 VMe");
-        formUI.eliminar_FormUI("FormUI-20");
-        performerProfile.eliminarPerformerProfile("Performer-20");
-        notificationProfile.eliminarNotification("Notification-20");
-        riskProfile.eliminar_RP("Risk-20");
+        sla.eliminar_SLA("SLA-20 vR");
+        formUI.eliminar_FormUI("FormUI-20 vR");
+        performerProfile.eliminarPerformerProfile("Performer-20 vR");
+        notificationProfile.eliminarNotification("Notification-20 vR");
+        riskProfile.eliminar_RP("Risk-20 vR");
     }
 
 

@@ -81,6 +81,7 @@ public class FormsSLA {
         listForm.get(2).clear();
         listForm.get(2).sendKeys("Descripción "+ mayor);
 
+        listForm.get(3).click();
         listForm.get(3).sendKeys("Version Mayor");
 
         String versionActual = driver.findElement(By.xpath(inputVersion)).getAttribute("value");
@@ -112,44 +113,47 @@ public class FormsSLA {
         listForm.get(2).clear();
         listForm.get(2).sendKeys("Descripción "+ menor);
 
-        listForm.get(3).sendKeys("Version Menor");
         String versionActual = driver.findElement(By.xpath(inputVersion)).getAttribute("value");
+
+        listForm.get(3).click();
+        listForm.get(3).sendKeys("Version Menor");
 
         driver.findElement(By.xpath(slaType)).click();
         driver.findElement(By.xpath("//ul[contains(@id,'--slaType-popup-lis')]//li//div[@class='sapMSLITitleOnly'][text()='Fixed Value']")).click();
         basicControl.btnSave();
 
         Thread.sleep(1500);
-
         String versionMenor = driver.findElement(By.xpath(inputVersion)).getAttribute("value");
-        System.out.println(versionActual);
-        System.out.println(versionMenor);
         asserts.assertVersionMenor(versionActual,versionMenor);
     }
-/*
-    public static void restoreVersion_SLA(WebDriver driver,String restore){
-        WebDriverWait wait = new WebDriverWait(driver,Duration.ofSeconds(5));
-        wait.until(ExpectedConditions.elementToBeClickable(By.id(versionHistory)));
-        driver.findElement(By.id(versionHistory)).click();
-        String btn_xpath = "//span[@class='sapMBtnInner sapMBtnHoverable sapMFocusable sapMBtnIconFirst sapMBtnDefault']/parent::button[@class='sapMBtnBase sapMBtn']";
-        wait.until(ExpectedConditions.elementToBeClickable(By.xpath(btn_xpath)));
-        List<WebElement> btn_restore = driver.findElements(By.xpath(btn_xpath));
-        btn_restore.get(1).click();
-        wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//bdi[text()='Major Version']")));
-        driver.findElement(By.xpath("//bdi[text()='Minor Version']")).click();
-        driver.findElement(By.xpath("//bdi[text()='Create Version']")).click();
-        wait.until(ExpectedConditions.elementToBeClickable(By.id(save)));
-        listForm = driver.findElements(By.className("sapMInputBaseInner"));
+
+    public void restoreVersion_SLA(String restore,String versionActual) throws InterruptedException {
+        listForm = FormsControl.controlRestoreVersion(driver,"mayor","SLA","SLA");
+
+        listForm.get(0).click();
+        listForm.get(0).clear();
+        listForm.get(0).sendKeys(restore);
+
+        listForm.get(1).click();
+        listForm.get(1).clear();
+        listForm.get(1).sendKeys(restore);
+
+        listForm.get(2).click();
         listForm.get(2).clear();
-        listForm.get(2).sendKeys(restore);
-        listForm.get(3).clear();
-        listForm.get(3).sendKeys(restore);
-        listForm.get(4).clear();
-        listForm.get(4).sendKeys("Descripción "+ restore);
-        listForm.get(6).sendKeys("Version restore");
-        driver.findElement(By.id(save)).click();
+        listForm.get(2).sendKeys("Descripción "+ restore);
+
+        listForm.get(3).click();
+        listForm.get(3).sendKeys("Version restore");
+
+
+
+        basicControl.btnSave();
+
+        Thread.sleep(1500);
+        String versionMayor = driver.findElement(By.xpath(inputVersion)).getAttribute("value");
+        asserts.assertVersionMayor(versionActual,versionMayor);
     }
-*/
+
 
 
 }

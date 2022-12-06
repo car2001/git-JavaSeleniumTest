@@ -18,29 +18,19 @@ public class RM_DeploymentPackage {
     private DynamicScroll searchScrollElement;
     private AccessBranch accessBranch;
     private Actions action;
-    private JavascriptExecutor js;
     private Asserts asserts;
-    private BasicControl basicControl;
     private int exist = -1;
     private FormsDeployPackage formsDeployPackage;
-    private WebDriverWait wait;
 
-    String newDR = "DR_SELENIUM";
-    String componente = "Deployment Package";
-    String newDeployment = "DP_SELENIUM";
-    String project = "Proyecto Release Selenium";
-    String release = "Release Selenium";
+
 
     public RM_DeploymentPackage(WebDriver driver){
         this.driver = driver;
         this.action = new Actions(driver);
         this.searchScrollElement = new DynamicScroll(driver);
         this.accessBranch = new AccessBranch(driver);
-        this.js = (JavascriptExecutor) driver;
         this.asserts = new Asserts(driver);
-        this.basicControl = new BasicControl(driver);
         this.formsDeployPackage = new FormsDeployPackage(driver);
-        this.wait = new WebDriverWait(driver, Duration.ofSeconds(10));
     }
 
 

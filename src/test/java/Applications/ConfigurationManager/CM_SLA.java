@@ -63,15 +63,17 @@ public class CM_SLA {
     }
 
 
-/*
+
     @Test
-    public void restoreVersion_SLA(){
-        driver.findElement(By.xpath("//div[text()='"+versionMenor_Sla+"']")).click();
-        FormsCM.restoreVersion_SLA(driver,restoreVersion);
-        String message = driver.findElement(By.className("sapMMsgStripMessage")).getAttribute("textContent");
-        Assert.assertEquals(message,"The Operation has been Completed Successfully."+ "\n");
+    public void restoreVersion_SLA(String SLA, String vRestoreSLA) throws InterruptedException {
+        basicControl.btn_More(componente);
+        String xmlview = basicControl.getXmlview();
+        driver.findElement(By.xpath("//div[@id='"+xmlview+"--listObject']//div[text()='"+SLA+"']")).click();
+        String versionActual = driver.findElement(By.xpath("//input[contains(@id,'--txtVersion-inner')]")).getAttribute("value");
+        formsSLA.restoreVersion_SLA(vRestoreSLA,versionActual);
+        asserts.assertSave();
     }
-*/
+
 
 
     @Test

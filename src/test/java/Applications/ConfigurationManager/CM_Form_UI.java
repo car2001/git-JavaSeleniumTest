@@ -16,15 +16,11 @@ import org.testng.annotations.*;
 public class CM_Form_UI {
     private WebDriver driver;
 
-    SelectBrowser browser;
-    Asserts asserts;
-    BasicControl basicControl;
-    FormsFormUI formsFormUI;
-
-    final String URL = "http://wedox.sytes.net/buplat_dev/";
-    final String componente = "Form UI Configuration";
-    final String newFormUI = "Form UI Selenium";
-    final String editFormUI = "Form UI Selenium Editado";
+    private SelectBrowser browser;
+    private Asserts asserts;
+    private BasicControl basicControl;
+    private FormsFormUI formsFormUI;
+    private final String componente = "Form UI Configuration";
 
     public CM_Form_UI(WebDriver driver){
         this.driver = driver;
@@ -32,6 +28,7 @@ public class CM_Form_UI {
         this.asserts = new Asserts(driver);
         this.basicControl = new BasicControl(driver);
         this.formsFormUI = new FormsFormUI(driver);
+
     }
 
 
@@ -47,6 +44,31 @@ public class CM_Form_UI {
         String xmlview = basicControl.getXmlview();
         driver.findElement(By.xpath("//div[@id='"+xmlview+"--listObject']//div[text()='"+formUI+"']")).click();
         formsFormUI.formEditFormUI(formUI_edit);
+        asserts.assertSave();
+    }
+
+    public void versionMayor_FormUI(String formUI,String vMayorFormUI) throws InterruptedException {
+        basicControl.btn_More(componente);
+        String xmlview = basicControl.getXmlview();
+        driver.findElement(By.xpath("//div[@id='" + xmlview + "--listObject']//div[text()='" + formUI + "']")).click();
+        formsFormUI.MayorVersionFormUI(vMayorFormUI);
+        asserts.assertSave();
+    }
+
+    public void versionMenor_FormUI(String formUI,String vMenorrFormUI) throws InterruptedException {
+        basicControl.btn_More(componente);
+        String xmlview = basicControl.getXmlview();
+        driver.findElement(By.xpath("//div[@id='" + xmlview + "--listObject']//div[text()='" + formUI + "']")).click();
+        formsFormUI.MenorVersionFormUI(vMenorrFormUI);
+        asserts.assertSave();
+    }
+
+    public void versionRestore_FormUI(String formUI,String vRestoreFormUI) throws InterruptedException {
+        basicControl.btn_More(componente);
+        String xmlview = basicControl.getXmlview();
+        driver.findElement(By.xpath("//div[@id='" + xmlview + "--listObject']//div[text()='" + formUI + "']")).click();
+        String versionActual = driver.findElement(By.xpath("//input[contains(@id,'--txtVersion-inner')]")).getAttribute("value");
+        formsFormUI.restoreVersion_FormUI(vRestoreFormUI,versionActual);
         asserts.assertSave();
     }
 

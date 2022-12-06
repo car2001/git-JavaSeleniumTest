@@ -30,7 +30,7 @@ public class CM_Risk_Profile {
     @Test
     public void crearRiskProfile(String riskProfile){
         basicControl.btn_More(componente);
-        formsRiskProfile.formCreateRisk(driver,riskProfile);
+        formsRiskProfile.formCreateRisk(riskProfile);
         asserts.assertSave();
     }
 
@@ -39,7 +39,35 @@ public class CM_Risk_Profile {
         basicControl.btn_More(componente);
         String xmlview = basicControl.getXmlview();
         driver.findElement(By.xpath("//div[@id='"+xmlview+"--listObject']//div[text()='"+riskProfile+"']")).click();
-        formsRiskProfile.formEditRisk(driver,edit_RiskProfile);
+        formsRiskProfile.formEditRisk(edit_RiskProfile);
+        asserts.assertSave();
+    }
+
+    @Test
+    public void versionMayor_RP(String riskProfile,String vMayorRiskProfile) throws InterruptedException {
+        basicControl.btn_More(componente);
+        String xmlview = basicControl.getXmlview();
+        driver.findElement(By.xpath("//div[text()='" + riskProfile + "']")).click();
+        formsRiskProfile.MayorVersionRisk(vMayorRiskProfile);
+        asserts.assertSave();
+    }
+
+    @Test
+    public void versionMenor_RP(String riskProfile,String vMenorRiskProfile) throws InterruptedException {
+        basicControl.btn_More(componente);
+        String xmlview = basicControl.getXmlview();
+        driver.findElement(By.xpath("//div[text()='" + riskProfile + "']")).click();;
+        formsRiskProfile.MenorVersionRisk(vMenorRiskProfile);
+        asserts.assertSave();
+    }
+
+    @Test
+    public void restoreVersion_RP(String riskProfile,String vRestoreRiskProfile) throws InterruptedException {
+        basicControl.btn_More(componente);
+        String xmlview = basicControl.getXmlview();
+        driver.findElement(By.xpath("//div[text()='" + riskProfile + "']")).click();
+        String versionActual = driver.findElement(By.xpath("//input[contains(@id,'--txtVersion-inner')]")).getAttribute("value");
+        formsRiskProfile.restoreVersionRisk(vRestoreRiskProfile,versionActual);
         asserts.assertSave();
     }
 

@@ -1,5 +1,6 @@
 package Forms.ConfigurationManager;
 
+import Helpers.Asserts;
 import Helpers.BasicControl;
 import Helpers.FormsControl;
 import org.openqa.selenium.By;
@@ -15,12 +16,14 @@ public class FormsRiskProfile {
     private WebDriver driver;
     private List<WebElement> listForm;
     private BasicControl basicControl;
+    private Asserts asserts;
     private String typeRisk;
     private String fixedValue;
     private String timeRate;
     private String numberHours;
     private String numberMinutes;
     private String rateRisk;
+    private String inputVersion;
 
     public FormsRiskProfile(WebDriver driver){
         this.driver = driver;
@@ -31,9 +34,11 @@ public class FormsRiskProfile {
         this.numberHours = "//input[contains(@id,'--numberHoursRisk-inner')]";
         this.numberMinutes = "//input[contains(@id,'--numberMinutesRisk-inner')]";
         this.rateRisk = "//input[contains(@id,'--RateRisk-inner')]";
+        this.inputVersion = "//input[contains(@id,'--txtVersion-inner')]";
+        this.asserts = new Asserts(driver);
     }
 
-    public void formCreateRisk(WebDriver driver, String risk){
+    public void formCreateRisk(String risk){
         basicControl.btnAdd();
         listForm = FormsControl.controlNew(driver,"Perfil de Riesgo","Risk Profile");
         listForm.get(0).click();
@@ -48,7 +53,7 @@ public class FormsRiskProfile {
         driver.findElement(By.xpath(numberMinutes)).sendKeys("60");
         basicControl.btnSave();
     }
-    public void formEditRisk(WebDriver driver,String risk) throws InterruptedException {
+    public void formEditRisk(String risk) throws InterruptedException {
         listForm = FormsControl.controlEdit(driver,"Perfil de Riesgo","Risk Profile");
         listForm.get(0).click();
         listForm.get(0).clear();
@@ -66,67 +71,87 @@ public class FormsRiskProfile {
     }
 
 
-/*    public static void MayorVersionRisk(WebDriver driver,String risk){
-        WebDriverWait wait = new WebDriverWait(driver,Duration.ofSeconds(5));
-        wait.until(ExpectedConditions.elementToBeClickable(By.id(version)));
-        driver.findElement(By.id(version)).click();
-        wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//bdi[text()='Major Version']")));
-        driver.findElement(By.xpath("//bdi[text()='Major Version']")).click();
-        driver.findElement(By.xpath("//bdi[text()='Create Version']")).click();
-        wait.until(ExpectedConditions.elementToBeClickable(By.id(save)));
-        listForm = driver.findElements(By.className("sapMInputBaseInner"));
+    public void MayorVersionRisk(String risk) throws InterruptedException {
+        listForm = FormsControl.controlNewVersionMayor(driver,"Perfil de Riesgo","Risk Profile");
+
+        listForm.get(0).click();
+        listForm.get(0).clear();
+        listForm.get(0).sendKeys(risk);
+
+        listForm.get(1).click();
+        listForm.get(1).clear();
+        listForm.get(1).sendKeys(risk);
+
+        listForm.get(2).click();
         listForm.get(2).clear();
-        listForm.get(2).sendKeys(risk);
-        listForm.get(3).clear();
-        listForm.get(3).sendKeys(risk);
-        listForm.get(4).clear();
-        listForm.get(4).sendKeys("Descripción " + risk);
-        listForm.get(6).sendKeys("Version Mayor");
-        driver.findElement(By.id("__xmlview5--typeRisk-arrow")).click();
-        driver.findElement(By.id("__item4-__xmlview5--typeRisk-0")).click();
-        driver.findElement(By.id(save)).click();
+        listForm.get(2).sendKeys("Descripción " + risk);
+
+        listForm.get(3).click();
+        listForm.get(3).sendKeys("Version Mayor");
+
+        String versionActual = driver.findElement(By.xpath(inputVersion)).getAttribute("value");
+
+        driver.findElement(By.xpath(typeRisk)).click();
+        driver.findElement(By.xpath(fixedValue)).click();
+        basicControl.btnSave();
+
+        Thread.sleep(1500);
+        String versionMayor = driver.findElement(By.xpath(inputVersion)).getAttribute("value");
+        asserts.assertVersionMayor(versionActual,versionMayor);
     }
 
-    public static void MenorVersionRisk(WebDriver driver,String risk){
-        WebDriverWait wait = new WebDriverWait(driver,Duration.ofSeconds(5));
-        wait.until(ExpectedConditions.elementToBeClickable(By.id(version)));
-        driver.findElement(By.id(version)).click();
-        wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//bdi[text()='Minor Version']")));
-        driver.findElement(By.xpath("//bdi[text()='Minor Version']")).click();
-        driver.findElement(By.xpath("//bdi[text()='Create Version']")).click();
-        wait.until(ExpectedConditions.elementToBeClickable(By.id(save)));
-        listForm = driver.findElements(By.className("sapMInputBaseInner"));
+    public void MenorVersionRisk(String risk) throws InterruptedException {
+        listForm = FormsControl.controlNewVersionMenor(driver,"Perfil de Riesgo","Risk Profile");
+
+        listForm.get(0).click();
+        listForm.get(0).clear();
+        listForm.get(0).sendKeys(risk);
+
+        listForm.get(1).click();
+        listForm.get(1).clear();
+        listForm.get(1).sendKeys(risk);
+
+        listForm.get(2).click();
         listForm.get(2).clear();
-        listForm.get(2).sendKeys(risk);
-        listForm.get(3).clear();
-        listForm.get(3).sendKeys(risk);
-        listForm.get(4).clear();
-        listForm.get(4).sendKeys("Descripción " + risk);
-        listForm.get(6).sendKeys("Version Menor");
-        driver.findElement(By.id(save)).click();
+        listForm.get(2).sendKeys("Descripción " + risk);
+
+        listForm.get(3).click();
+        listForm.get(3).sendKeys("Version Menor");
+
+        String versionActual = driver.findElement(By.xpath(inputVersion)).getAttribute("value");
+
+        driver.findElement(By.xpath(typeRisk)).click();
+        driver.findElement(By.xpath(timeRate)).click();
+        basicControl.btnSave();
+
+        Thread.sleep(1500);
+        String versionMenor = driver.findElement(By.xpath(inputVersion)).getAttribute("value");
+        asserts.assertVersionMenor(versionActual,versionMenor);
     }
 
-    public static void restoreVersionRisk(WebDriver driver,String risk){
-        WebDriverWait wait = new WebDriverWait(driver,Duration.ofSeconds(5));
-        wait.until(ExpectedConditions.elementToBeClickable(By.id(versionHistory)));
-        driver.findElement(By.id(versionHistory)).click();
-        String btn_xpath = "//span[@class='sapMBtnInner sapMBtnHoverable sapMFocusable sapMBtnIconFirst sapMBtnDefault']/parent::button[@class='sapMBtnBase sapMBtn']";
-        wait.until(ExpectedConditions.elementToBeClickable(By.xpath(btn_xpath)));
-        List<WebElement> btn_restore = driver.findElements(By.xpath(btn_xpath));
-        btn_restore.get(1).click();
-        wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//bdi[text()='Minor Version']")));
-        driver.findElement(By.xpath("//bdi[text()='Minor Version']")).click();
-        driver.findElement(By.xpath("//bdi[text()='Create Version']")).click();
-        wait.until(ExpectedConditions.elementToBeClickable(By.id(save)));
-        listForm = driver.findElements(By.className("sapMInputBaseInner"));
+    public void restoreVersionRisk(String risk,String versionActual) throws InterruptedException {
+        listForm = FormsControl.controlRestoreVersion(driver, "menor", "Perfil de Riesgo", "Risk Profile");
+
+        listForm.get(0).click();
+        listForm.get(0).clear();
+        listForm.get(0).sendKeys(risk);
+
+        listForm.get(1).click();
+        listForm.get(1).clear();
+        listForm.get(1).sendKeys(risk);
+
+        listForm.get(2).click();
         listForm.get(2).clear();
-        listForm.get(2).sendKeys(risk);
-        listForm.get(3).clear();
-        listForm.get(3).sendKeys(risk);
-        listForm.get(4).clear();
-        listForm.get(4).sendKeys("Descripción " + risk);
-        listForm.get(6).sendKeys("Version restore");
-        driver.findElement(By.id(save)).click();
-    }*/
+        listForm.get(2).sendKeys("Descripción " + risk);
+
+        listForm.get(3).click();
+        listForm.get(3).sendKeys("Version restore");
+
+
+        basicControl.btnSave();
+        Thread.sleep(1500);
+        String versionMenor = driver.findElement(By.xpath(inputVersion)).getAttribute("value");
+        asserts.assertVersionMenor(versionActual,versionMenor);
+    }
 
 }

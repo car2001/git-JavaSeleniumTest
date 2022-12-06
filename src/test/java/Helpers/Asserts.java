@@ -86,7 +86,12 @@ public class Asserts {
     public void assertVersionMayor(String versionActual , String versionMayor){
         Float numVersionActual = Float.valueOf(versionActual);
         Float numVersionMayor = Float.valueOf(versionMayor);
-        Assert.assertEquals(numVersionActual + 1, numVersionMayor);
+        if(Float.parseFloat(String.format("%.1f",numVersionActual - numVersionActual.byteValue())) > 0f){
+            Assert.assertEquals(Float.parseFloat(String.format("%.1f",numVersionActual - (numVersionActual - numVersionActual.byteValue()))) + 1,numVersionMayor);
+        }else{
+            Assert.assertEquals(numVersionActual + 1, numVersionMayor);
+        }
+
     }
 
 
@@ -95,4 +100,5 @@ public class Asserts {
         Float numVersionMenor = Float.valueOf(versionMenor);
         Assert.assertEquals(Float.parseFloat(String.format("%.1f", numVersionActual+0.1)), numVersionMenor);
     }
+
 }

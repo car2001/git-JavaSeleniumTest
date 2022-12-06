@@ -14,11 +14,10 @@ import org.testng.annotations.*;
 
 public class CM_Performer_Profile {
     private WebDriver driver;
-
-    SelectBrowser browser;
-    Asserts asserts;
-    BasicControl basicControl;
-    FormsPerformerProfile formsPerformerProfile;
+    private SelectBrowser browser;
+    private Asserts asserts;
+    private BasicControl basicControl;
+    private FormsPerformerProfile formsPerformerProfile;
 
     final String componente = "Performer Profiles";
 
@@ -48,6 +47,35 @@ public class CM_Performer_Profile {
         formsPerformerProfile.formEditPerformer(PP_edit);
         asserts.assertSave();
     }
+
+    @Test
+    public void versionMayor_PP(String PP, String vMayorPP ) throws InterruptedException {
+        basicControl.btn_More(componente);
+        String xmlview = basicControl.getXmlview();
+        driver.findElement(By.xpath("//div[@id='"+xmlview+"--listObject']//div[text()='"+PP+"']")).click();
+        formsPerformerProfile.MayorVersionPerformer(vMayorPP);
+        asserts.assertSave();
+    }
+
+    @Test
+    public void versionMenor_PP(String PP, String vMenorPP) throws InterruptedException {
+        basicControl.btn_More(componente);
+        String xmlview = basicControl.getXmlview();
+        driver.findElement(By.xpath("//div[@id='"+xmlview+"--listObject']//div[text()='"+PP+"']")).click();
+        formsPerformerProfile.MenorVersionPerformer(vMenorPP);
+        asserts.assertSave();
+    }
+
+    @Test
+    public void restoreVersion_PP(String PP, String vRestorePP) throws InterruptedException {
+        basicControl.btn_More(componente);
+        String xmlview = basicControl.getXmlview();
+        driver.findElement(By.xpath("//div[@id='"+xmlview+"--listObject']//div[text()='"+PP+"']")).click();
+        String versionActual = driver.findElement(By.xpath("//input[contains(@id,'--txtVersion-inner')]")).getAttribute("value");
+        formsPerformerProfile.restoreVersion_PP(vRestorePP,versionActual);
+        asserts.assertSave();
+    }
+
 
     @Test
     public void eliminarPerformerProfile(String delete_PP){
