@@ -35,13 +35,6 @@ public class CM_Form_UI {
     }
 
 
-    @BeforeMethod
-    public void setup() throws InterruptedException {
-        basicControl.btn_More(componente);
-    }
-
-
-    @Test
     public void crear_FormUI(String formUI){
         basicControl.btn_More(componente);
         formsFormUI.formCreateFormUI(formUI);
@@ -49,7 +42,6 @@ public class CM_Form_UI {
     }
 
 
-    @Test
     public void editar_FormUI(String formUI,String formUI_edit) throws InterruptedException {
         basicControl.btn_More(componente);
         String xmlview = basicControl.getXmlview();
@@ -58,9 +50,7 @@ public class CM_Form_UI {
         asserts.assertSave();
     }
 
-    @Parameters("delete_FormUI")
-    @Test
-    public void eliminar_FormUI(@Optional(editFormUI) String delete_FormUI){
+    public void eliminar_FormUI(String delete_FormUI){
         basicControl.btn_More(componente);
         FormsControl.controlDelete(driver,delete_FormUI);
         String xpathMessage = "//span[@class='sapMText sapUiSelectable sapMTextMaxWidth sapMMsgBoxText']";

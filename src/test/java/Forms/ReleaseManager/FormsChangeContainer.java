@@ -40,17 +40,35 @@ public class FormsChangeContainer {
         listForm.get(2).click();
         listForm.get(2).sendKeys(changeContainer);
 
-        Thread.sleep(500);
+        Thread.sleep(800);
         driver.findElement(By.xpath(arrowProject)).click();
         selectListItem.SelectItemLi(proyecto);
 
-        Thread.sleep(500);
+        Thread.sleep(800);
         driver.findElement(By.xpath(arrowRelease)).click();
         selectListItem.SelectItemLi(release);
 
-        Thread.sleep(500);
+        Thread.sleep(800);
         driver.findElement(By.xpath(arrowOwner)).click();
         selectListItem.SelectItemLi(user);
+
+        basicControl.btnSave();
+    }
+
+    public void editChangeContainer(String changeContainer) throws InterruptedException {
+        listForm = FormsControl.controlNew(driver,"Contenedor de Cambios","Change Container");
+        Thread.sleep(500);
+        listForm.get(0).click();
+        listForm.get(0).clear();
+        listForm.get(0).sendKeys(changeContainer);
+
+        listForm.get(1).click();
+        listForm.get(1).clear();
+        listForm.get(1).sendKeys(changeContainer);
+
+        listForm.get(2).click();
+        listForm.get(2).clear();
+        listForm.get(2).sendKeys(changeContainer);
 
         basicControl.btnSave();
     }

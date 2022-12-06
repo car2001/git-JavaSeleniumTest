@@ -29,14 +29,12 @@ public class CM_Counter {
     }
 
 
-    @Test
     public void crearCounter (String counter,String inicio,String aumento){
         basicControl.btn_More(componente);
         formsCounter.formCreateCounter(counter,inicio,aumento);
         asserts.assertSave();
     }
 
-    @Test
     public void editarCounter (String counter, String counterEdit,String inicio,String aumento) throws InterruptedException {
         basicControl.btn_More(componente);
         String xmlview = basicControl.getXmlview();
@@ -46,8 +44,6 @@ public class CM_Counter {
     }
 
 
-
-    @Test
     public void eliminarCounter(String counter){
         basicControl.btn_More(componente);
         FormsControl.controlDelete(driver,counter);

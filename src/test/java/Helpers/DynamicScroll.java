@@ -140,12 +140,12 @@ public class DynamicScroll {
         return xpos;
     }
 
-    public  String busqueda (List<String> contentList,String project, String user ,String state ,String release,String name){
+    private  String busqueda (List<String> contentList,String project, String user ,String state ,String release,String name){
         String xpos = " ";
         String content = " ";
         for(int i = 0; i<= contentList.size()-1;i=i+1){
             content = contentList.get(i);
-            if(content.contains(state) && content.contains(user) && content.contains(project) && content.contains(release)){
+            if(content.contains(state) && content.contains(project) && content.contains(release) && content.contains(name)){
                 xpos = content.substring(0,content.indexOf(name));
                 break;
             }else{
@@ -209,7 +209,7 @@ public class DynamicScroll {
         return xpos;
     }
 
-    public  int busquedaTable (List<String> contentList,String externalPar, String user){
+    private  int busquedaTable (List<String> contentList,String externalPar, String user){
         int xpos = -1;
         String content = " ";
         for(int i = 0; i<= contentList.size()-1;i=i+1){

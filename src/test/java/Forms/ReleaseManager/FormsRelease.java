@@ -36,6 +36,7 @@ public class FormsRelease {
         listForm = FormsControl.controlNew(driver,"Liberación","Release");
         listForm.get(0).click();
         listForm.get(0).sendKeys(release);
+
         listForm.get(1).click();
         listForm.get(1).sendKeys(release);
         listForm.get(2).click();

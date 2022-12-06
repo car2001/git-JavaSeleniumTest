@@ -21,7 +21,7 @@ public class ChargePopPup {
             Thread.sleep(1000);
 
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            //System.out.println(e.getMessage());
         }
     }
 

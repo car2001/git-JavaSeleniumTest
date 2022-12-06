@@ -5,9 +5,6 @@ import Forms.ConfigurationManager.FormsINS;
 import Helpers.Asserts;
 import Helpers.BasicControl;
 import Helpers.FormsControl;
-import Helpers.SelectBrowser;
-import HomePage.Login;
-import HomePage.LoginApplications;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.testng.annotations.*;
@@ -15,17 +12,10 @@ import org.testng.annotations.*;
 public class CM_INS {
 
     private WebDriver driver;
-
-    SelectBrowser browser;
-    Asserts asserts;
-    BasicControl basicControl;
-    FormsINS formsINS;
-
-    final String componente = "Instance Numbering Schemas";
-    final String newINS = "INS Selenium";
-    final String separator = "-";
-    final String fixedValue = "SELENIUM";
-    final String Counter = "Counter Selenium";
+    private Asserts asserts;
+    private BasicControl basicControl;
+    private FormsINS formsINS;
+    private final String componente = "Instance Numbering Schemas";
 
     public CM_INS(WebDriver driver){
         this.driver = driver;
@@ -53,7 +43,7 @@ public class CM_INS {
 
 
     @Test
-    public void eliminarINS(@Optional(newINS) String INS){
+    public void eliminarINS(String INS){
         basicControl.btn_More(componente);
         FormsControl.controlDelete(driver,INS);
         String xpathMessage = "//span[@class='sapMText sapUiSelectable sapMTextMaxWidth sapMMsgBoxText']";
