@@ -20,7 +20,7 @@ public class ChargePopPup {
             while (blockLayer.getAttribute("style").contains("visible;")){
                 blockLayer = driver.findElement(By.id("sap-ui-blocklayer-popup"));
             }
-            Thread.sleep(500);
+            Thread.sleep(1000);
 
         } catch (Exception e) {
             //System.out.println(e.getMessage());

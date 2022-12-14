@@ -112,50 +112,89 @@ public class TestUserOptions {
     }
 
     public void applicaciones(String app){
-
+        WebElement blockLayer = driver.findElement(By.id("sap-ui-blocklayer-popup"));
         switch (app){
             case "Security Manager":
-                wait.until(ExpectedConditions.elementToBeClickable(By.id("navListItem-navList-0-a")));
+                blockLayer = driver.findElement(By.id("sap-ui-blocklayer-popup"));
+                while (blockLayer.getAttribute("style").contains("visible;")){
+                    blockLayer = driver.findElement(By.id("sap-ui-blocklayer-popup"));
+                }
                 break;
             case "Organizational Structure Manager":
+                blockLayer = driver.findElement(By.id("sap-ui-blocklayer-popup"));
+                while (blockLayer.getAttribute("style").contains("visible;")){
+                    blockLayer = driver.findElement(By.id("sap-ui-blocklayer-popup"));
+                }
                 break;
             case "Collaboration Workspace":
-                wait.until(ExpectedConditions.elementToBeClickable(By.id("navListItem-navList-0-a")));
+                blockLayer = driver.findElement(By.id("sap-ui-blocklayer-popup"));
+                while (blockLayer.getAttribute("style").contains("visible;")){
+                    blockLayer = driver.findElement(By.id("sap-ui-blocklayer-popup"));
+                }
                 break;
 
             case "Process Manager":
-                ChargePopPup.PopPupGeneral(driver,wait);
+                blockLayer = driver.findElement(By.id("sap-ui-blocklayer-popup"));
+                while (blockLayer.getAttribute("style").contains("visible;")){
+                    blockLayer = driver.findElement(By.id("sap-ui-blocklayer-popup"));
+                }
                 break;
             case "Configuration Manager":
                 wait.until(ExpectedConditions.elementToBeClickable(By.id("navListItem-navList-0-a")));
+                blockLayer = driver.findElement(By.id("sap-ui-blocklayer-popup"));
+                while (blockLayer.getAttribute("style").contains("visible;")){
+                    blockLayer = driver.findElement(By.id("sap-ui-blocklayer-popup"));
+                }
                 break;
 
             case "Data Entity Manager":
-                ChargePopPup.PopPupGeneral(driver,wait);
+                blockLayer = driver.findElement(By.id("sap-ui-blocklayer-popup"));
+                while (blockLayer.getAttribute("style").contains("visible;")){
+                    blockLayer = driver.findElement(By.id("sap-ui-blocklayer-popup"));
+                }
                 break;
             case "Data Record Manager":
                 wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//div[contains(@id,'--searchText-search')]")));
                 break;
             case  "Integration Studio":
-                WebElement blockLayer = driver.findElement(By.id("sap-ui-blocklayer-popup"));
+                blockLayer = driver.findElement(By.id("sap-ui-blocklayer-popup"));
                 while (blockLayer.getAttribute("style").contains("visible;")){
                     blockLayer = driver.findElement(By.id("sap-ui-blocklayer-popup"));
                 }
                 break;
             case  "Technical Administrator":
                 wait.until(ExpectedConditions.elementToBeClickable(By.id("navListItem-navList-0-a")));
+                blockLayer = driver.findElement(By.id("sap-ui-blocklayer-popup"));
+                while (blockLayer.getAttribute("style").contains("visible;")){
+                    blockLayer = driver.findElement(By.id("sap-ui-blocklayer-popup"));
+                }
                 break;
             case  "Release Manager":
-                ChargePopPup.PopPupGeneral(driver,wait);
+                blockLayer = driver.findElement(By.id("sap-ui-blocklayer-popup"));
+                while (blockLayer.getAttribute("style").contains("visible;")){
+                    blockLayer = driver.findElement(By.id("sap-ui-blocklayer-popup"));
+                }
                 break;
             case  "Analytics":
                 wait.until(ExpectedConditions.elementToBeClickable(By.id("navListItem-navList-0-a")));
+                blockLayer = driver.findElement(By.id("sap-ui-blocklayer-popup"));
+                while (blockLayer.getAttribute("style").contains("visible;")){
+                    blockLayer = driver.findElement(By.id("sap-ui-blocklayer-popup"));
+                }
                 break;
             case  "InBUPLAT":
                 wait.until(ExpectedConditions.elementToBeClickable(By.id("navListItem-navList-0-a")));
+                blockLayer = driver.findElement(By.id("sap-ui-blocklayer-popup"));
+                while (blockLayer.getAttribute("style").contains("visible;")){
+                    blockLayer = driver.findElement(By.id("sap-ui-blocklayer-popup"));
+                }
                 break;
             case  "Project Manager":
                 wait.until(ExpectedConditions.elementToBeClickable(By.id("navListItem-navList-0-a")));
+                blockLayer = driver.findElement(By.id("sap-ui-blocklayer-popup"));
+                while (blockLayer.getAttribute("style").contains("visible;")){
+                    blockLayer = driver.findElement(By.id("sap-ui-blocklayer-popup"));
+                }
                 break;
         }
     }
@@ -187,23 +226,24 @@ public class TestUserOptions {
             case "Data Record Manager":
                 loginApplications.loginDRM(driver);
                 break;
-            case  "Integration Studio":
+            case "Integration Studio":
                 loginApplications.loginIS(driver);
-
+                break;
             case  "Technical Administrator":
                 loginApplications.loginTA(driver);
-
+                break;
             case  "Release Manager":
                 loginApplications.loginRM(driver);
-
+                break;
             case  "Analytics":
                 loginApplications.loginANL(driver);
-
+                break;
             case  "InBUPLAT":
                 loginApplications.loginInBuplat(driver);
-
+                break;
             case  "Project Manager":
                 loginApplications.loginPRJM(driver);
+                break;
         }
     }
 

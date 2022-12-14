@@ -59,6 +59,10 @@ public class LoginApplications {
         WebElement title = driver.findElement(By.xpath("//span[contains(@id,'--txtTitleOfProject')][text()='Process Manager']"));
         wait.until(ExpectedConditions.visibilityOf(title));
         ChargePopPup.PopPupGeneral(driver,wait);
+        WebElement blockLayer = driver.findElement(By.id("sap-ui-blocklayer-popup"));
+        while (blockLayer.getAttribute("style").contains("visible;")){
+            blockLayer = driver.findElement(By.id("sap-ui-blocklayer-popup"));
+        }
         accessBranch.clickBranches(1);
     }
 
@@ -66,9 +70,13 @@ public class LoginApplications {
         wait = new WebDriverWait(driver,Duration.ofSeconds(100));
         basicControl = new BasicControl(driver);
         basicControl.btnApplication("Collaboration Workspace");
-        ChargePopPup.PopPupGeneral(driver,wait);
-        driver.findElement(By.id("navListItem-navList-2")).click();
-        ChargePopPup.PopPupGeneral(driver,wait);
+        WebElement title = driver.findElement(By.xpath("//span[contains(@id,'--txtTitleOfProject')][text()='Collaboration Workspace']"));
+        wait.until(ExpectedConditions.visibilityOf(title));
+        WebElement blockLayer = driver.findElement(By.id("sap-ui-blocklayer-popup"));
+        while (blockLayer.getAttribute("style").contains("visible;")){
+            blockLayer = driver.findElement(By.id("sap-ui-blocklayer-popup"));
+        }
+
     }
 
     public static void loginSM(WebDriver driver){
@@ -92,7 +100,10 @@ public class LoginApplications {
         basicControl.btnApplication("Data Entity Manager");
         WebElement title = driver.findElement(By.xpath("//span[contains(@id,'--txtTitleOfProject')][text()='Data Entity Manager']"));
         wait.until(ExpectedConditions.visibilityOf(title));
-        ChargePopPup.PopPupGeneral(driver,wait);
+        WebElement blockLayer = driver.findElement(By.id("sap-ui-blocklayer-popup"));
+        while (blockLayer.getAttribute("style").contains("visible;")){
+            blockLayer = driver.findElement(By.id("sap-ui-blocklayer-popup"));
+        }
 
     }
 
@@ -116,6 +127,8 @@ public class LoginApplications {
         js = (JavascriptExecutor) driver;
         basicControl = new BasicControl(driver);
         basicControl.btnApplication("Integration Studio");
+        WebElement title = driver.findElement(By.xpath("//span[contains(@id,'--txtTitleOfProject')][text()='Integration Studio']"));
+        wait.until(ExpectedConditions.visibilityOf(title));
         WebElement blockLayer = driver.findElement(By.id("sap-ui-blocklayer-popup"));
         while (blockLayer.getAttribute("style").contains("visible;")){
             blockLayer = driver.findElement(By.id("sap-ui-blocklayer-popup"));
