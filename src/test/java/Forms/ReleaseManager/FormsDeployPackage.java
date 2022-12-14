@@ -27,7 +27,7 @@ public class FormsDeployPackage {
         this.accessBranch = new AccessBranch(driver);
     }
 
-    public void createDeploymentPackage(String nameDP,String proyecto,String release){
+    public void createDeploymentPackage(String nameDP,String proyecto,String release) throws InterruptedException {
         listForm = FormsControl.controlNew(driver,"Paquete de Instalación","Deployment Package");
         listForm.get(0).click();
         listForm.get(0).sendKeys(nameDP);
@@ -37,10 +37,27 @@ public class FormsDeployPackage {
         driver.findElement(By.xpath(arrowProject)).click();
         selectListItem.SelectItemLi(proyecto);
         driver.findElement(By.xpath(arrowRelease)).click();
+        Thread.sleep(1000);
         selectListItem.SelectItemLi(release);
 
         basicControl.btnSave();
     }
+
+
+    public void editDeploymentPackage(String nameDP){
+        listForm = FormsControl.controlNew(driver,"Paquete de Instalación","Deployment Package");
+
+        listForm.get(0).click();
+        listForm.get(0).clear();
+        listForm.get(0).sendKeys(nameDP);
+
+        listForm.get(1).click();
+        listForm.get(1).clear();
+        listForm.get(1).sendKeys(nameDP);
+
+        basicControl.btnSave();
+    }
+
 
     public void releaseDP(){
         basicControl = new BasicControl(driver);

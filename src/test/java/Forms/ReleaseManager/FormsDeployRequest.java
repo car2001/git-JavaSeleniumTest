@@ -36,9 +36,24 @@ public class FormsDeployRequest {
         selectListItem.SelectItemLi(proyecto);
 
         driver.findElement(By.xpath(arrowRelease)).click();
+        Thread.sleep(1500);
         selectListItem.SelectItemLi(release);
 
         basicControl.btnSave();
     }
 
+
+    public void editDeploymentRequest(String nameDR) throws InterruptedException {
+        listForm = FormsControl.controlNew(driver,"Solicitud de Instalación","Deployment Request");
+
+        listForm.get(0).click();
+        listForm.get(0).clear();
+        listForm.get(0).sendKeys(nameDR);
+
+        listForm.get(1).click();
+        listForm.get(1).clear();
+        listForm.get(1).sendKeys(nameDR);
+
+        basicControl.btnSave();
+    }
 }

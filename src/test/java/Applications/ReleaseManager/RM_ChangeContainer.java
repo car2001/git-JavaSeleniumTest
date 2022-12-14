@@ -27,10 +27,6 @@ public class RM_ChangeContainer {
     private FormsChangeContainer formsChangeContainer;
     private WebDriverWait wait;
 
-    String DR = "DR_SELENIUM";
-    String DP = "DP_SELENIUM";
-    String urlQA = "http://wedox.sytes.net/buplat_QA/";
-    String urlPROD = "http://wedox.sytes.net/buplat/";
 
 
     public RM_ChangeContainer(WebDriver driver) {
@@ -66,7 +62,7 @@ public class RM_ChangeContainer {
         WebElement titulo = driver.findElement(By.xpath("//span[text()='Lista de Contenedor de Cambios' or text()='Change Container List']"));
         wait.until(ExpectedConditions.visibilityOf(titulo));
         List<WebElement> buttons = driver.findElements(By.xpath("//span[@class ='sapMBtnInner sapMBtnHoverable sapMFocusable sapMBtnIconFirst sapMBtnDefault']"));
-        String xpos = searchScrollElement.searchElementTable(project,user,"Open",release,nameCC);
+        String xpos = searchScrollElement.searchElementTable(project,"Open",release,nameCC);
         if(xpos != " "){
             driver.findElement(By.xpath("//tr//span[text()='"+xpos+"']")).click();
             action.moveToElement(buttons.get(1)).click().perform();
@@ -81,10 +77,10 @@ public class RM_ChangeContainer {
 
 
 
-    public void eliminarChangeContainerTabla(String project,String user,String release,String nameCC) throws InterruptedException {
+    public void eliminarChangeContainerTabla(String project,String release,String nameCC) throws InterruptedException {
         WebElement titulo = driver.findElement(By.xpath("//span[text()='Lista de Contenedor de Cambios' or text()='Change Container List']"));
         wait.until(ExpectedConditions.visibilityOf(titulo));
-        String xpos = searchScrollElement.searchElementTable(project,user,"Open",release,nameCC);
+        String xpos = searchScrollElement.searchElementTable(project,"Open",release,nameCC);
         if(xpos != ""){
             driver.findElement(By.xpath("//tr//span[text()='"+xpos+"']")).click();
             driver.findElement(By.xpath("//button[@title='Borrar' or @title='Delete']")).click();

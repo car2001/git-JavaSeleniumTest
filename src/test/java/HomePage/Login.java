@@ -28,7 +28,6 @@ public class Login {
         //this.url = "https://cloudbuplat.com/WEDOX_CONFIG/";
         //this.url = "http://wedox.sytes.net/BHF_CFG/";
         this.url = "http://wedox.sytes.net/buplat_rt_config/";
-        //this.url = "http://181.64.210.106/BUPLAT_CONFIG/";
 
         //this.user = "jjuarez";
         this.user = "cpingo";

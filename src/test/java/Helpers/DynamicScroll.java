@@ -86,7 +86,7 @@ public class DynamicScroll {
     }
 
 
-    public  String searchElementTable(String project, String user ,String state ,String release,String name){
+    public  String searchElementTable(String project,String state ,String release,String name){
         WebElement scrollTable;
         Boolean displayedScroll = false;
         String xpos = "";
@@ -119,7 +119,7 @@ public class DynamicScroll {
 
 
             while (iterator<=numVeces+1){
-                xpos = busqueda(textContentList,project,user,state,release,name);
+                xpos = busqueda(textContentList,project,state,release,name);
                 if(xpos != " "){
                     break;
                 }else{
@@ -134,13 +134,13 @@ public class DynamicScroll {
                 }
             }
         } else{
-            xpos = busqueda(textContentList,project,user,state,release,name);
+            xpos = busqueda(textContentList,project,state,release,name);
         }
 
         return xpos;
     }
 
-    private  String busqueda (List<String> contentList,String project, String user ,String state ,String release,String name){
+    private  String busqueda (List<String> contentList,String project, String state ,String release,String name){
         String xpos = " ";
         String content = " ";
         for(int i = 0; i<= contentList.size()-1;i=i+1){

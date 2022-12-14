@@ -39,7 +39,7 @@ public class PrimerProceso {
         basicControl = new BasicControl(driver);
         searchScrollElement = new DynamicScroll(driver);
         login.loginPage();
-        LoginApplications.loginColl(driver, nameProcess);
+        LoginApplications.loginColl(driver);
     }
 
     @Test
@@ -58,7 +58,7 @@ public class PrimerProceso {
     @Test
     public void runProcessSiQA() {
         login.loginPage(urlQA);
-        LoginApplications.loginColl(driver, nameProcess);
+        LoginApplications.loginColl(driver);
         basicControl.claim();
         FormsColl.primerProcesoSi(driver);
     }
@@ -66,7 +66,7 @@ public class PrimerProceso {
     @Test
     public void runProcessNoQA(){
         login.loginPage(urlQA);
-        LoginApplications.loginColl(driver, nameProcess);
+        LoginApplications.loginColl(driver);
         basicControl.claim();
         FormsColl.primerProcesoNo(driver);
     }
@@ -74,7 +74,7 @@ public class PrimerProceso {
     @Test
     public void runProcessSiPROD() {
         login.loginPage(urlPROD);
-        LoginApplications.loginColl(driver, nameProcess);
+        LoginApplications.loginColl(driver);
         basicControl.claim();
         FormsColl.primerProcesoSi(driver);
     }
@@ -82,7 +82,7 @@ public class PrimerProceso {
     @Test
     public void runProcessNoPROD(){
         login.loginPage(urlPROD);
-        LoginApplications.loginColl(driver, nameProcess);
+        LoginApplications.loginColl(driver);
         basicControl.claim();
         FormsColl.primerProcesoNo(driver);
     }

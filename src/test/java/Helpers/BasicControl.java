@@ -36,15 +36,25 @@ public class BasicControl {
         wait.until(ExpectedConditions.elementToBeClickable(By.xpath(routePM)));
     }
 
-    public void btnApplication(String application ){
-        String routeApp = "//span[@class='sapMTextMaxLine sapMTextLineClamp' and normalize-space()='"+application+"']";
+    public void waitApplication(){
+        String routeApp = "//span[@class='sapMTextMaxLine sapMTextLineClamp' and normalize-space()='Configuration Manager']";
         wait.until(ExpectedConditions.elementToBeClickable(By.xpath(routeApp)));
+    }
+
+    public void btnApplication(String application ){
+        waitApplication();
+        String routeApp = "//span[@class='sapMTextMaxLine sapMTextLineClamp' and normalize-space()='"+application+"']";
         driver.findElement(By.xpath(routeApp)).click();
     }
 
-    public void btnUser(){
-        driver.findElement(By.xpath("//span[contains(@id,'--avatarUser') and (@title='User Options' or @title='Opciones de usuario')]")).click();
-        //driver.findElement(By.xpath("//bdi[text()='"+option+"']"));
+    public void btnUserApps(String option, String opcion){
+        driver.findElement(By.xpath("//span[contains(@id,'--avatarUser')][@aria-roledescription='Avatar'][not(contains(@title,' '))]")).click();
+        driver.findElement(By.xpath("//div[contains(@id,'-popover')][contains(@style,'visibility: visible;')]//bdi[text()='"+option+"' or text()='"+opcion+"']")).click();
+    }
+
+    public void btnUser(String option, String opcion){
+        driver.findElement(By.xpath("//span[contains(@id,'--avatarUser')][@title='Opciones de Usuario' or @title='User Options']")).click();
+        driver.findElement(By.xpath("//div[contains(@id,'-popover')][contains(@style,'visibility: visible;')]//bdi[text()='"+option+"' or text()='"+opcion+"']")).click();
     }
 
     public int displayScrollTree(){
@@ -138,9 +148,17 @@ public class BasicControl {
     }
 
     public String getXmlview() {
-        String xmlviewXpath = "//div[contains(@id,'xmlview') and contains(@class,'sapUiView sapUiXMLView sapMNavItem') and not(contains(@class,'sapMNavItemHidden'))]";
+        String xmlviewXpath = "//div[contains(@id,'xmlview') and contains(@class,'sapUiView sapUiXMLView sapMNavItem') and not(contains(@class,'sapMNavItemHidden'))][@style='width: 100%; height: 100%;']";
         String xmlview = driver.findElement(By.xpath(xmlviewXpath)).getAttribute("id");
         return xmlview;
+    }
+
+    public void waitXmlview(String xmlview){
+        String xmlviewPath = "//div[contains(@id,'"+xmlview+"')]";
+        String xmlClass = driver.findElement(By.xpath(xmlviewPath)).getAttribute("class");
+        if (!xmlClass.contains("sapUiView sapUiXMLView sapMNavItem sapMNavItemHidden")){
+            waitXmlview(xmlview);
+        }
     }
 
 

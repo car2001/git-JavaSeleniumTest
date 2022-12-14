@@ -43,7 +43,7 @@ public class Asserts {
 
     public void assertSaveDR(){
         String message = driver.findElement(By.className("sapMMsgStripMessage")).getAttribute("textContent");
-        Assert.assertEquals(message.substring(0,56), "La solicitud de instalación ha sido creado con el nombre");
+        Assert.assertEquals(message.substring(0,54), "La solicitud de instalación ha sido creado con el nomb");
         basicControl.btn_MsgStrigMessage();
     }
 

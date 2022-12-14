@@ -1,4 +1,4 @@
-package test;
+package test.applications;
 
 import Applications.ConfigurationManager.*;
 import Helpers.Asserts;
@@ -109,10 +109,5 @@ public class TestCM {
         notificationProfile.eliminarNotification("Notification-20 vR");
         riskProfile.eliminar_RP("Risk-20 vR");
     }
-
-
-
-
-
 
 }

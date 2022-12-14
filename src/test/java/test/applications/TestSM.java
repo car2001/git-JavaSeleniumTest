@@ -1,6 +1,5 @@
-package test;
+package test.applications;
 
-import Applications.ConfigurationManager.*;
 import Applications.SecurityManager.SM_Role;
 import Applications.SecurityManager.SM_User;
 import Applications.SecurityManager.SM_UserGroup;

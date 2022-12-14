@@ -131,8 +131,7 @@ public class FormsControl {
                 String message = driver.findElement(By.className("sapMMsgStripMessage")).getAttribute("textContent");
                 if(message.contains("Este objeto está bloqueado por") || message.contains("This object is locked by") ){
                     basicControl.btn_MsgStrigMessage();
-                    basicControl.btnUser();
-                    driver.findElement(By.xpath("//bdi[text()='Mis bloqueos' or text()='My Locks']")).click();
+                    basicControl.btnUser("My Locks","Mis bloqueos");
                     driver.findElement(By.xpath("//div[@title='Seleccionar todo']")).click();
                     driver.findElement(By.xpath("//button[@title='Borrar']")).click();
                     driver.findElement(By.xpath("//bdi[normalize-space()='Sí']")).click();

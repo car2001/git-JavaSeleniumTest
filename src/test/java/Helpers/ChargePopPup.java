@@ -1,6 +1,7 @@
 package Helpers;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -9,16 +10,17 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 public class ChargePopPup {
 
     public static void PopPupGeneral(WebDriver driver, WebDriverWait wait) {
+        JavascriptExecutor js = (JavascriptExecutor) driver;
         try {
             WebElement popupCarga = driver.findElement(By.xpath("//div[@id='sapUiBusyIndicator' and @class='sapUiUserSelectable']"));
             wait.until(ExpectedConditions.visibilityOf(popupCarga));
             wait.until(ExpectedConditions.invisibilityOf(popupCarga));
             Thread.sleep(800);
-            String carga = driver.findElement(By.id("sap-ui-blocklayer-popup")).getAttribute("style");
-            while(carga.contains("z-index: 8; visibility: visible;")){
-                carga = driver.findElement(By.id("sap-ui-blocklayer-popup")).getAttribute("style");
+            WebElement blockLayer = driver.findElement(By.id("sap-ui-blocklayer-popup"));
+            while (blockLayer.getAttribute("style").contains("visible;")){
+                blockLayer = driver.findElement(By.id("sap-ui-blocklayer-popup"));
             }
-            Thread.sleep(1000);
+            Thread.sleep(500);
 
         } catch (Exception e) {
             //System.out.println(e.getMessage());
