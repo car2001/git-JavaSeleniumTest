@@ -65,6 +65,7 @@ public class TestUserOptions {
         for (String app : apps) {
             login.loginPage();
             loginApps(app);
+            Thread.sleep(1000);
             userPage(app);
         }
 
@@ -92,6 +93,7 @@ public class TestUserOptions {
     }
 
     public void userPage(String app) throws InterruptedException {
+        Thread.sleep(800);
         basicControl.btnUser("About","Acerca de");
         about.checkAbout();
         basicControl.btnUser("My Profile","Mi Perfil");

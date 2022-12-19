@@ -18,6 +18,7 @@ public class About {
     }
 
     public void checkAbout() throws InterruptedException {
+        Thread.sleep(1000);
         driver.findElement(productVersion);
         driver.findElement(patchNumber);
         driver.findElement(buildNumber);
