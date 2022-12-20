@@ -148,7 +148,7 @@ public class BasicControl {
     }
 
     public String getXmlview() {
-        String xmlviewXpath = "//div[contains(@id,'xmlview') and contains(@class,'sapUiView sapUiXMLView sapMNavItem') and not(contains(@class,'sapMNavItemHidden'))][@style='width: 100%; height: 100%;']";
+        String xmlviewXpath = "//div[contains(@id,'xmlview') and contains(@class,'sapUiView sapUiXMLView sapMNavItem') and not(contains(@class,'sapMNavItemHidden'))][@style='width: 100%;' or @style='width: 100%; height: 100%;' ]";
         String xmlview = driver.findElement(By.xpath(xmlviewXpath)).getAttribute("id");
         return xmlview;
     }
