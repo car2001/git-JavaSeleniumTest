@@ -15,6 +15,7 @@ public class SM_Role {
     final String componente = "Roles";
     private FormsRole formsRole;
 
+
     public SM_Role(WebDriver driver){
         this.driver = driver;
         this.asserts = new Asserts(driver);
@@ -37,6 +38,7 @@ public class SM_Role {
         formsRole.formEditRole(editRole);
         asserts.assertSave();
     }
+
 
 
 
