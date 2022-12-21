@@ -25,7 +25,7 @@ public class FormsRole {
         this.js = (JavascriptExecutor) driver;
     }
 
-    public void formCreateRole(String role){
+    public void formCreateRole(String role) throws InterruptedException {
         basicControl.btnAdd();
         listForm = FormsControl.controlNew(driver,"Rol","Role");
         listForm.get(0).click();
@@ -37,11 +37,13 @@ public class FormsRole {
         app = "InBUPLAT";
         String id = clickArrowApp(app);
         id = addNextRow(id);
+        Thread.sleep(1000);
         driver.findElement(By.id(id)).click();
         WebElement checkBox = driver.findElements(By.xpath("//div[@class='sapMCbBg sapMCbHoverable sapMCbMark']")).get(0);
         js.executeScript("arguments[0].scrollIntoView();", checkBox);
+        Thread.sleep(1000);
         checkBox.click();
-        //basicControl.btnSave();
+        basicControl.btnSave();
     }
 
     public void formEditRole(String role) throws InterruptedException {

@@ -24,7 +24,7 @@ public class SM_Role {
     }
 
     @Test
-    public void crearRole(String role){
+    public void crearRole(String role) throws InterruptedException {
         basicControl.btn_More(componente);
         formsRole.formCreateRole(role);
         asserts.assertSave();

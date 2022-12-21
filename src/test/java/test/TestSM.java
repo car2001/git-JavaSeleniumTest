@@ -52,7 +52,7 @@ public class TestSM {
     @Test
     public void testSecurityManager() throws InterruptedException {
         role.crearRole("Automated");
-        //role.editarRole("Automated","Auto");
+        role.editarRole("Automated","Auto");
         //user.crearUser("testAutomated");
         //userGroup.crearUserGroup("QA-Automated");
         //userGroup.editarUserGroup("QA-Automated","Automated");
