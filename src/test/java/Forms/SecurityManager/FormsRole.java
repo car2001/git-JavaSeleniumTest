@@ -2,6 +2,7 @@ package Forms.SecurityManager;
 
 import Helpers.BasicControl;
 import Helpers.FormsControl;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
@@ -19,7 +20,7 @@ public class FormsRole {
         basicControl = new BasicControl(driver);
     }
 
-    public void formCreateRole(String role){
+    public void formCreateRole(String role) throws InterruptedException {
         basicControl.btnAdd();
         listForm = FormsControl.controlNew(driver,"Rol","Role");
         listForm.get(0).click();
@@ -28,6 +29,15 @@ public class FormsRole {
         listForm.get(1).sendKeys(role);
         listForm.get(2).click();
         listForm.get(2).sendKeys(role);
+        String app = "InBUPLAT";
+        String id = clickArrowApp(app);
+        id = addNextRow(id);
+        Thread.sleep(1000);
+        driver.findElement(By.id(id)).click();
+        WebElement checkBox = driver.findElements(By.xpath("//div[@class='sapMCbBg sapMCbHoverable sapMCbMark']")).get(0);
+        js.executeScript("arguments[0].scrollIntoView();", checkBox);
+        Thread.sleep(1000);
+        checkBox.click();
         basicControl.btnSave();
     }
 
