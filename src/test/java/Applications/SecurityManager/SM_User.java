@@ -23,8 +23,8 @@ public class SM_User {
     }
 
     @Test
-    public void crearUser(String user){
+    public void crearUser(String user,String name,String lastName){
         basicControl.btn_More(componente);
-        formsUser.formCreateUser(user);
+        formsUser.formCreateUser(user,name,lastName);
     }
 }

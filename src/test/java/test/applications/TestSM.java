@@ -50,11 +50,21 @@ public class TestSM {
 
     @Test
     public void testSecurityManager() throws InterruptedException {
-        role.crearRole("Automated");
-        role.editarRole("Automated","Auto");
-        //user.crearUser("testAutomated");
+        user.crearUser("testSelenium","Selenium","Test");
         //userGroup.crearUserGroup("QA-Automated");
         //userGroup.editarUserGroup("QA-Automated","Automated");
+    }
+
+    public void crearComponetesSM() throws InterruptedException {
+        role.crearRole("Automated");
+    }
+
+    public void editarComponetesSM() throws InterruptedException {
+        role.editarRole("Automated","Auto");
+    }
+    
+    public void eliminarComponentesSM(){
+        role.eliminarRole("Auto");
     }
 
 }

@@ -3,6 +3,7 @@ package Applications.SecurityManager;
 import Forms.SecurityManager.FormsRole;
 import Helpers.Asserts;
 import Helpers.BasicControl;
+import Helpers.FormsControl;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.testng.annotations.Test;
@@ -23,7 +24,7 @@ public class SM_Role {
     }
 
     @Test
-    public void crearRole(String role){
+    public void crearRole(String role) throws InterruptedException {
         basicControl.btn_More(componente);
         formsRole.formCreateRole(role);
         asserts.assertSave();
@@ -36,6 +37,14 @@ public class SM_Role {
         driver.findElement(By.xpath("//div[@id='"+xmlview+"--listObject']//div[text()='"+role+"']")).click();
         formsRole.formEditRole(editRole);
         asserts.assertSave();
+    }
+
+    @Test
+    public void eliminarRole(String role){
+        basicControl.btn_More(componente);
+        FormsControl.controlDelete(driver,role);
+        String xpathMessage = "//span[@class='sapMText sapUiSelectable sapMTextMaxWidth sapMMsgBoxText']";
+        asserts.assertDelete(xpathMessage);
     }
 
 
